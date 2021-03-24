@@ -17,7 +17,6 @@ public class PreparaDatos {
 		try {
 			tx.begin();
 
-
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {
