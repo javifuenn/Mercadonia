@@ -14,3 +14,6 @@
 # Maven
 log/
 target/
+
+#Datanucleus
+datanucleus.log
