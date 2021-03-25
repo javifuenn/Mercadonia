@@ -3,13 +3,15 @@ package SA02;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
-import sa02.Main;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import SA02.Main;
+
 import static org.junit.Assert.assertEquals;
 
 public class MyResourceTest {

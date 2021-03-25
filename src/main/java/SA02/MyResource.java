@@ -1,4 +1,4 @@
-package sa02;
+package SA02;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
