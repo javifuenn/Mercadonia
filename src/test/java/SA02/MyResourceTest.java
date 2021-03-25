@@ -3,6 +3,7 @@ package SA02;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import sa02.Main;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 
