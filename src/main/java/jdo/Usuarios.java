@@ -6,6 +6,8 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Usuarios {
 	
+	
+
 	@PrimaryKey
 	private String username;
 	private String password;
@@ -29,6 +31,11 @@ public class Usuarios {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Override
+	public String toString() {
+		return "Usuarios [username=" + username + ", password=" + password + "]";
 	}
 
 }

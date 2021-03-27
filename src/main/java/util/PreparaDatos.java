@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
 import jdo.Producto;
+import jdo.Usuarios;
 
 
 
@@ -24,6 +25,13 @@ public class PreparaDatos {
 			pm.makePersistent(prod2);
 			Producto prod3 = new Producto("3A", "Pan", "Recien horneado", 0.6);
 			pm.makePersistent(prod3);
+			
+			Usuarios usuario1 = new Usuarios("sergio", "1234");
+			pm.makePersistent(usuario1);
+			Usuarios usuario2 = new Usuarios("unai", "1234");
+			pm.makePersistent(usuario2);
+			Usuarios usuario3 = new Usuarios("javi", "4321");
+			pm.makePersistent(usuario3);
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {
