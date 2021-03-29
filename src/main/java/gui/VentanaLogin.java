@@ -10,12 +10,17 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaLogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
+	
+	private String userName;
+	private String password;
 
 	/**
 	 * Launch the application.
@@ -65,11 +70,27 @@ public class VentanaLogin extends JFrame {
 		contentPane.add(textContraseña);
 		
 		JButton btnRegistro = new JButton("Registrar");
+		btnRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				obtenerDatos();
+			}
+		});
 		btnRegistro.setBounds(106, 255, 89, 23);
 		contentPane.add(btnRegistro);
 		
 		JButton btnLogin = new JButton("Login\r\n");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				obtenerDatos();
+			}
+		});
 		btnLogin.setBounds(353, 255, 89, 23);
 		contentPane.add(btnLogin);
 	}
+	
+	public void obtenerDatos() {
+		userName = textnombre_usuario.getText();
+		password = textContraseña.getText();
+	}
+	
 }
