@@ -15,6 +15,10 @@ public class Producto {
 	private String descripcion;
 	private double precio;
 	
+	public Producto() {
+		
+	}
+	
 	public Producto(String codigo, String nombre, String descripcion, double precio) {
 		this.codigo = codigo;
 		this.nombre = nombre;
