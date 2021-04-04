@@ -19,8 +19,6 @@ public class VentanaLogin extends JFrame {
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 	
-	private String userName;
-	private String password;
 
 	/**
 	 * Launch the application.
@@ -72,7 +70,7 @@ public class VentanaLogin extends JFrame {
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				obtenerDatos();
+				
 			}
 		});
 		btnRegistro.setBounds(106, 255, 89, 23);
@@ -81,16 +79,18 @@ public class VentanaLogin extends JFrame {
 		JButton btnLogin = new JButton("Login\r\n");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				obtenerDatos();
+				
+				
 			}
 		});
 		btnLogin.setBounds(353, 255, 89, 23);
 		contentPane.add(btnLogin);
 	}
 	
-	public void obtenerDatos() {
-		userName = textnombre_usuario.getText();
-		password = textContraseña.getText();
+	public void login(String nombre, String contraseña) {
+		nombre = textnombre_usuario.getText();
+		contraseña = textContraseña.getText();
+		
 	}
 	
 }
