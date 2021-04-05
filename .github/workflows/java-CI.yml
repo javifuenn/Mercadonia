@@ -14,6 +14,8 @@ jobs:
           DB_ALLOW_EMPTY_PASSWORD: yes
           DB_DATABASE: productosDB
           DB_USER: spq
+          DB_PASSWORD: 'spq'
+          DB_HOST: localhost
         ports: 
           - 3306:3306
 
@@ -21,9 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up MySQL
-        run:
+        run: |
           sudo /etc/init.d/mysql start
-          mysql -h 127.0.0.1 --port 3306 -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }}
+          mysql -e 'CREATE DATABASE productosDB;' -uspq -pspq
+          mysql -e 'SHOW DATABASES;' -uspq -pspq
       
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
