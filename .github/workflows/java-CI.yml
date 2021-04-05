@@ -15,7 +15,7 @@ jobs:
           DB_USER: spq
           DB_PASSWORD: spq
         ports: 
-          -3306:3306
+          - 3306:3306
 
 
     steps:
