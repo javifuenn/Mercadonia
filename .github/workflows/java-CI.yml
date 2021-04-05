@@ -10,10 +10,12 @@ jobs:
     services:
   		mysql:
    			image: mysql:5.7
-   	env:
- 		DB_DATABASE: productosDB
-  		DB_USER: spq
-  		DB_PASSWORD: spq
+   			env:
+ 				DB_DATABASE: productosDB
+  				DB_USER: spq
+  				DB_PASSWORD: spq
+  			ports: 
+  				-3306:3306
 
 
     steps:
