@@ -26,9 +26,7 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE SCHEMA productosDB;' -uroot -proot
           mysql -e 'CREATE USER 'spq'@'localhost';' -uroot -proot
-          mysql -e 'SET old_passwords = 0;' -uroot -proot
-          mysql -e 'SET PASSWORD FOR 'spq'@'localhost' = PASSWORD('spq');' -uroot -proot
-          mysql -e 'GRANT ALL ON productosDB.* TO 'spq'@'localhost';' -uroot -proot
+          mysql -e 'GRANT ALL ON productosDB.* TO 'spq'@'localhost' IDENTIFIED WITH 'spq';' -uroot -proot
       
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
