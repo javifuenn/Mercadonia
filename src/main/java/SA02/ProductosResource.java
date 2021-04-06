@@ -2,6 +2,7 @@ package SA02;
 
 import java.util.List;
 
+import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -31,4 +32,20 @@ public class ProductosResource {
 	
 		return productos;
     }
+	  
+	  @GET
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static List<Producto> getProductosNom(String nombre) {
+	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+		
+		List<Producto> productos = q.executeList();
+		
+		pm.close();
+	
+		return productos;
+	  }
+	  
 }
