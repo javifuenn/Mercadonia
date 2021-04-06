@@ -11,7 +11,6 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          DB_ALLOW_EMPTY_PASSWORD: yes
           DB_DATABASE: productosDB
           DB_USER: 'spq'
           DB_PASSWORD: 'spq'
@@ -25,8 +24,8 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE SCHEMA ${{ env.DB_DATABASE}};' -uroot -proot
-          mysql -e 'CREATE USER ${{ env.DB_USER }}@${{ env.DB_HOST }} IDENTIFIED BY ${{ env.DB_PASSWORD }};' -uroot -proot
+          mysql -e 'CREATE SCHEMA ${{ env.DB_DATABASE }};' -uroot -proot
+          
       
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
