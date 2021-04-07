@@ -11,6 +11,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
+          DB_ALLOW_EMPTY_PASSWORD: yes
           DB_DATABASE: productosDB
           DB_USER: 'spq'
           DB_PASSWORD: 'spq'
