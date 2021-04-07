@@ -36,8 +36,5 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run:
-          mvn clean compile
-          mvn datanucleus:schema-create
-          mvn exec:java -P datos
-          mvn test
+          mvn --batch-mode --update-snapshots verify --activate-profiles datos
         
