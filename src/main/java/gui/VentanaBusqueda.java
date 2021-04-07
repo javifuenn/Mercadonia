@@ -22,9 +22,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class VentanaBusqueda {
+public class VentanaBusqueda extends JFrame{
 
-	private JFrame frame;
 	private JTextField textField;
 	private List<Producto> productos = null;
 
@@ -36,7 +35,7 @@ public class VentanaBusqueda {
 			public void run() {
 				try {
 					VentanaBusqueda window = new VentanaBusqueda();
-					window.frame.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,9 +54,9 @@ public class VentanaBusqueda {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 670, 402);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setBounds(100, 100, 670, 402);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblNewLabel = new JLabel("Productos:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -85,7 +84,7 @@ public class VentanaBusqueda {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -114,6 +113,6 @@ public class VentanaBusqueda {
 					.addComponent(list, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(37, Short.MAX_VALUE))
 		);
-		frame.getContentPane().setLayout(groupLayout);
+		getContentPane().setLayout(groupLayout);
 	}
 }

@@ -29,6 +29,7 @@ import javax.swing.JButton;
 public class VentanaLogin extends JFrame {
 
 	private JPanel contentPane;
+	private JFrame frame;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 
@@ -93,7 +94,9 @@ public class VentanaLogin extends JFrame {
             public void actionPerformed(ActionEvent e) {
             	boolean result = login();
             	if(result == true) {
-            		JOptionPane.showMessageDialog(null, "Correcto"); //poner que hbara otra ventana
+            		VentanaBusqueda window = new VentanaBusqueda();
+					window.setVisible(true);
+					dispose();
             	}else {
             		JOptionPane.showMessageDialog(null, "Error");
             	}
@@ -109,28 +112,17 @@ public class VentanaLogin extends JFrame {
 			String contraseña;
 			usuario = textnombre_usuario.getText();
 			contraseña = textContraseña.getText();
-			boolean comp = false;
-			List<Usuarios> usuarios = UsuariosResource.getUsuarios();
-			for(Usuarios u : usuarios) {
-				if(u.getUsername().equals(usuario) && u.getPassword().equals(contraseña)) {
-					comp = true;
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-					comp = false;
-				}
-			}
-			if(comp == false) {
-				return false;
+			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			
+			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
+				JOptionPane.showMessageDialog(null, "Usuario Correcto");
+				return true;	
 			}else {
-				return true;
+				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+				return false;
 			}
-		}else {
-			JOptionPane.showMessageDialog(null, "Introdir datos de acceso");
+		}else
 			return false;
-		}
-		
-		
 	}
 	
 	public void registro() {

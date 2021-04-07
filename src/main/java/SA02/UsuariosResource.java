@@ -29,5 +29,25 @@ public class UsuariosResource {
 	
 		return usuarios;
   }
-
+	  
+	  @GET
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static Usuarios getUsuariosLogin(String nick) {
+	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Usuarios usuarios = null;
+		
+		Query<Usuarios> q = pm.newQuery("SELECT FROM " + Usuarios.class.getName() + " WHERE username== '" + nick + "'");
+		
+		List<Usuarios> usuariosl = q.executeList();
+		
+		usuarios = usuariosl.get(0);
+		
+		System.out.println(usuarios);
+		
+		pm.close();
+	
+		return usuarios;
+	  }
 }
