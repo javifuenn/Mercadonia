@@ -25,7 +25,6 @@ import java.util.List;
 public class VentanaBusqueda extends JFrame{
 
 	private JTextField textField;
-	private List<Producto> productos = null;
 
 	/**
 	 * Launch the application.
@@ -49,6 +48,19 @@ public class VentanaBusqueda extends JFrame{
 	public VentanaBusqueda() {
 		initialize();
 	}
+	
+	public List<Producto> busquedaProd(String producto){
+		List<Producto> productos = null;
+		
+		if(producto.equals("")) {
+			productos = ProductosResource.getProductos();
+		}else {
+			productos = ProductosResource.getProductosNom(producto);
+		}
+		
+		return productos;
+		
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -69,11 +81,8 @@ public class VentanaBusqueda extends JFrame{
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(textField.getText().equals("")) {
-					productos = ProductosResource.getProductos();
-				}else {
-					productos = ProductosResource.getProductosNom(textField.getText());
-				}
+				
+				List<Producto> productos = busquedaProd(textField.getText());
 				DefaultListModel<Producto> DLM = new DefaultListModel<>();
 				for(Producto p: productos) {	
 					DLM.addElement(p);
