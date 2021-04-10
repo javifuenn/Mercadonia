@@ -113,7 +113,6 @@ public class VentanaLogin extends JFrame {
 			usuario = textnombre_usuario.getText();
 			contraseña = textContraseña.getText();
 			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
-			
 			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
 				JOptionPane.showMessageDialog(null, "Usuario Correcto");
 				return true;	
