@@ -5,8 +5,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
+import jdo.Cesta;
 import jdo.Producto;
 
+import java.util.Date;
 
 
 public class PreparaDatos {
@@ -24,6 +26,13 @@ public class PreparaDatos {
 			pm.makePersistent(prod2);
 			Producto prod3 = new Producto("3A", "Pan", "Recien horneado", 0.6);
 			pm.makePersistent(prod3);
+
+			Cesta cesta1 = new Cesta(usuario1, prod1, new Date(2022, 10, 20));
+			pm.makePersistent(cesta1);
+			Cesta cesta2 = new Cesta(usuario2, prod2, new Date(2022, 10, 15));
+			pm.makePersistent(cesta2);
+			Cesta cesta3 = new Cesta(usuario3, prod1, new Date(2022, 8, 12));
+			pm.makePersistent(cesta3);
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {
