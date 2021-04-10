@@ -83,7 +83,7 @@ public class VentanaLogin extends JFrame {
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	registro();
+            	registro(textnombre_usuario.getText(), textContraseña.getText());
             }
         });
 		btnRegistro.setBounds(106, 255, 89, 23);
@@ -92,12 +92,14 @@ public class VentanaLogin extends JFrame {
 		JButton btnLogin = new JButton("Login\r\n");
 		btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	boolean result = login();
+            	boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
             	if(result == true) {
+            		JOptionPane.showMessageDialog(null, "Usuario Correcto");
             		VentanaBusqueda window = new VentanaBusqueda();
 					window.setVisible(true);
 					dispose();
             	}else {
+            		JOptionPane.showMessageDialog(null, "Usuario incorrecto");
             		JOptionPane.showMessageDialog(null, "Error");
             	}
             }
@@ -106,32 +108,26 @@ public class VentanaLogin extends JFrame {
 		contentPane.add(btnLogin);
 	}
 	
-	public boolean login() {
-		if(!textnombre_usuario.getText().equals("") && !textContraseña.getText().equals("")) {
-			String usuario;
-			String contraseña;
-			usuario = textnombre_usuario.getText();
-			contraseña = textContraseña.getText();
+	public boolean login(String usuario, String contraseña) {
+		if(!usuario.equals("") && !contraseña.equals("")) {
 			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
 			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
-				JOptionPane.showMessageDialog(null, "Usuario Correcto");
 				return true;	
 			}else {
-				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 				return false;
 			}
 		}else
 			return false;
 	}
 	
-	public void registro() {
-		if(!textnombre_usuario.getText().equals("") && !textContraseña.getText().equals("")) {
+	public void registro(String usuario, String contraseña) {
+		if(!usuario.equals("") && !contraseña.equals("")) {
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
 			try {
 				tx.begin();
-				Usuarios usuario1 = new Usuarios(textnombre_usuario.getText(), textContraseña.getText());
+				Usuarios usuario1 = new Usuarios(usuario, contraseña);
 				pm.makePersistent(usuario1);
 				tx.commit();
 			} finally {

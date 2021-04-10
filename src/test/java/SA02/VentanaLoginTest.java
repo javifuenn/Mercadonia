@@ -23,7 +23,7 @@ public class VentanaLoginTest {
 		List<Usuarios> usuario1 = Arrays.asList(
     			new Usuarios("sergio", "1234"));
 		VentanaLogin vent = new VentanaLogin();
-		boolean result = vent.login();
+		boolean result = vent.login("sergio", "1234");
 		boolean comp = false;
 		Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario1.get(0).getUsername());
 		if(usuarios.getPassword().equals(usuario1.get(0).getPassword())) {
