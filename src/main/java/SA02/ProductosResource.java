@@ -48,4 +48,19 @@ public class ProductosResource {
 		return productos;
 	  }
 	  
+	  @GET
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static List<Producto> getProductosCodigo(String codigo) {
+	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
+		
+		List<Producto> productos = q.executeList();
+		
+		pm.close();
+	
+		return productos;
+	  }
+	  
 }
