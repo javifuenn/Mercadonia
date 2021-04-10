@@ -15,6 +15,10 @@ public class Producto {
 	private String descripcion;
 	private double precio;
 	
+	public Producto() {
+		
+	}
+	
 	public Producto(String codigo, String nombre, String descripcion, double precio) {
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -55,6 +59,6 @@ public class Producto {
 	}
 
 	public String toString() {
-		return "Producto: " + codigo + "\nNombre: " + nombre + " [ " + descripcion + " ]" + "\nPrecio: " + precio;
+		return "Producto: " + codigo + " Nombre: " + nombre + " [ " + descripcion + " ]" + " Precio: " + precio;
 	}
 }

@@ -6,9 +6,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import SA02.UsuariosResource;
+import jdo.Producto;
+import jdo.Usuarios;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JTextField;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,6 +31,7 @@ import java.awt.event.ActionEvent;
 public class VentanaLogin extends JFrame {
 
 	private JPanel contentPane;
+	private JFrame frame;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 	
@@ -69,28 +85,70 @@ public class VentanaLogin extends JFrame {
 		
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+
+
+            public void actionPerformed(ActionEvent e) {
+            	registro(textnombre_usuario.getText(), textContraseña.getText());
+            }
+        });
+
 		btnRegistro.setBounds(106, 255, 89, 23);
 		contentPane.add(btnRegistro);
 		
 		JButton btnLogin = new JButton("Login\r\n");
 		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
+
+            public void actionPerformed(ActionEvent e) {
+            	boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
+            	if(result == true) {
+            		JOptionPane.showMessageDialog(null, "Usuario Correcto");
+            		VentanaBusqueda window = new VentanaBusqueda();
+					window.setVisible(true);
+					dispose();
+            	}else {
+            		JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+            		JOptionPane.showMessageDialog(null, "Error");
+            	}
+            }
+        });
+
 		btnLogin.setBounds(353, 255, 89, 23);
 		contentPane.add(btnLogin);
 	}
 	
-	public void login(String nombre, String contraseña) {
-		nombre = textnombre_usuario.getText();
-		contraseña = textContraseña.getText();
-		
+	public boolean login(String usuario, String contraseña) {
+		if(!usuario.equals("") && !contraseña.equals("")) {
+			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
+				return true;	
+			}else {
+				return false;
+			}
+		}else
+			return false;
 	}
 	
+	public void registro(String usuario, String contraseña) {
+		if(!usuario.equals("") && !contraseña.equals("")) {
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			try {
+				tx.begin();
+				Usuarios usuario1 = new Usuarios(usuario, contraseña);
+				pm.makePersistent(usuario1);
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "Introducir datos de registro");
+		}
+		
+		
+	}
+
 }
