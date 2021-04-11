@@ -3,7 +3,7 @@ package jdo;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Usuarios {
 	
 	
@@ -15,6 +15,10 @@ public class Usuarios {
 	public Usuarios(String Usuario, String password) {
 		this.username = Usuario;
 		this.password = password;
+	}
+
+	public Usuarios() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getUsername() {

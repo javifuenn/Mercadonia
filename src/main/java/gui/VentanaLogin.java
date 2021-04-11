@@ -32,6 +32,7 @@ public class VentanaLogin extends JFrame {
 	private JFrame frame;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
+	private static Usuarios usuarios;
 
 	/**
 	 * Launch the application.
@@ -95,7 +96,7 @@ public class VentanaLogin extends JFrame {
             	boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
             	if(result == true) {
             		JOptionPane.showMessageDialog(null, "Usuario Correcto");
-            		VentanaBusqueda window = new VentanaBusqueda();
+            		VentanaBusqueda window = new VentanaBusqueda(usuarios);
 					window.setVisible(true);
 					dispose();
             	}else {
@@ -110,7 +111,7 @@ public class VentanaLogin extends JFrame {
 	
 	public boolean login(String usuario, String contraseña) {
 		if(!usuario.equals("") && !contraseña.equals("")) {
-			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			usuarios = UsuariosResource.getUsuariosLogin(usuario);
 			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
 				return true;	
 			}else {

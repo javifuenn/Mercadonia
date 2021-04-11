@@ -13,8 +13,11 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import SA02.CestaResource;
 import SA02.ProductosResource;
+import jdo.Cesta;
 import jdo.Producto;
+import jdo.Usuarios;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -27,6 +30,8 @@ import java.awt.event.ActionEvent;
 public class VentanaBusqueda extends JFrame{
 
 	private JTextField textField;
+	private static List<Producto> productos;
+	private static Usuarios usuario;
 
 	/**
 	 * Launch the application.
@@ -35,7 +40,7 @@ public class VentanaBusqueda extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaBusqueda window = new VentanaBusqueda();
+					VentanaBusqueda window = new VentanaBusqueda(usuario);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +52,8 @@ public class VentanaBusqueda extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public VentanaBusqueda() {
+	public VentanaBusqueda(Usuarios usuarioValidado) {
+		usuario=usuarioValidado;
 		initialize();
 	}
 	
@@ -84,7 +90,7 @@ public class VentanaBusqueda extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				List<Producto> productos = busquedaProd(textField.getText());
+				productos = busquedaProd(textField.getText());
 				DefaultListModel<Producto> DLM = new DefaultListModel<>();
 				for(Producto p: productos) {	
 					DLM.addElement(p);
@@ -97,6 +103,12 @@ public class VentanaBusqueda extends JFrame{
 		JButton btnNewButton_1 = new JButton("Anadir");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Cesta cesta = new Cesta(usuario, productos.get(list.getSelectedIndex()), null);
+				boolean respuesta = CestaResource.anadirProductoCesta(cesta);
+				if(respuesta!=true) {
+					System.out.println("El producto no se añade a la cesta");
+				}
+				
 			}
 		});
 		
