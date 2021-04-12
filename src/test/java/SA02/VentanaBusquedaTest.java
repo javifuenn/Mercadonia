@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import gui.VentanaBusqueda;
 import jdo.Producto;
+import jdo.Usuarios;
 
 public class VentanaBusquedaTest {
 
@@ -17,7 +18,8 @@ public class VentanaBusquedaTest {
 		
 		List<Producto> listProd = Arrays.asList(
     			new Producto("2A", "Manzana", "Deliciosa", 3));
-		VentanaBusqueda vent = new VentanaBusqueda();
+		Usuarios usuario = new Usuarios();
+		VentanaBusqueda vent = new VentanaBusqueda(usuario);
 		List<Producto> productos = vent.busquedaProd("Manzana");
 		
 		assertEquals(listProd.get(0).getCodigo(), productos.get(0).getCodigo());

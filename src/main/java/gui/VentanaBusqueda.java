@@ -13,18 +13,26 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import SA02.CestaResource;
 import SA02.ProductosResource;
+import jdo.Cesta;
 import jdo.Producto;
+import jdo.Usuarios;
 
 import javax.swing.JButton;
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaBusqueda extends JFrame{
 
 	private JTextField textField;
+	private static List<Producto> productos;
+	private static Usuarios usuario;
+	private static Cesta cesta;
 
 	/**
 	 * Launch the application.
@@ -33,7 +41,7 @@ public class VentanaBusqueda extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaBusqueda window = new VentanaBusqueda();
+					VentanaBusqueda window = new VentanaBusqueda(usuario);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +53,8 @@ public class VentanaBusqueda extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public VentanaBusqueda() {
+	public VentanaBusqueda(Usuarios usuarioValidado) {
+		usuario=usuarioValidado;
 		initialize();
 	}
 	
@@ -53,7 +62,6 @@ public class VentanaBusqueda extends JFrame{
 		List<Producto> productos = null;
 		
 		if(producto.equals("")) {
-			
 			productos = ProductosResource.getProductos();
 		}else {
 			productos = ProductosResource.getProductosNom(producto);
@@ -83,7 +91,7 @@ public class VentanaBusqueda extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				List<Producto> productos = busquedaProd(textField.getText());
+				productos = busquedaProd(textField.getText());
 				DefaultListModel<Producto> DLM = new DefaultListModel<>();
 				for(Producto p: productos) {	
 					DLM.addElement(p);
@@ -92,6 +100,25 @@ public class VentanaBusqueda extends JFrame{
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		
+		JButton btnNewButton_1 = new JButton("Anadir");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean respuesta = CestaResource.anadirProductoCesta(usuario,productos.get(list.getSelectedIndex()));
+				if(respuesta!=true) {
+					System.out.println("El producto no se añade a la cesta");
+				}
+				
+			}
+		});
+		
+		JButton btnNewButton_2 = new JButton("Cesta");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaCesta window = new VentanaCesta(usuario);
+				window.setVisible(true);
+			}
+		});
 		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -108,8 +135,13 @@ public class VentanaBusqueda extends JFrame{
 							.addComponent(btnNewButton))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(50)
-							.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(26, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnNewButton_1)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnNewButton_2))
+								.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -119,9 +151,13 @@ public class VentanaBusqueda extends JFrame{
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addGap(37)
+					.addGap(3)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton_2)
+						.addComponent(btnNewButton_1))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(list, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(37, Short.MAX_VALUE))
+					.addContainerGap(35, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
 	}

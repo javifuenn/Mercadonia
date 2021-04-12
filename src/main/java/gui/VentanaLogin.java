@@ -25,8 +25,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaLogin extends JFrame {
 
@@ -34,7 +32,7 @@ public class VentanaLogin extends JFrame {
 	private JFrame frame;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
-	
+	private static Usuarios usuarios;
 
 	/**
 	 * Launch the application.
@@ -85,24 +83,20 @@ public class VentanaLogin extends JFrame {
 		
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.addActionListener(new ActionListener() {
-
-
             public void actionPerformed(ActionEvent e) {
             	registro(textnombre_usuario.getText(), textContraseña.getText());
             }
         });
-
 		btnRegistro.setBounds(106, 255, 89, 23);
 		contentPane.add(btnRegistro);
 		
 		JButton btnLogin = new JButton("Login\r\n");
 		btnLogin.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
             	boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
             	if(result == true) {
             		JOptionPane.showMessageDialog(null, "Usuario Correcto");
-            		VentanaBusqueda window = new VentanaBusqueda();
+            		VentanaBusqueda window = new VentanaBusqueda(usuarios);
 					window.setVisible(true);
 					dispose();
             	}else {
@@ -111,14 +105,13 @@ public class VentanaLogin extends JFrame {
             	}
             }
         });
-
 		btnLogin.setBounds(353, 255, 89, 23);
 		contentPane.add(btnLogin);
 	}
 	
 	public boolean login(String usuario, String contraseña) {
 		if(!usuario.equals("") && !contraseña.equals("")) {
-			Usuarios usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			usuarios = UsuariosResource.getUsuariosLogin(usuario);
 			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
 				return true;	
 			}else {
@@ -150,5 +143,4 @@ public class VentanaLogin extends JFrame {
 		
 		
 	}
-
 }

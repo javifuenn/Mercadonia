@@ -1,10 +1,12 @@
 package util;
 
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
+import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuarios;
 
@@ -32,6 +34,7 @@ public class PreparaDatos {
 			pm.makePersistent(usuario2);
 			Usuarios usuario3 = new Usuarios("javi", "4321");
 			pm.makePersistent(usuario3);
+			
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {
