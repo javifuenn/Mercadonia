@@ -1,10 +1,12 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import SA02.UsuariosResource;
@@ -15,16 +17,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 
 public class VentanaLogin extends JFrame {
 
@@ -33,6 +39,7 @@ public class VentanaLogin extends JFrame {
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 	private static Usuarios usuarios;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -55,74 +62,125 @@ public class VentanaLogin extends JFrame {
 	 */
 	public VentanaLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 605, 390);
+		setBounds(100, 100, 386, 523);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblnombre_usuario = new JLabel("Nombre de usuario:");
+
+		JLabel lblnombre_usuario = new JLabel("Nombre de usuario");
 		lblnombre_usuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblnombre_usuario.setBounds(55, 46, 140, 24);
+		lblnombre_usuario.setBounds(53, 70, 129, 24);
 		contentPane.add(lblnombre_usuario);
-		
-		JLabel lblcontraseña = new JLabel("Contraseña:");
+
+		JLabel lblcontraseña = new JLabel("Contraseña");
 		lblcontraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblcontraseña.setBounds(55, 128, 140, 24);
+		lblcontraseña.setBounds(53, 169, 140, 24);
 		contentPane.add(lblcontraseña);
-		
+
 		textnombre_usuario = new JTextField();
-		textnombre_usuario.setBounds(205, 48, 193, 24);
+		textnombre_usuario.setBounds(53, 113, 284, 24);
 		contentPane.add(textnombre_usuario);
 		textnombre_usuario.setColumns(10);
-		
+
 		textContraseña = new JTextField();
+
+		// Passwordfield para la contraseï¿½a
+		textContraseña = new JPasswordField();
 		textContraseña.setColumns(10);
-		textContraseña.setBounds(205, 128, 193, 24);
+		textContraseña.setBounds(53, 204, 284, 24);
 		contentPane.add(textContraseña);
-		
-		JButton btnRegistro = new JButton("Registrar");
-		btnRegistro.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	registro(textnombre_usuario.getText(), textContraseña.getText());
-            }
-        });
-		btnRegistro.setBounds(106, 255, 89, 23);
-		contentPane.add(btnRegistro);
-		
-		JButton btnLogin = new JButton("Login\r\n");
-		btnLogin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
-            	if(result == true) {
-            		JOptionPane.showMessageDialog(null, "Usuario Correcto");
-            		VentanaBusqueda window = new VentanaBusqueda(usuarios);
+
+		// Checkbox de mostrar contraseï¿½a
+		final JCheckBox showpass = new JCheckBox("Mostrar Contrase\u00F1a");
+		showpass.setForeground(SystemColor.textHighlight);
+		showpass.setBackground(UIManager.getColor("Button.highlight"));
+		showpass.setBounds(215, 241, 121, 23);
+		getContentPane().add(showpass);
+		showpass.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (showpass.isSelected()) {
+					((JPasswordField) textContraseña).setEchoChar((char) 0);
+				} else {
+					((JPasswordField) textContraseña).setEchoChar('*');
+				}
+			}
+		});
+
+		JLabel lblLoginMecradonia = new JLabel("LOGIN MERCADONIA");
+		lblLoginMecradonia.setToolTipText("");
+		lblLoginMecradonia.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLoginMecradonia.setForeground(SystemColor.textHighlight);
+		lblLoginMecradonia.setFont(new Font("Leelawadee UI", Font.PLAIN, 24));
+		lblLoginMecradonia.setBounds(10, 0, 350, 59);
+		contentPane.add(lblLoginMecradonia);
+
+		JButton cerrar = new JButton("CERRAR");
+		cerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		cerrar.setBackground(Color.LIGHT_GRAY);
+		cerrar.setBounds(200, 351, 137, 36);
+		contentPane.add(cerrar);
+
+		JButton crear = new JButton("REGISTRARSE");
+		crear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registro(textnombre_usuario.getText(), textContraseña.getText());
+			}
+		});
+		crear.setBackground(Color.LIGHT_GRAY);
+		crear.setBounds(56, 351, 137, 36);
+		contentPane.add(crear);
+
+		JButton loginbtn = new JButton("LOGIN");
+		loginbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
+				if (result == true) {
+					JOptionPane.showMessageDialog(null, "Usuario Correcto");
+					VentanaBusqueda window = new VentanaBusqueda(usuarios);
 					window.setVisible(true);
 					dispose();
-            	}else {
-            		JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-            		JOptionPane.showMessageDialog(null, "Error");
-            	}
-            }
-        });
-		btnLogin.setBounds(353, 255, 89, 23);
-		contentPane.add(btnLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+					JOptionPane.showMessageDialog(null, "Error");
+				}
+
+			}
+		});
+		loginbtn.setForeground(Color.WHITE);
+		loginbtn.setBackground(SystemColor.textHighlight);
+		loginbtn.setBounds(53, 297, 284, 43);
+		contentPane.add(loginbtn);
+
+		lblNewLabel = new JLabel("BIENVENIDO!");
+		lblNewLabel.setVisible(false);
+
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(10, 432, 350, 14);
+		contentPane.add(lblNewLabel);
 	}
-	
+
 	public boolean login(String usuario, String contraseña) {
-		if(!usuario.equals("") && !contraseña.equals("")) {
+		if (!usuario.equals("") && !contraseña.equals("")) {
 			usuarios = UsuariosResource.getUsuariosLogin(usuario);
-			if(usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
-				return true;	
-			}else {
+			if (usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
+				return true;
+			} else {
 				return false;
 			}
-		}else
+		} else
 			return false;
 	}
-	
+
 	public void registro(String usuario, String contraseña) {
-		if(!usuario.equals("") && !contraseña.equals("")) {
+		if (!usuario.equals("") && !contraseña.equals("")) {
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
@@ -136,11 +194,11 @@ public class VentanaLogin extends JFrame {
 					tx.rollback();
 				}
 				pm.close();
+				lblNewLabel.setVisible(true);
 			}
-		}else {
+		} else {
 			JOptionPane.showMessageDialog(null, "Introducir datos de registro");
 		}
-		
-		
+
 	}
 }

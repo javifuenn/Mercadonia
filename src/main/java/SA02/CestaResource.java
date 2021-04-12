@@ -18,7 +18,6 @@ import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuarios;
 
-
 @Path("cesta")
 public class CestaResource {
 
@@ -26,7 +25,7 @@ public class CestaResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-		boolean respuesta= false;
+		boolean respuesta = false;
 		Cesta cesta = new Cesta(producto.getNombre(), null, usuario.getUsername());
 
 		try {
@@ -35,7 +34,7 @@ public class CestaResource {
 			pm.makePersistent(cesta);
 			tx.commit();
 			respuesta = true;
-			
+
 		} catch (Exception ex) {
 			System.out.println("  $ Error storing an object: " + ex.getMessage());
 		} finally {
@@ -46,26 +45,49 @@ public class CestaResource {
 		}
 		return respuesta;
 	}
-	
+
+	public static List<Producto> vaciarCesta(Usuarios usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		boolean respuesta = false;
+		
+
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+
+		Query<Cesta> q = pm.newQuery(
+				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
+
+		List<Cesta> cestav = q.executeList();
+		
+		pm.deletePersistentAll(cestav);
+		
+		
+
+		return productos;
+	}
+
 	public static List<Producto> verProductosCesta(Usuarios usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		ArrayList<Producto> productos = new ArrayList<Producto>();
-		
-		Query<Cesta> q = pm.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
-		
+
+		Query<Cesta> q = pm.newQuery(
+				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
+
 		List<Cesta> cestav = q.executeList();
-		
-		for(Cesta cesta : cestav) {
-			
-			Query<Producto> qq = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cesta.getNombreproducto() + "'");
-			
+
+		for (Cesta cesta : cestav) {
+
+			Query<Producto> qq = pm.newQuery(
+					"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cesta.getNombreproducto() + "'");
+
 			List<Producto> productosr = qq.executeList();
-			
+
 			productos.add(productosr.get(0));
-			
+
 		}
-		
+
 		pm.close();
 		return productos;
 	}

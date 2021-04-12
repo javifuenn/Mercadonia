@@ -26,13 +26,19 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class VentanaBusqueda extends JFrame{
+	public VentanaBusqueda() {
+	}
 
 	private JTextField textField;
 	private static List<Producto> productos;
 	private static Usuarios usuario;
 	private static Cesta cesta;
+	private static int cantidadproductos = 0;
 
 	/**
 	 * Launch the application.
@@ -53,8 +59,15 @@ public class VentanaBusqueda extends JFrame{
 	/**
 	 * Create the application.
 	 */
+	
 	public VentanaBusqueda(Usuarios usuarioValidado) {
 		usuario=usuarioValidado;
+		initialize();
+	}
+	public VentanaBusqueda(Usuarios usuarioValidado,int cantidadproductosa) {
+		usuario=usuarioValidado;
+		cantidadproductos=cantidadproductosa;
+		System.out.println(cantidadproductosa +" fff "+ cantidadproductos);
 		initialize();
 	}
 	
@@ -76,11 +89,8 @@ public class VentanaBusqueda extends JFrame{
 	 */
 	private void initialize() {
 		
-		setBounds(100, 100, 670, 402);
+		setBounds(100, 100, 670, 573);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JLabel lblNewLabel = new JLabel("Productos:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		textField = new JTextField();
 		textField.setColumns(10);
@@ -101,24 +111,42 @@ public class VentanaBusqueda extends JFrame{
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		JButton btnNewButton_1 = new JButton("Anadir");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		final JButton btnCesta = new JButton("Cesta : 0");
+		btnCesta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VentanaCesta window = new VentanaCesta(usuario,cantidadproductos);
+				window.setVisible(true);
+				setVisible(false);
+			}
+		});
+		
+		JLabel lblBuscador = new JLabel("BUSCADOR");
+		lblBuscador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBuscador.setForeground(SystemColor.textHighlight);
+		lblBuscador.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JButton btnAadir = new JButton("AÑADIR");
+		btnAadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cantidadproductos = cantidadproductos + 1;
+				btnCesta.setText("Cesta : "+ cantidadproductos);
 				boolean respuesta = CestaResource.anadirProductoCesta(usuario,productos.get(list.getSelectedIndex()));
 				if(respuesta!=true) {
 					System.out.println("El producto no se añade a la cesta");
 				}
-				
 			}
 		});
+		btnAadir.setBackground(new Color(135, 206, 250));
 		
-		JButton btnNewButton_2 = new JButton("Cesta");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton volver = new JButton("VOLVER");
+		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaCesta window = new VentanaCesta(usuario);
-				window.setVisible(true);
+				VentanaLogin log = new VentanaLogin();
+				log.setVisible(true);
+				setVisible(false);
 			}
 		});
+		volver.setBackground(new Color(135, 206, 250));
 		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -128,36 +156,47 @@ public class VentanaBusqueda extends JFrame{
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 451, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnNewButton))
+							.addComponent(lblBuscador, GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(50)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+							.addGap(60)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnNewButton_1)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnNewButton_2))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(textField, GroupLayout.PREFERRED_SIZE, 451, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+											.addGap(20))
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(volver)
+												.addGap(418))
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(btnAadir, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btnCesta, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+												.addGap(32))))
+									.addGap(92))
 								.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(lblBuscador, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
 					.addGap(23)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addGap(3)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+					.addGap(26)
+					.addComponent(list, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton_2)
-						.addComponent(btnNewButton_1))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(list, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(35, Short.MAX_VALUE))
+						.addComponent(btnAadir, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCesta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(volver)
+					.addGap(16))
 		);
 		getContentPane().setLayout(groupLayout);
 	}

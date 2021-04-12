@@ -9,8 +9,6 @@ import java.util.Date;
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class Cesta {
 
-  
-	
     private String Nombreproducto;
     private Date fechaExpiracion;
     private String NombreUsuario;
