@@ -53,6 +53,7 @@ public class VentanaBusqueda extends JFrame{
 		List<Producto> productos = null;
 		
 		if(producto.equals("")) {
+			
 			productos = ProductosResource.getProductos();
 		}else {
 			productos = ProductosResource.getProductosNom(producto);
