@@ -46,9 +46,9 @@ public class UsuariosResourceTest {
     public void testGetIt() {
     	
     	List<Usuarios> listUsuarios = Arrays.asList(
-    			new Usuarios("javi", "4321"),
     			new Usuarios("sergio", "1234"),
-    			new Usuarios("unai", "1234"));
+    			new Usuarios("unai", "1234"),
+    			new Usuarios("javi", "4321"));
     			
     	
     	List<Usuarios> usuarios = UsuariosResource.getUsuarios();
