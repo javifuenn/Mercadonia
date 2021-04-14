@@ -1,22 +1,52 @@
-Compilado y ejecución Mercadonia
-=========================================
-This relies on the DataNucleus Maven plugin.
+Proyecto Mercadonia
+===============================
 
-1. Ejecutar comandos de la DB del fichero src/main/resources/database.sql
-	Crea la DB y el el Usuario spq y hace un Grant de la DB al usuario
-	
-2. Ejecutar: "mvn clean compile" 
-	Contruye el proyecto
+Configuración
+------------- 
 
-3. Ejecutar: "mvn datanucleus:schema-create"
-	Crea el esquema de la DB
 
-4. Ejecutar: "mvn exec:java -P datos"
-   Introduce los datos en la DB
+**Base de datos**
 
-5. Ejecutar: "mvn test"
-	Comprueba los tests unitarios del proyecto 
+Crear una base de datos llamada *jersey* y dar permisos al usuario por defecto
 
-6. Ejecutar la VentanaLoging.java
-	Proyecto funcional
+	DROP SCHEMA IF EXISTS productosDB;
+	DROP USER IF EXISTS 'spq'@'localhost';
+	CREATE SCHEMA productosDB;
+	CREATE USER IF NOT EXISTS 'spq'@'localhost' IDENTIFIED BY 'spq';
+	GRANT ALL ON productosDB.* TO 'spq'@'localhost';
 
+La configuración por defecto para la base de datos y los usuarios puede ser actualizada en el fichero *resources/datanucleus.properties*.
+
+**Construcción del proyecto**
+
+Para limpiar el directorio _target_ y compilar el proyecto.
+
+	mvn clean compile
+
+**Creación de las tablas**
+
+Para la creación de las tablas se debe ejecutar el comando de maven
+
+	mvn compile datanucleus:schema-create
+
+
+**Datos de prueba**
+
+Para introducir datos para el funcionamiento mínimo de la aplicación
+
+    mvn exec:java -P datos
+
+
+**Inicio del servidor**
+
+El servidor REST de la aplicación se lanza utilizando el comando
+
+    mvn exec:java
+
+Si el servidor ha sido iniciado correctamente se pueden obtener los datos de prueba accediendo con el navegador a la URL http://localhost:8080/myapp/usuarios
+
+**Inicio del cliente**
+
+Para lanzar la parte cliente de la aplicación
+
+    mvn exec:java -P cliente
