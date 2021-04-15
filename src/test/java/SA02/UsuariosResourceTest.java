@@ -13,7 +13,7 @@ import org.junit.Test;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 public class UsuariosResourceTest {
 	
@@ -45,13 +45,13 @@ public class UsuariosResourceTest {
     @Test
     public void testGetIt() {
     	
-    	List<Usuarios> listUsuarios = Arrays.asList(
-    			new Usuarios("sergio", "1234"),
-    			new Usuarios("unai", "1234"),
-    			new Usuarios("javi", "4321"));
+    	List<Usuario> listUsuarios = Arrays.asList(
+    			new Usuario("sergio", "1234"),
+    			new Usuario("unai", "1234"),
+    			new Usuario("javi", "4321"));
     			
     	
-    	List<Usuarios> usuarios = UsuariosResource.getUsuarios();
+    	List<Usuario> usuarios = UsuariosResource.getUsuarios();
     
     	
         assertEquals(listUsuarios.get(0).getUsername(), usuarios.get(0).getUsername());
