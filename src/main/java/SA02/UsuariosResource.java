@@ -11,19 +11,19 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 @Path("usuarios")
 public class UsuariosResource {
 	  @GET
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Usuarios> getUsuarios() {
+	  public static List<Usuario> getUsuarios() {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		
-		Query<Usuarios> q = pm.newQuery(Usuarios.class);
+		Query<Usuario> q = pm.newQuery(Usuario.class);
 		
-		List<Usuarios> usuarios = q.executeList();
+		List<Usuario> usuarios = q.executeList();
 		
 		pm.close();
 	
@@ -32,15 +32,15 @@ public class UsuariosResource {
 	  
 	  @GET
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static Usuarios getUsuariosLogin(String nick) {
+	  public static Usuario getUsuariosLogin(String nick) {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+
+		Usuario usuarios = null;
 		
-		Usuarios usuarios = null;
+		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 		
-		Query<Usuarios> q = pm.newQuery("SELECT FROM " + Usuarios.class.getName() + " WHERE username== '" + nick + "'");
-		
-		List<Usuarios> usuariosl = q.executeList();
+		List<Usuario> usuariosl = q.executeList();
 		
 		usuarios = usuariosl.get(0);
 		

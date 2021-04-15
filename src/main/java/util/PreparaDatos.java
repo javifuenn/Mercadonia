@@ -8,7 +8,7 @@ import javax.jdo.Transaction;
 
 import jdo.Cesta;
 import jdo.Producto;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 
 
@@ -27,12 +27,12 @@ public class PreparaDatos {
 			pm.makePersistent(prod2);
 			Producto prod3 = new Producto("3A", "Pan", "Recien horneado", 0.6);
 			pm.makePersistent(prod3);
-			
-			Usuarios usuario1 = new Usuarios("sergio", "1234");
+
+			Usuario usuario1 = new Usuario("sergio", "1234");
 			pm.makePersistent(usuario1);
-			Usuarios usuario2 = new Usuarios("unai", "1234");
+			Usuario usuario2 = new Usuario("unai", "1234");
 			pm.makePersistent(usuario2);
-			Usuarios usuario3 = new Usuarios("javi", "4321");
+			Usuario usuario3 = new Usuario("javi", "4321");
 			pm.makePersistent(usuario3);
 			
 			tx.commit();

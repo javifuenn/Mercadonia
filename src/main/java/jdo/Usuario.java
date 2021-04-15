@@ -5,18 +5,18 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(detachable = "true")
-public class Usuarios {
+public class Usuario {
 	
 	
 	private String username;
 	private String password;
 	
-	public Usuarios(String Usuario, String password) {
+	public Usuario(String Usuario, String password) {
 		this.username = Usuario;
 		this.password = password;
 	}
 
-	public Usuarios() {
+	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -3,25 +3,21 @@ package SA02;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 @Path("cesta")
 public class CestaResource {
 
-	public static boolean anadirProductoCesta(Usuarios usuario, Producto producto) {
+	public static boolean anadirProductoCesta(Usuario usuario, Producto producto) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -46,7 +42,7 @@ public class CestaResource {
 		return respuesta;
 	}
 
-	public static List<Producto> vaciarCesta(Usuarios usuario) {
+	public static List<Producto> vaciarCesta(Usuario usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -67,7 +63,7 @@ public class CestaResource {
 		return productos;
 	}
 
-	public static List<Producto> verProductosCesta(Usuarios usuario) {
+	public static List<Producto> verProductosCesta(Usuario usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		ArrayList<Producto> productos = new ArrayList<Producto>();

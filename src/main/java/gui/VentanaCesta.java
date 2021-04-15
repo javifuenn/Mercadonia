@@ -3,9 +3,6 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -15,14 +12,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import SA02.CestaResource;
 import SA02.ProductosResource;
-import jdo.Cesta;
 import jdo.Producto;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JList;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,7 +26,7 @@ import java.awt.Color;
 
 public class VentanaCesta extends JFrame{
 	private static List<Producto> productos;
-	private static Usuarios usuario;
+	private static Usuario usuario;
 	private static int cantidadproductosa;
 	
 
@@ -55,7 +49,7 @@ public class VentanaCesta extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public VentanaCesta(Usuarios usuarioVerificado, int cantidadproductos) {
+	public VentanaCesta(Usuario usuarioVerificado, int cantidadproductos) {
 		usuario=usuarioVerificado;
 		cantidadproductosa=cantidadproductos;
 		initialize();
@@ -121,7 +115,7 @@ public class VentanaCesta extends JFrame{
 		JButton volver = new JButton("VOLVER");
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuarios us = usuario;
+				Usuario us = usuario;
 				VentanaBusqueda vb = new VentanaBusqueda(us,cantidadproductosa);
 				vb.setVisible(true);
 				setVisible(false);

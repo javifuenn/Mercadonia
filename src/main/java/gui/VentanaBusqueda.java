@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -17,7 +15,7 @@ import SA02.CestaResource;
 import SA02.ProductosResource;
 import jdo.Cesta;
 import jdo.Producto;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -36,7 +34,7 @@ public class VentanaBusqueda extends JFrame{
 
 	private JTextField textField;
 	private static List<Producto> productos;
-	private static Usuarios usuario;
+	private static Usuario usuario;
 	private static Cesta cesta;
 	private static int cantidadproductos = 0;
 
@@ -60,11 +58,11 @@ public class VentanaBusqueda extends JFrame{
 	 * Create the application.
 	 */
 	
-	public VentanaBusqueda(Usuarios usuarioValidado) {
+	public VentanaBusqueda(Usuario usuarioValidado) {
 		usuario=usuarioValidado;
 		initialize();
 	}
-	public VentanaBusqueda(Usuarios usuarioValidado,int cantidadproductosa) {
+	public VentanaBusqueda(Usuario usuarioValidado, int cantidadproductosa) {
 		usuario=usuarioValidado;
 		cantidadproductos=cantidadproductosa;
 		System.out.println(cantidadproductosa +" fff "+ cantidadproductos);

@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import SA02.UsuariosResource;
 import jdo.Producto;
-import jdo.Usuarios;
+import jdo.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,7 +38,7 @@ public class VentanaLogin extends JFrame {
 	private JFrame frame;
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
-	private static Usuarios usuarios;
+	private static Usuario usuarios;
 	private JLabel lblNewLabel;
 
 	/**
@@ -186,7 +186,7 @@ public class VentanaLogin extends JFrame {
 			Transaction tx = pm.currentTransaction();
 			try {
 				tx.begin();
-				Usuarios usuario1 = new Usuarios(usuario, contraseña);
+				Usuario usuario1 = new Usuario(usuario, contraseña);
 				pm.makePersistent(usuario1);
 				tx.commit();
 			} finally {
