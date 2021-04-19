@@ -90,9 +90,18 @@ public class VentanaCesta extends JFrame{
 		lblCesta.setForeground(SystemColor.textHighlight);
 		lblCesta.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		JButton btnComprar = new JButton("COMPRAR");
+		JButton btnComprar = new JButton("PAGAR");
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VentanaPago ventana = new VentanaPago();
+				double precio = 0.0;
+				for(Producto p: product) {
+					ventana.modelProducto.addElement(p);
+					precio += p.getPrecio();
+				}
+				ventana.textPrecio.setText(String.valueOf(precio));
+				ventana.setVisible(true);
+				dispose();
 			}
 		});
 		btnComprar.setBackground(new Color(135, 206, 250));
