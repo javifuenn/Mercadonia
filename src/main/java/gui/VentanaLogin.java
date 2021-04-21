@@ -151,17 +151,22 @@ public class VentanaLogin extends JFrame {
 		JButton loginbtn = new JButton("LOGIN");
 		loginbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
-				if (result == true) {
-					JOptionPane.showMessageDialog(null, "Usuario Correcto");
-					VentanaBusqueda window = new VentanaBusqueda(usuarios);
-					window.setVisible(true);
+				if(textnombre_usuario.getText().equals("admin") && textContraseña.getText().equals("admin")) {
+					VentanaAdmin v = new VentanaAdmin();
+					v.setVisible(true);
 					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-					JOptionPane.showMessageDialog(null, "Error");
+				}else {
+					boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
+					if (result == true) {
+						JOptionPane.showMessageDialog(null, "Usuario Correcto");
+						VentanaBusqueda window = new VentanaBusqueda(usuarios);
+						window.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+						JOptionPane.showMessageDialog(null, "Error");
+					}
 				}
-
 			}
 		});
 		loginbtn.setForeground(Color.WHITE);
@@ -179,7 +184,6 @@ public class VentanaLogin extends JFrame {
 
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			
 			//usuarios = UsuariosResource.getUsuariosLogin(usuario);
 			GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
 			usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
