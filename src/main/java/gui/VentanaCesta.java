@@ -12,6 +12,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import SA02.CestaResource;
 import SA02.ProductosResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
 import jdo.Producto;
 import jdo.Usuario;
 
@@ -25,10 +27,12 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 
 public class VentanaCesta extends JFrame{
+	
 	private static List<Producto> productos;
 	private static Usuario usuario;
 	private static int cantidadproductosa;
 	
+	Client cliente = ClientBuilder.newClient();
 
 	/**
 	 * Launch the application.

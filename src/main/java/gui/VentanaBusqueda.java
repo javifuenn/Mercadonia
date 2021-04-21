@@ -11,8 +11,14 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+
 import SA02.CestaResource;
 import SA02.ProductosResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuario;
@@ -37,6 +43,13 @@ public class VentanaBusqueda extends JFrame{
 	private static Usuario usuario;
 	private static Cesta cesta;
 	private static int cantidadproductos = 0;
+	
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget productTarget = appTarget.path("productos");
+	final WebTarget productAllTarget = productTarget.path("all");
+
+	
 
 	/**
 	 * Launch the application.
@@ -73,9 +86,12 @@ public class VentanaBusqueda extends JFrame{
 		List<Producto> productos = null;
 		
 		if(producto.equals("")) {
-			productos = ProductosResource.getProductos();
+			GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		}else {
-			productos = ProductosResource.getProductosNom(producto);
+			WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre",producto);
+			GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		}
 		
 		return productos;

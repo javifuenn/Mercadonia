@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import gui.VentanaBusqueda;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
 import jdo.Producto;
 import jdo.Usuario;
 
@@ -15,6 +17,7 @@ public class VentanaBusquedaTest {
 
 	@Test
 	public void test() {
+		
 		
 		List<Producto> listProd = Arrays.asList(
     			new Producto("2A", "Manzana", "Deliciosa", 3));

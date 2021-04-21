@@ -12,6 +12,7 @@ import javax.jdo.Query;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
@@ -20,6 +21,7 @@ import jdo.Producto;
 public class ProductosResource {
 
 	  @GET
+	  @Path("all")
 	  @Produces(MediaType.APPLICATION_JSON)
 	  public static List<Producto> getProductos() {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
@@ -35,8 +37,9 @@ public class ProductosResource {
     }
 	  
 	  @GET
+	  @Path("nom")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Producto> getProductosNom(String nombre) {
+	  public static List<Producto> getProductosNom(@QueryParam("nombre") String nombre) {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		

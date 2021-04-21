@@ -19,7 +19,7 @@ import jdo.Pedido;
 import jdo.Producto;
 import jdo.Usuario;
 
-@Path("productos")
+@Path("pagos")
 public class PagosResource {
 
 	  @GET

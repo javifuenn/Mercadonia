@@ -10,6 +10,8 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import SA02.UsuariosResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
 import jdo.Producto;
 import jdo.Usuario;
 
@@ -40,6 +42,8 @@ public class VentanaLogin extends JFrame {
 	private JTextField textContraseña;
 	private static Usuario usuarios;
 	private JLabel lblNewLabel;
+	
+	Client client = ClientBuilder.newClient();
 
 	/**
 	 * Launch the application.
