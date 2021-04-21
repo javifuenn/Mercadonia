@@ -12,6 +12,7 @@ import javax.jdo.Transaction;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Paypal;
@@ -23,8 +24,9 @@ import jdo.Usuario;
 public class PagosResource {
 
 	  @GET
+	  @Path("nom")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static Paypal getUsuarioPaypal(String correo) {
+	  public static Paypal getUsuarioPaypal(@QueryParam("correo") String correo) {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 

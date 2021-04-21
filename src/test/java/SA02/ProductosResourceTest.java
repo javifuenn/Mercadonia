@@ -10,18 +10,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
-
+import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
+import jdo.Usuario;
 
 public class ProductosResourceTest {
 	
 	 	private HttpServer server;
 	    private WebTarget target;
-
+	    Client cliente = ClientBuilder.newClient();
+	    final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+		final WebTarget productTarget = appTarget.path("productos");
+	    final WebTarget productAllTarget = productTarget.path("all");
 		
 	    @Before
 	    public void setUp() throws Exception {
@@ -57,9 +62,9 @@ public class ProductosResourceTest {
 	    			new Producto("1A", "Lechuga", "Muy sana", 2.4),
 	    			new Producto("2A", "Manzana", "Deliciosa", 3),
 	    			new Producto("3A", "Pan", "Recien horneado", 0.6));
-	    	
-	    	List<Producto> productos = ProductosResource.getProductos();
-	    
+	    	//List<Producto> productos = ProductosResource.getProductos();
+	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+	    	List<Producto> productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
 	        assertEquals(listProd.get(0).getCodigo(), productos.get(0).getCodigo());
 	        assertEquals(listProd.get(1).getCodigo(), productos.get(1).getCodigo());

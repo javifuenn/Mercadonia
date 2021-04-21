@@ -10,15 +10,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jdo.Producto;
 import jdo.Usuario;
 
 public class UsuariosResourceTest {
 	
 	private HttpServer server;
     private WebTarget target;
+    Client cliente = ClientBuilder.newClient();
+    final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget userTarget = appTarget.path("usuarios");
+    final WebTarget userAllTarget = userTarget.path("all");
     
     @Before
     public void setUp() throws Exception {
@@ -51,8 +59,9 @@ public class UsuariosResourceTest {
     			new Usuario("javi", "4321"));
     			
     	
-    	List<Usuario> usuarios = UsuariosResource.getUsuarios();
-    
+    	//List<Usuario> usuarios = UsuariosResource.getUsuarios();
+    	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
+    	List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
         assertEquals(listUsuarios.get(0).getUsername(), usuarios.get(0).getUsername());
         assertEquals(listUsuarios.get(1).getUsername(), usuarios.get(1).getUsername());

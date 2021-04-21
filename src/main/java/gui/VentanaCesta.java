@@ -14,6 +14,9 @@ import SA02.CestaResource;
 import SA02.ProductosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
 
@@ -33,6 +36,9 @@ public class VentanaCesta extends JFrame{
 	private static int cantidadproductosa;
 	
 	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget productTarget = appTarget.path("productos");
+    final WebTarget productAllTarget = productTarget.path("all");
 
 	/**
 	 * Launch the application.
@@ -61,11 +67,15 @@ public class VentanaCesta extends JFrame{
 	
 	public List<Producto> busquedaProd(String producto){
 		List<Producto> productos = null;
-		
+		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 		if(producto.equals("")) {
-			productos = ProductosResource.getProductos();
+			//productos = ProductosResource.getProductos();
+	    	productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		}else {
-			productos = ProductosResource.getProductosNom(producto);
+			//productos = ProductosResource.getProductosNom(producto);
+			WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre",producto);
+			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+			
 		}
 		
 		return productos;

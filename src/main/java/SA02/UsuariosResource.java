@@ -10,12 +10,14 @@ import javax.jdo.Query;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Usuario;
 
 @Path("usuarios")
 public class UsuariosResource {
 	  @GET
+	  @Path("all")
 	  @Produces(MediaType.APPLICATION_JSON)
 	  public static List<Usuario> getUsuarios() {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
@@ -31,8 +33,9 @@ public class UsuariosResource {
   }
 	  
 	  @GET
+	  @Path("nom")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static Usuario getUsuariosLogin(String nick) {
+	  public static Usuario getUsuariosLogin(@QueryParam("nick") String nick) {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 

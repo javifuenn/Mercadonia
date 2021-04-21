@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import SA02.PagosResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Paypal;
 import jdo.Pedido;
@@ -52,6 +57,11 @@ public class VentanaPago extends JFrame {
 	
 	private JList<Producto> list;
 	DefaultListModel<Producto> modelProducto = new DefaultListModel<>();
+	
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget pagoTarget = appTarget.path("pagos");
+	//final WebTarget pagoAllTarget = pagoTarget.path("all");
 
 	/**
 	 * Launch the application.
@@ -143,8 +153,9 @@ public class VentanaPago extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(comboBox.getSelectedItem()=="Paypal") {
-					
-					Paypal paypal =PagosResource.getUsuarioPaypal(textNumeroTarjeta.getText());
+					WebTarget productNomTarget = pagoTarget.path("nom").queryParam("correo",textNumeroTarjeta.getText());
+					GenericType<List<Paypal>> genericType = new GenericType<List<Paypal>>() {};
+					Paypal paypal = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
 					if(textTitular.getText()==paypal.getContrasena()) {
 						
 						List<String> productosCesta = new ArrayList<String>();

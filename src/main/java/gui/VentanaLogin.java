@@ -12,6 +12,9 @@ import javax.swing.border.EmptyBorder;
 import SA02.UsuariosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
 
@@ -43,7 +46,10 @@ public class VentanaLogin extends JFrame {
 	private static Usuario usuarios;
 	private JLabel lblNewLabel;
 	
-	Client client = ClientBuilder.newClient();
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget userTarget = appTarget.path("usuarios");
+    final WebTarget userAllTarget = userTarget.path("all");
 
 	/**
 	 * Launch the application.
@@ -173,7 +179,10 @@ public class VentanaLogin extends JFrame {
 
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			
+			//usuarios = UsuariosResource.getUsuariosLogin(usuario);
+			GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
+			usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
 			if (usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
 				return true;
 			} else {

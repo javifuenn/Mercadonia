@@ -13,9 +13,19 @@ import javax.jdo.Transaction;
 import org.junit.Test;
 
 import gui.VentanaLogin;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jdo.Usuario;
 
 public class VentanaLoginTest {
+	
+	Client cliente = ClientBuilder.newClient();
+    final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget userTarget = appTarget.path("usuarios");
+    final WebTarget userAllTarget = userTarget.path("all");
 	
 	@Test
 	public void testLogin() {
@@ -25,7 +35,9 @@ public class VentanaLoginTest {
 		VentanaLogin vent = new VentanaLogin();
 		boolean result = vent.login("sergio", "1234");
 		boolean comp = false;
-		Usuario usuarios = UsuariosResource.getUsuariosLogin(usuario1.get(0).getUsername());
+		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
+		//Usuario usuarios = UsuariosResource.getUsuariosLogin(usuario1.get(0).getUsername());
+		Usuario usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
 		if(usuarios.getPassword().equals(usuario1.get(0).getPassword())) {
 			comp = true;
 		}
@@ -53,7 +65,9 @@ public class VentanaLoginTest {
 		}
 		
 		boolean comp = false;
-		Usuario usuarios = UsuariosResource.getUsuariosLogin("pepe");
+		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
+		Usuario usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
+		//Usuario usuarios = UsuariosResource.getUsuariosLogin("pepe");
 		if(usuarios.getPassword().equals("1234")) {
 			comp = true;
 		}
