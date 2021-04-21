@@ -7,12 +7,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import SA02.PagosResource;
+import jdo.Cesta;
+import jdo.Paypal;
+import jdo.Pedido;
 import jdo.Producto;
+import jdo.Usuario;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -26,6 +33,9 @@ public class VentanaPago extends JFrame {
 
 	private JPanel contentPane;
 	public JTextField textPrecio;
+	
+	private static List<Producto> productos;
+	private static Usuario usuario;
 	
 	private JComboBox<String> comboBox;
 	private JTextField textCV;
@@ -50,7 +60,7 @@ public class VentanaPago extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPago frame = new VentanaPago();
+					VentanaPago frame = new VentanaPago(usuario,productos);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +72,7 @@ public class VentanaPago extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPago() {
+	public VentanaPago(Usuario usuarioVerificado, List<Producto> productosSeleccionados) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 724, 504);
 		contentPane = new JPanel();
@@ -129,6 +139,33 @@ public class VentanaPago extends JFrame {
 		contentPane.add(textPrecio);
 		
 		JButton btnPagar = new JButton("PAGAR");
+		btnPagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(comboBox.getSelectedItem()=="Paypal") {
+					
+					Paypal paypal =PagosResource.getUsuarioPaypal(textNumeroTarjeta.getText());
+					if(textTitular.getText()==paypal.getContrasena()) {
+						
+						List<String> productosCesta = new ArrayList<String>();
+						
+						for(Producto producto:productos) {
+							
+							productosCesta.add(producto.getNombre());
+						}
+						
+						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+						
+						boolean respuesta = PagosResource.anadirPedido(pedido);
+						
+					}
+					
+				}
+				else{
+					
+				}
+			}
+		});
 		btnPagar.setBounds(298, 410, 85, 21);
 		contentPane.add(btnPagar);
 		

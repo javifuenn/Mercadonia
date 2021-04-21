@@ -93,7 +93,7 @@ public class VentanaCesta extends JFrame{
 		JButton btnComprar = new JButton("PAGAR");
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaPago ventana = new VentanaPago();
+				VentanaPago ventana = new VentanaPago(usuario,productos);
 				double precio = 0.0;
 				for(Producto p: product) {
 					ventana.modelProducto.addElement(p);
