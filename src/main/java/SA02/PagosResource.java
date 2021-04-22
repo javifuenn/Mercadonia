@@ -19,6 +19,7 @@ import jdo.Paypal;
 import jdo.Pedido;
 import jdo.Producto;
 import jdo.Usuario;
+import jdo.Visa;
 
 @Path("pagos")
 public class PagosResource {
@@ -67,6 +68,28 @@ public class PagosResource {
 			}
 			return respuesta;
 		}
+		
+		  @GET
+		  @Produces(MediaType.APPLICATION_JSON)
+		  public static Visa getUsuarioVisa(int numTarjeta) {
+		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+
+			Visa visa = null;
+			
+			Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE nTarjeta== '" + numTarjeta + "'");
+			
+			List<Visa> visa1 = q.executeList();
+			
+			visa = visa1.get(0);
+			
+			
+			pm.close();
+		
+			return visa;
+		  }
+		  
+		  
 	  
 	 
 	  

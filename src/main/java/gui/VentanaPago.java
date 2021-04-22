@@ -18,6 +18,7 @@ import jdo.Paypal;
 import jdo.Pedido;
 import jdo.Producto;
 import jdo.Usuario;
+import jdo.Visa;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -173,6 +174,28 @@ public class VentanaPago extends JFrame {
 					
 				}
 				else{
+					if(comboBox.getSelectedItem()=="Visa") {
+						
+						Visa visa = new Visa(Integer.parseInt(textNumeroTarjeta.getText()), textTitular.getText(), Integer.parseInt(textCV.getText()), textFechaCaducidad.getText());
+						Visa visa2 = PagosResource.getUsuarioVisa(Integer.parseInt(textNumeroTarjeta.getText()));
+						
+						if(visa.getnTarjeta()==visa2.getnTarjeta()) {
+							if (visa.getCv()==visa2.getCv()) {
+								
+								List<String> productosCesta = new ArrayList<String>();
+								
+								for(Producto producto:productos) {
+									
+									productosCesta.add(producto.getNombre());
+								}
+								
+								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+								
+								boolean respuesta = PagosResource.anadirPedido(pedido);
+							}
+							
+						}
+					}
 					
 				}
 			}
