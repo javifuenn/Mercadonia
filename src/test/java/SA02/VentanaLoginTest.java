@@ -35,9 +35,9 @@ public class VentanaLoginTest {
 		VentanaLogin vent = new VentanaLogin();
 		boolean result = vent.login("sergio", "1234");
 		boolean comp = false;
-		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-		//Usuario usuarios = UsuariosResource.getUsuariosLogin(usuario1.get(0).getUsername());
-		Usuario usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
+		WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", usuario1.get(0).getUsername());
+		GenericType<Usuario> genericType = new GenericType<Usuario>() {};
+		Usuario usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		if(usuarios.getPassword().equals(usuario1.get(0).getPassword())) {
 			comp = true;
 		}
@@ -49,30 +49,17 @@ public class VentanaLoginTest {
 	@Test
 	public void testRegistro() {
 		
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			Usuario usuario1 = new Usuario("pepe", "1234");
-			pm.makePersistent(usuario1);
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
+		List<Usuario> usuario1 = Arrays.asList(
+    			new Usuario("pepe", "1234"));
 		
-		boolean comp = false;
-		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-		Usuario usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
-		//Usuario usuarios = UsuariosResource.getUsuariosLogin("pepe");
-		if(usuarios.getPassword().equals("1234")) {
-			comp = true;
-		}
+		WebTarget userRegTarget = userTarget.path("reg").queryParam("nick",usuario1.get(0).getUsername()).queryParam("contaseña", usuario1.get(0).getPassword());
+		userRegTarget.request(MediaType.APPLICATION_JSON);
 		
-		assertEquals(true, comp);
+		WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "pepe");
+		GenericType<Usuario> genericType = new GenericType<Usuario>() {};
+		Usuario usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		assertEquals("pepe", usuarios.getUsername());
 		
 	}
 

@@ -9,13 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-import SA02.UsuariosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Producto;
 import jdo.Usuario;
 
 import javax.swing.JLabel;
@@ -184,9 +182,9 @@ public class VentanaLogin extends JFrame {
 
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			//usuarios = UsuariosResource.getUsuariosLogin(usuario);
-			GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-			usuarios = userTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
+			WebTarget userNomTarget = userTarget.path("nom").queryParam("nick",usuario);
+			GenericType<Usuario> genericType = new GenericType<Usuario>() {};
+			usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 			if (usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
 				return true;
 			} else {
@@ -198,21 +196,10 @@ public class VentanaLogin extends JFrame {
 
 	public void registro(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-			PersistenceManager pm = pmf.getPersistenceManager();
-			Transaction tx = pm.currentTransaction();
-			try {
-				tx.begin();
-				Usuario usuario1 = new Usuario(usuario, contraseña);
-				pm.makePersistent(usuario1);
-				tx.commit();
-			} finally {
-				if (tx.isActive()) {
-					tx.rollback();
-				}
-				pm.close();
-				lblNewLabel.setVisible(true);
-			}
+			WebTarget userRegTarget = userTarget.path("reg").queryParam("nick",usuario).queryParam("contaseña", contraseña);
+			userRegTarget.request(MediaType.APPLICATION_JSON);
+			lblNewLabel.setVisible(true);
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "Introducir datos de registro");
 		}

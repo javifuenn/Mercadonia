@@ -13,7 +13,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 
 import SA02.CestaResource;
-import SA02.ProductosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;

@@ -6,8 +6,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
+import javax.swing.JOptionPane;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
@@ -53,4 +56,25 @@ public class UsuariosResource {
 	
 		return usuarios;
 	  }
+	  
+	  @POST
+	  @Path("reg")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static void insertarUsuario(@QueryParam("nick") String nick, @QueryParam("contraseña") String contraseña) {
+		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			try {
+				tx.begin();
+				Usuario usuario1 = new Usuario(nick, contraseña);
+				pm.makePersistent(usuario1);
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
+		} 
+	  
 }
