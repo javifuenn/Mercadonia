@@ -77,4 +77,16 @@ public class UsuariosResource {
 			}
 		} 
 	  
+	  @POST
+	  @Path("elim")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static void eliminarusuario(@QueryParam("nick") String nick) {
+		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		  PersistenceManager pm = pmf.getPersistenceManager();
+		  
+		  Query<Usuario> q = pm.newQuery("DELETE FROM " + Usuario.class + " WHERE username== '" + nick + "'");
+		  q.execute();
+		  
+	  }
+	  
 }

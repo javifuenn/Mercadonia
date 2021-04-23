@@ -7,15 +7,17 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
-
+import javax.jdo.Transaction;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
+import jdo.Usuario;
 
 @Path("productos")
 public class ProductosResource {
@@ -50,6 +52,36 @@ public class ProductosResource {
 		pm.close();
 	
 		return productos;
+	  }
+	  
+	  @POST
+	  @Path("elim")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static void eliminarProducto(@QueryParam("nombre") String nombre) {
+		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		  PersistenceManager pm = pmf.getPersistenceManager();
+		  Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class + " WHERE nombre== '" + nombre + "'");
+		  q.execute();
+	  }
+	  
+	  @POST
+	  @Path("reg")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static void insertarProducto(@QueryParam("codigo") String codigo, @QueryParam("nombre") String nombre, @QueryParam("descripcion") String descripcion, @QueryParam("precio") double precio) {
+		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		  PersistenceManager pm = pmf.getPersistenceManager();
+		  Transaction tx = pm.currentTransaction();
+			try {
+				tx.begin();
+				Producto p = new Producto(codigo, nombre, descripcion, precio);
+				pm.makePersistent(p);
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
 	  }
 	  
 	  @GET
