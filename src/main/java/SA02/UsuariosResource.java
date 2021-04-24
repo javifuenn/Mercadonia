@@ -9,6 +9,7 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 import javax.swing.JOptionPane;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -59,9 +60,11 @@ public class UsuariosResource {
 	  
 	  @POST
 	  @Path("reg")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void insertarUsuario(@QueryParam("nick") String nick, @QueryParam("contraseña") String contraseña) {
-		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  public static void insertarUsuario(List<String> usuarioL) {
+		  	String nick = usuarioL.get(0);
+		  	String contraseña = usuarioL.get(1);
+		  	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
 			try {
@@ -75,6 +78,7 @@ public class UsuariosResource {
 				}
 				pm.close();
 			}
+			
 		} 
 	  
 	  @POST
