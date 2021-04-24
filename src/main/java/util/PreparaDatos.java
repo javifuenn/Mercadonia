@@ -7,8 +7,10 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
 import jdo.Cesta;
+import jdo.Paypal;
 import jdo.Producto;
 import jdo.Usuario;
+import jdo.Visa;
 
 
 
@@ -34,6 +36,12 @@ public class PreparaDatos {
 			pm.makePersistent(usuario2);
 			Usuario usuario3 = new Usuario("javi", "4321");
 			pm.makePersistent(usuario3);
+			
+			Paypal paypal = new Paypal("correo", "1234");
+			pm.makePersistent(paypal);
+			
+			Visa visa = new Visa(123456789, "Jon", 123, "nunca");
+			pm.makePersistent(visa);
 			
 			tx.commit();
 		} finally {

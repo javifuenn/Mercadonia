@@ -61,8 +61,9 @@ public class VentanaPago extends JFrame {
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
-	final WebTarget pagoTarget = appTarget.path("pagos");
-	//final WebTarget pagoAllTarget = pagoTarget.path("all");
+	final WebTarget pagoTarget = appTarget.path("/pagos");
+	final WebTarget pagoPaypalTarget = pagoTarget.path("/paypali");
+	final WebTarget pagoVisaTarget = pagoTarget.path("/visai");
 
 	/**
 	 * Launch the application.
@@ -153,10 +154,16 @@ public class VentanaPago extends JFrame {
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(comboBox.getSelectedItem()=="Paypal") {
-					WebTarget productNomTarget = pagoTarget.path("nom").queryParam("correo",textNumeroTarjeta.getText());
-					GenericType<List<Paypal>> genericType = new GenericType<List<Paypal>>() {};
-					Paypal paypal = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType).get(0);
+				
+				
+				if(comboBox.getSelectedItem()=="PayPal") {
+					String correo = textNumeroTarjeta.getText();
+					pagoPaypalTarget.queryParam("correo",correo);
+					GenericType<Paypal> genericType = new GenericType<Paypal>() {};
+					Paypal paypal = pagoPaypalTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+					
+					
+					System.out.println("Llamamos a paypal"+paypal.getCorreo());
 					if(textTitular.getText()==paypal.getContrasena()) {
 						
 						List<String> productosCesta = new ArrayList<String>();
@@ -167,6 +174,7 @@ public class VentanaPago extends JFrame {
 						}
 						
 						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
 						
 						boolean respuesta = PagosResource.anadirPedido(pedido);
 						
@@ -176,11 +184,13 @@ public class VentanaPago extends JFrame {
 				else{
 					if(comboBox.getSelectedItem()=="Visa") {
 						
-						Visa visa = new Visa(Integer.parseInt(textNumeroTarjeta.getText()), textTitular.getText(), Integer.parseInt(textCV.getText()), textFechaCaducidad.getText());
-						Visa visa2 = PagosResource.getUsuarioVisa(Integer.parseInt(textNumeroTarjeta.getText()));
 						
-						if(visa.getnTarjeta()==visa2.getnTarjeta()) {
-							if (visa.getCv()==visa2.getCv()) {
+						pagoVisaTarget.queryParam("numerotarjeta",textNumeroTarjeta.getText());
+						GenericType<Visa> genericType = new GenericType<Visa>() {};
+						Visa visa = pagoPaypalTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+						
+						if(visa.getnTarjeta()==Integer.parseInt(textNumeroTarjeta.getText())) {
+							if (visa.getCv()==Integer.parseInt(textCV.getText())) {
 								
 								List<String> productosCesta = new ArrayList<String>();
 								
