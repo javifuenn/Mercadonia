@@ -22,11 +22,11 @@ import jdo.Producto;
 import jdo.Usuario;
 import jdo.Visa;
 
-@Path("/pagos")
+@Path("pagos")
 public class PagosResource {
 
 	  @GET
-	  @Path("/paypali")
+	  @Path("paypali")
 	  @Produces(MediaType.APPLICATION_JSON)
 	  public static Paypal getUsuarioPaypal(@QueryParam("correo") String correo) {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
@@ -71,7 +71,7 @@ public class PagosResource {
 		}
 		
 		  @GET
-		  @Path("/visai")
+		  @Path("visai")
 		  @Produces(MediaType.APPLICATION_JSON)
 		  public static Visa getUsuarioVisa(@QueryParam("numerotarjeta") int numTarjeta) {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

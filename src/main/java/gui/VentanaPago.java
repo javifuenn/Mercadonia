@@ -61,9 +61,9 @@ public class VentanaPago extends JFrame {
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
-	final WebTarget pagoTarget = appTarget.path("/pagos");
-	final WebTarget pagoPaypalTarget = pagoTarget.path("/paypali");
-	final WebTarget pagoVisaTarget = pagoTarget.path("/visai");
+	final WebTarget pagoTarget = appTarget.path("pagos");
+	final WebTarget pagoPaypalTarget = pagoTarget.path("paypali");
+	final WebTarget pagoVisaTarget = pagoTarget.path("visai");
 
 	/**
 	 * Launch the application.
