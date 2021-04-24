@@ -54,6 +54,22 @@ public class ProductosResource {
 		return productos;
 	  }
 	  
+	  @GET
+	  @Path("user")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public static List<Producto> getProductosUser(@QueryParam("usuario") String usuario) {
+	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
+		
+		List<Producto> productos = q.executeList();
+		
+		pm.close();
+	
+		return productos;
+	  }
+	  
 	  @POST
 	  @Path("elim")
 	  @Produces(MediaType.APPLICATION_JSON)
@@ -65,15 +81,15 @@ public class ProductosResource {
 	  }
 	  
 	  @POST
-	  @Path("reg")
+	  @Path("ins")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void insertarProducto(@QueryParam("codigo") String codigo, @QueryParam("nombre") String nombre, @QueryParam("descripcion") String descripcion, @QueryParam("precio") double precio) {
+	  public static void insertarProducto(@QueryParam("codigo") String codigo, @QueryParam("nombre") String nombre, @QueryParam("descripcion") String descripcion, @QueryParam("precio") double precio, @QueryParam("usuario") String usuario) {
 		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		  PersistenceManager pm = pmf.getPersistenceManager();
 		  Transaction tx = pm.currentTransaction();
 			try {
 				tx.begin();
-				Producto p = new Producto(codigo, nombre, descripcion, precio);
+				Producto p = new Producto(codigo, nombre, descripcion, precio, usuario);
 				pm.makePersistent(p);
 				tx.commit();
 			} finally {

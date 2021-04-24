@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
@@ -23,6 +24,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextField;
@@ -196,8 +198,11 @@ public class VentanaLogin extends JFrame {
 
 	public void registro(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			WebTarget userRegTarget = userTarget.path("reg").queryParam("nick",usuario).queryParam("contaseña", contraseña);
-			userRegTarget.request(MediaType.APPLICATION_JSON);
+			WebTarget userRegTarget = userTarget.path("reg");
+			List<String> usuarioL = new ArrayList<>(); 
+			usuarioL.add(usuario);
+			usuarioL.add(contraseña);
+			userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 			lblNewLabel.setVisible(true);
 			
 		} else {

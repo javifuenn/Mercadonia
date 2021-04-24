@@ -139,6 +139,7 @@ public class VentanaPago extends JFrame {
 		list = new JList<Producto>();
 		list.setBounds(461, 46, 200, 294);
 		contentPane.add(list);
+		list.setModel(modelProducto);
 		
 		lblPrecio = new JLabel("Precio:");
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
