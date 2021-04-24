@@ -4,19 +4,34 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jdo.Producto;
 
 public class VentanaVentaProductos {
 
 	private JFrame frame;
 	private JTable table;
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget productTarget = appTarget.path("productos");
 
 	/**
 	 * Launch the application.
@@ -25,7 +40,7 @@ public class VentanaVentaProductos {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaVentaProductos window = new VentanaVentaProductos();
+					VentanaVentaProductos window = new VentanaVentaProductos("javi");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,14 +52,14 @@ public class VentanaVentaProductos {
 	/**
 	 * Create the application.
 	 */
-	public VentanaVentaProductos() {
-		initialize();
+	public VentanaVentaProductos(String usuario) {
+		initialize(usuario);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String usuario) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 640, 523);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,9 +69,25 @@ public class VentanaVentaProductos {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(97, 57, 425, 351);
-		panel.add(table);
+		WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", usuario);
+		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+		List<Producto> productos = productUserTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		DefaultTableModel tableModel = new DefaultTableModel();
+		table = new JTable(tableModel);
+	    tableModel.addColumn("Codigo");
+	    tableModel.addColumn("Nombre");
+	    tableModel.addColumn("Descripcion");
+	    tableModel.addColumn("Precio");
+	    
+	    for(Producto p: productos){
+			tableModel.insertRow(0, new Object[] {p.getCodigo(), p.getNombre(), p.getDescripcion(), String.valueOf(p.getPrecio())});
+		}
+		
+		
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setBounds(97, 57, 425, 351);
+		panel.add(scroll);
 		
 		JLabel lblNewLabel = new JLabel("Tus Productos");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 21));

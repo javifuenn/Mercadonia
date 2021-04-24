@@ -190,7 +190,7 @@ public class VentanaAdmin extends JFrame {
 					userRegTarget.request(MediaType.APPLICATION_JSON);
 				}
 				else if(aModificar.equals("productos") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty() && !textDesc.getText().isEmpty() && !textprecio.getText().isEmpty()) {
-					Producto p = new Producto(textCodigo.getText(), textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText())); 
+					Producto p = new Producto(textCodigo.getText(), textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), "falta meter usuario"); 
 					modeloListProducto.addElement(p);
 					WebTarget productRegTarget = productTarget.path("reg").queryParam("codigo",textCodigo.getText()).queryParam("nombre", textNombre.getText()).queryParam("descripcion", textDesc.getText()).queryParam("precio", Double.parseDouble(textprecio.getText()));
 					productRegTarget.request(MediaType.APPLICATION_JSON);

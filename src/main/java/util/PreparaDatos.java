@@ -23,11 +23,11 @@ public class PreparaDatos {
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Producto prod1 = new Producto("1A", "Lechuga", "Muy sana", 2.4);
+			Producto prod1 = new Producto("1A", "Lechuga", "Muy sana", 2.4, "unai");
 			pm.makePersistent(prod1);
-			Producto prod2 = new Producto("2A", "Manzana", "Deliciosa", 3);
+			Producto prod2 = new Producto("2A", "Manzana", "Deliciosa", 3, "sergio");
 			pm.makePersistent(prod2);
-			Producto prod3 = new Producto("3A", "Pan", "Recien horneado", 0.6);
+			Producto prod3 = new Producto("3A", "Pan", "Recien horneado", 0.6, "javi");
 			pm.makePersistent(prod3);
 
 			Usuario usuario1 = new Usuario("sergio", "1234");

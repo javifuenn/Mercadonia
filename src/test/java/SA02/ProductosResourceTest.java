@@ -59,9 +59,9 @@ public class ProductosResourceTest {
 	    public void testGetIt() {
 	    	
 	    	List<Producto> listProd = Arrays.asList(
-	    			new Producto("1A", "Lechuga", "Muy sana", 2.4),
-	    			new Producto("2A", "Manzana", "Deliciosa", 3),
-	    			new Producto("3A", "Pan", "Recien horneado", 0.6));
+	    			new Producto("1A", "Lechuga", "Muy sana", 2.4, "unai"),
+	    			new Producto("2A", "Manzana", "Deliciosa", 3, "sergio"),
+	    			new Producto("3A", "Pan", "Recien horneado", 0.6, "javi"));
 	    	//List<Producto> productos = ProductosResource.getProductos();
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);

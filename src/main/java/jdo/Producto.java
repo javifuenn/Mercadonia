@@ -13,16 +13,27 @@ public class Producto {
 	private String nombre;
 	private String descripcion;
 	private double precio;
+	private String usuario;
 	
+
 	public Producto() {
 		
 	}
 	
-	public Producto(String codigo, String nombre, String descripcion, double precio) {
+	public Producto(String codigo, String nombre, String descripcion, double precio, String usuario) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
+		this.usuario = usuario;
+	}
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getCodigo() {
