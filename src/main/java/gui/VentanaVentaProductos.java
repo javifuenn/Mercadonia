@@ -24,10 +24,11 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class VentanaVentaProductos {
+public class VentanaVentaProductos extends JFrame{
 
-	private JFrame frame;
 	private JTable table;
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
@@ -41,7 +42,7 @@ public class VentanaVentaProductos {
 			public void run() {
 				try {
 					VentanaVentaProductos window = new VentanaVentaProductos("javi");
-					window.frame.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,21 +53,21 @@ public class VentanaVentaProductos {
 	/**
 	 * Create the application.
 	 */
-	public VentanaVentaProductos(String usuario) {
+	public VentanaVentaProductos(final String usuario) {
 		initialize(usuario);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String usuario) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 640, 523);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+	private void initialize(final String usuario) {
+		
+		setBounds(100, 100, 640, 523);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
+		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", usuario);
@@ -96,6 +97,14 @@ public class VentanaVentaProductos {
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Añadir");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaAnadirProducto v = new VentanaAnadirProducto(usuario);
+				v.setVisible(true);
+				dispose();
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton.setBounds(480, 428, 116, 37);
 		panel.add(btnNewButton);

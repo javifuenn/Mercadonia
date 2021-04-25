@@ -171,7 +171,6 @@ public class VentanaAdmin extends JFrame {
 					WebTarget userElimTarget = userTarget.path("elim");
 					List<String> usuarioL = new ArrayList<>(); 
 					usuarioL.add(modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getUsername());
-					usuarioL.add(modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getPassword());
 					userElimTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 					
 				}
@@ -205,12 +204,11 @@ public class VentanaAdmin extends JFrame {
 					userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 				}
 				else if(aModificar.equals("productos") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty() && !textDesc.getText().isEmpty() && !textprecio.getText().isEmpty()) {
-					Producto p = new Producto(textCodigo.getText(), textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), "falta meter usuario"); 
+					Producto p = new Producto(textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), usuario.getUsername()); 
 					modeloListProducto.addElement(p);
 					
 					WebTarget productInsTarget = productTarget.path("ins");
 					List<String> productoL = new ArrayList<>(); 
-					productoL.add(textCodigo.getText());
 					productoL.add(textNombre.getText());
 					productoL.add(textDesc.getText());
 					productoL.add(textprecio.getText());

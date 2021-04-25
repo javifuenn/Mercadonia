@@ -1,14 +1,17 @@
 package jdo;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class Producto {
 	
+	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
 	private String codigo;
 	private String nombre;
 	private String descripcion;
@@ -20,8 +23,7 @@ public class Producto {
 		
 	}
 	
-	public Producto(String codigo, String nombre, String descripcion, double precio, String usuario) {
-		this.codigo = codigo;
+	public Producto(String nombre, String descripcion, double precio, String usuario) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
