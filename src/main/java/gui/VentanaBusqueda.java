@@ -150,7 +150,7 @@ public class VentanaBusqueda extends JFrame {
 				String nombreusuario = usuario.getUsername();
 				String nombreproducto = productos.get(list.getSelectedIndex()).getNombre();
 
-				WebTarget anadirTarget = cestaTarget.path("anadir").queryParam("Producto", nombreproducto);
+				WebTarget anadirTarget = cestaTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
 				GenericType<Boolean> genericType5 = new GenericType<Boolean>() {
 				};
 				boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
