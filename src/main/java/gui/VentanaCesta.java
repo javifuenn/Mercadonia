@@ -148,6 +148,16 @@ public class VentanaCesta extends JFrame{
 		});
 		volver.setBackground(new Color(135, 206, 250));
 		
+		JButton btnNewButton = new JButton("Pedidos Realizados");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaCompras ventana = new VentanaCompras(usuario,cantidadproductosa);
+				ventana.setVisible(true);
+				dispose();
+				
+			}
+		});
+		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -165,8 +175,12 @@ public class VentanaCesta extends JFrame{
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(50)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(volver)
-								.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(volver)
+									.addPreferredGap(ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
+									.addComponent(btnNewButton)
+									.addGap(65)))))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -181,7 +195,9 @@ public class VentanaCesta extends JFrame{
 						.addComponent(btnComprar, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnVaciarCesta, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-					.addComponent(volver)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(volver)
+						.addComponent(btnNewButton))
 					.addContainerGap())
 		);
 		getContentPane().setLayout(groupLayout);

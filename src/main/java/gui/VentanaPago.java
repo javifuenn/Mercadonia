@@ -197,7 +197,7 @@ public class VentanaPago extends JFrame {
 				else{
 					if(comboBox.getSelectedItem()=="Visa") {
 						
-						WebTarget pagoVisaTarget = pagoTarget.path("visai").queryParam("numerotarjeta",textNumeroTarjeta.getText());
+						WebTarget pagoVisaTarget = pagoTarget.path("visai").queryParam("numTarjeta",textNumeroTarjeta.getText());
 						GenericType<Visa> genericType = new GenericType<Visa>() {};
 						Visa visa = pagoVisaTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 						

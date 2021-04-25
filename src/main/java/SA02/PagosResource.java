@@ -72,6 +72,24 @@ public class PagosResource {
 		}
 		
 		  @GET
+		  @Path("pedidos")
+		  @Produces(MediaType.APPLICATION_JSON)
+		  public static List<Pedido> getPedidos(@QueryParam("nombre") String nombre) {
+		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+
+			
+			Query<Pedido> q = pm.newQuery("SELECT FROM " + Pedido.class.getName() + " WHERE nombre== '" + nombre + "'");
+			
+			List<Pedido> visa1 = q.executeList();
+			
+			
+			pm.close();
+		
+			return visa1;
+		  }
+		
+		  @GET
 		  @Path("visai")
 		  @Produces(MediaType.APPLICATION_JSON)
 		  public static Visa getUsuarioVisa(int numTarjeta) {
