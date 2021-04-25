@@ -63,6 +63,7 @@ public class VentanaPago extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget pagoTarget = appTarget.path("pagos");
+	final WebTarget cestaTarget = appTarget.path("cesta");
 
 	private JTextField textDireccion;
 
@@ -175,13 +176,20 @@ public class VentanaPago extends JFrame {
 					if(paypal.getContrasena().equals(textTitular.getText())) {
 						
 						List<String> productosCesta = new ArrayList<String>();
-						productos = CestaResource.verProductosCesta(usuario);;
+						
+						
+						WebTarget buscarTarget = cestaTarget.path("buscar").queryParam("Usuario", usuario.getUsername());
+						GenericType<List<Producto>> genericType7 = new GenericType<List<Producto>>() {
+						};
+						productos = buscarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
 						
 						for(Producto producto : productos) {
 							
 							productosCesta.add(producto.getNombre());
 							System.out.println("Llamamos a paypal"+producto.getNombre());
 						}
+						
+						
 						System.out.println("Llamamos a paypal"+paypal.getCorreo());
 						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
@@ -206,7 +214,10 @@ public class VentanaPago extends JFrame {
 								
 								List<String> productosCesta = new ArrayList<String>();
 								
-								productos = CestaResource.verProductosCesta(usuario);
+								WebTarget buscarTarget = cestaTarget.path("buscar").queryParam("Usuario", usuario.getUsername());
+								GenericType<List<Producto>> genericType7 = new GenericType<List<Producto>>() {
+								};
+								productos = buscarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
 								
 								for(Producto producto:productos) {
 									
