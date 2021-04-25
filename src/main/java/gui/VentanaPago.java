@@ -64,6 +64,7 @@ public class VentanaPago extends JFrame {
 	final WebTarget pagoTarget = appTarget.path("/pagos");
 	final WebTarget pagoPaypalTarget = pagoTarget.path("/paypali");
 	final WebTarget pagoVisaTarget = pagoTarget.path("/visai");
+	private JTextField textDireccion;
 
 	/**
 	 * Launch the application.
@@ -118,6 +119,7 @@ public class VentanaPago extends JFrame {
 					textFechaCaducidad.setText("");
 					textNumeroTarjeta.setText("");
 					textTitular.setText("");
+					textDireccion.setText("");
 					
 				break;
 				case 1:panelVisa.setVisible(true);
@@ -131,6 +133,7 @@ public class VentanaPago extends JFrame {
 					textFechaCaducidad.setText("");
 					textNumeroTarjeta.setText("");
 					textTitular.setText("");
+					textDireccion.setText("");
 				break;
 				}
 			}
@@ -174,7 +177,7 @@ public class VentanaPago extends JFrame {
 							productosCesta.add(producto.getNombre());
 						}
 						
-						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
 						
 						boolean respuesta = PagosResource.anadirPedido(pedido);
@@ -200,7 +203,7 @@ public class VentanaPago extends JFrame {
 									productosCesta.add(producto.getNombre());
 								}
 								
-								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 								
 								boolean respuesta = PagosResource.anadirPedido(pedido);
 							}
@@ -215,7 +218,7 @@ public class VentanaPago extends JFrame {
 		contentPane.add(btnPagar);
 		
 		panelVisa = new Panel();
-		panelVisa.setBounds(56, 118, 344, 250);
+		panelVisa.setBounds(56, 89, 344, 298);
 		contentPane.add(panelVisa);
 		panelVisa.setLayout(null);
 		panelVisa.setVisible(false);
@@ -259,5 +262,15 @@ public class VentanaPago extends JFrame {
 		textNumeroTarjeta.setColumns(10);
 		textNumeroTarjeta.setBounds(162, 41, 137, 19);
 		panelVisa.add(textNumeroTarjeta);
+		
+		JLabel lblDireccion = new JLabel("Dirección: ");
+		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDireccion.setBounds(10, 230, 137, 21);
+		panelVisa.add(lblDireccion);
+		
+		textDireccion = new JTextField();
+		textDireccion.setColumns(10);
+		textDireccion.setBounds(162, 233, 137, 19);
+		panelVisa.add(textDireccion);
 	}
 }

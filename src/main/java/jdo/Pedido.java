@@ -12,16 +12,18 @@ import javax.jdo.annotations.PrimaryKey;
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class Pedido {
 	
-	
+
 	private String nombre;
 	private Date fechaPago;
 	private List<String> productos;
+	private String direccion;
 	
-	public Pedido(String nombre, Date fechaPago, List<String> productos) {
+	public Pedido(String nombre, Date fechaPago, List<String> productos, String direccion) {
 		super();
 		this.nombre = nombre;
 		this.fechaPago = fechaPago;
 		this.productos = productos;
+		this.direccion = direccion;
 	}
 
 	public String getNombre() {
@@ -47,10 +49,19 @@ public class Pedido {
 	public void setProductos(List<String> productos) {
 		this.productos = productos;
 	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
 
 	@Override
 	public String toString() {
-		return "Pedido [nombre=" + nombre + ", fechaPago=" + fechaPago + ", productos=" + productos + "]";
+		return "Pedido [nombre=" + nombre + ", fechaPago=" + fechaPago + ", productos=" + productos + ", direccion="
+				+ direccion + "]";
 	}
 	
 	
