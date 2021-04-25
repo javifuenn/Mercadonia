@@ -56,6 +56,7 @@ public class VentanaAdmin extends JFrame {
 	private List<Usuario> usuarios;
 	private List<Producto> productos;
 	
+	private static Usuario usuario;
 	private JLabel lblCodigo;
 	private JLabel lblNombre;
 	private JLabel lblDescripcion;
@@ -196,14 +197,27 @@ public class VentanaAdmin extends JFrame {
 				if(aModificar.equals("usuarios") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty()) {
 					Usuario u = new Usuario(textCodigo.getText(), textNombre.getText());
 					modeloListUsuario.addElement(u);
-					WebTarget userRegTarget = userTarget.path("reg").queryParam("nick",textCodigo.getText()).queryParam("contaseña", textNombre.getText());
-					userRegTarget.request(MediaType.APPLICATION_JSON);
+					
+					WebTarget userRegTarget = userTarget.path("reg");
+					List<String> usuarioL = new ArrayList<>(); 
+					usuarioL.add(textCodigo.getText());
+					usuarioL.add(textNombre.getText());
+					userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 				}
 				else if(aModificar.equals("productos") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty() && !textDesc.getText().isEmpty() && !textprecio.getText().isEmpty()) {
 					Producto p = new Producto(textCodigo.getText(), textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), "falta meter usuario"); 
 					modeloListProducto.addElement(p);
-					WebTarget productRegTarget = productTarget.path("reg").queryParam("codigo",textCodigo.getText()).queryParam("nombre", textNombre.getText()).queryParam("descripcion", textDesc.getText()).queryParam("precio", Double.parseDouble(textprecio.getText()));
-					productRegTarget.request(MediaType.APPLICATION_JSON);
+					
+					WebTarget productInsTarget = productTarget.path("ins");
+					List<String> productoL = new ArrayList<>(); 
+					productoL.add(textCodigo.getText());
+					productoL.add(textNombre.getText());
+					productoL.add(textDesc.getText());
+					productoL.add(textprecio.getText());
+					productoL.add(usuario.getUsername());
+					productInsTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
+				}else {
+					JOptionPane.showMessageDialog(null, "Rellenar todos los campos");
 				}
 			}
 		});
