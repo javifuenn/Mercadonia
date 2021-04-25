@@ -73,7 +73,8 @@ public class ProductosResource {
 	  @POST
 	  @Path("elim")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void eliminarProducto(@QueryParam("nombre") String nombre) {
+	  public static void eliminarProducto(List<String> productoL) {
+		  String nombre = productoL.get(0);
 		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		  PersistenceManager pm = pmf.getPersistenceManager();
 		  Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class + " WHERE nombre== '" + nombre + "'");

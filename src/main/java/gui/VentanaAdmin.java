@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
@@ -26,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -164,13 +166,21 @@ public class VentanaAdmin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("usuarios")) {
 					modeloListUsuario.remove(listVer_us_pro.getSelectedIndex());
-					WebTarget userElimTarget = userTarget.path("elim").queryParam("nick", modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getUsername());
-					userElimTarget.request(MediaType.APPLICATION_JSON);
+
+					WebTarget userElimTarget = userTarget.path("elim");
+					List<String> usuarioL = new ArrayList<>(); 
+					usuarioL.add(modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getUsername());
+					usuarioL.add(modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getPassword());
+					userElimTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
+					
 				}
 				else if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("productos")) {
 					modeloListProducto.remove(listVer_us_pro.getSelectedIndex());
-					WebTarget productElimTarget = productTarget.path("elim").queryParam("nombre", modeloListProducto.get(listVer_us_pro.getSelectedIndex()).getNombre());
-					productElimTarget.request(MediaType.APPLICATION_JSON);
+					
+					WebTarget productElimTarget = productTarget.path("elim");
+					List<String> productoL = new ArrayList<>(); 
+					productoL.add(modeloListProducto.get(listVer_us_pro.getSelectedIndex()).getNombre());
+					productElimTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
 				}else {
 					JOptionPane.showMessageDialog(null, "Seleccionar un elemento antes de eliminar");
 				}
