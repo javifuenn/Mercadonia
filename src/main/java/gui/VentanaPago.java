@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import SA02.CestaResource;
 import SA02.PagosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -62,8 +63,9 @@ public class VentanaPago extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget pagoTarget = appTarget.path("pagos");
-	final WebTarget pagoPaypalTarget = pagoTarget.path("paypali");
-	final WebTarget pagoVisaTarget = pagoTarget.path("visai");
+
+	private JTextField textDireccion;
+
 
 	/**
 	 * Launch the application.
@@ -85,6 +87,8 @@ public class VentanaPago extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPago(Usuario usuarioVerificado, List<Producto> productosSeleccionados) {
+		
+		usuario=usuarioVerificado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 724, 504);
 		contentPane = new JPanel();
@@ -118,6 +122,7 @@ public class VentanaPago extends JFrame {
 					textFechaCaducidad.setText("");
 					textNumeroTarjeta.setText("");
 					textTitular.setText("");
+					textDireccion.setText("");
 					
 				break;
 				case 1:panelVisa.setVisible(true);
@@ -131,6 +136,7 @@ public class VentanaPago extends JFrame {
 					textFechaCaducidad.setText("");
 					textNumeroTarjeta.setText("");
 					textTitular.setText("");
+					textDireccion.setText("");
 				break;
 				}
 			}
@@ -159,48 +165,55 @@ public class VentanaPago extends JFrame {
 				
 				if(comboBox.getSelectedItem()=="PayPal") {
 					String correo = textNumeroTarjeta.getText();
-					pagoPaypalTarget.queryParam("correo",correo);
+					
+					WebTarget pagoPaypalTarget = pagoTarget.path("paypali").queryParam("correo",correo);
 					GenericType<Paypal> genericType = new GenericType<Paypal>() {};
 					Paypal paypal = pagoPaypalTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 					
 					
-					System.out.println("Llamamos a paypal"+paypal.getCorreo());
-					if(textTitular.getText()==paypal.getContrasena()) {
+					System.out.println("Llamamos a paypal"+paypal.getContrasena());
+					if(paypal.getContrasena().equals(textTitular.getText())) {
 						
 						List<String> productosCesta = new ArrayList<String>();
+						productos = CestaResource.verProductosCesta(usuario);;
 						
-						for(Producto producto:productos) {
+						for(Producto producto : productos) {
 							
 							productosCesta.add(producto.getNombre());
+							System.out.println("Llamamos a paypal"+producto.getNombre());
 						}
-						
-						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+						System.out.println("Llamamos a paypal"+paypal.getCorreo());
+						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
 						
-						boolean respuesta = PagosResource.anadirPedido(pedido);
+						boolean r=PagosResource.anadirPedido(pedido);
+						System.out.println(r);
 						
 					}
+					
+					
 					
 				}
 				else{
 					if(comboBox.getSelectedItem()=="Visa") {
 						
-						
-						pagoVisaTarget.queryParam("numerotarjeta",textNumeroTarjeta.getText());
+						WebTarget pagoVisaTarget = pagoTarget.path("visai").queryParam("numerotarjeta",textNumeroTarjeta.getText());
 						GenericType<Visa> genericType = new GenericType<Visa>() {};
-						Visa visa = pagoPaypalTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+						Visa visa = pagoVisaTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 						
 						if(visa.getnTarjeta()==Integer.parseInt(textNumeroTarjeta.getText())) {
 							if (visa.getCv()==Integer.parseInt(textCV.getText())) {
 								
 								List<String> productosCesta = new ArrayList<String>();
 								
+								productos = CestaResource.verProductosCesta(usuario);
+								
 								for(Producto producto:productos) {
 									
 									productosCesta.add(producto.getNombre());
 								}
 								
-								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta);
+								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 								
 								boolean respuesta = PagosResource.anadirPedido(pedido);
 							}
@@ -215,7 +228,7 @@ public class VentanaPago extends JFrame {
 		contentPane.add(btnPagar);
 		
 		panelVisa = new Panel();
-		panelVisa.setBounds(56, 118, 344, 250);
+		panelVisa.setBounds(56, 89, 344, 298);
 		contentPane.add(panelVisa);
 		panelVisa.setLayout(null);
 		panelVisa.setVisible(false);
@@ -259,5 +272,15 @@ public class VentanaPago extends JFrame {
 		textNumeroTarjeta.setColumns(10);
 		textNumeroTarjeta.setBounds(162, 41, 137, 19);
 		panelVisa.add(textNumeroTarjeta);
+		
+		JLabel lblDireccion = new JLabel("Dirección: ");
+		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDireccion.setBounds(10, 230, 137, 21);
+		panelVisa.add(lblDireccion);
+		
+		textDireccion = new JTextField();
+		textDireccion.setColumns(10);
+		textDireccion.setBounds(162, 233, 137, 19);
+		panelVisa.add(textDireccion);
 	}
 }

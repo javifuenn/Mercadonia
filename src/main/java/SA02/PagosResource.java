@@ -9,6 +9,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -32,7 +33,7 @@ public class PagosResource {
 	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		Paypal paypal = null;
+		Paypal paypal = new Paypal();
 		
 		Query<Paypal> q = pm.newQuery("SELECT FROM " + Paypal.class.getName() + " WHERE correo== '" + correo + "'");
 		
@@ -73,7 +74,7 @@ public class PagosResource {
 		  @GET
 		  @Path("visai")
 		  @Produces(MediaType.APPLICATION_JSON)
-		  public static Visa getUsuarioVisa(@QueryParam("numerotarjeta") int numTarjeta) {
+		  public static Visa getUsuarioVisa(int numTarjeta) {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 

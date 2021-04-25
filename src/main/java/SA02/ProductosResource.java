@@ -73,7 +73,8 @@ public class ProductosResource {
 	  @POST
 	  @Path("elim")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void eliminarProducto(@QueryParam("nombre") String nombre) {
+	  public static void eliminarProducto(List<String> productoL) {
+		  String nombre = productoL.get(0);
 		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		  PersistenceManager pm = pmf.getPersistenceManager();
 		  Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class + " WHERE nombre== '" + nombre + "'");
@@ -83,13 +84,19 @@ public class ProductosResource {
 	  @POST
 	  @Path("ins")
 	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void insertarProducto(@QueryParam("codigo") String codigo, @QueryParam("nombre") String nombre, @QueryParam("descripcion") String descripcion, @QueryParam("precio") double precio, @QueryParam("usuario") String usuario) {
+	  public static void insertarProducto(List<String> productoL) {
+		  String codigo = productoL.get(0);
+		  String nombre = productoL.get(1);
+		  String descripcion = productoL.get(2);
+		  String precio = productoL.get(3);
+		  String usuario = productoL.get(4);
+		  
 		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		  PersistenceManager pm = pmf.getPersistenceManager();
 		  Transaction tx = pm.currentTransaction();
 			try {
 				tx.begin();
-				Producto p = new Producto(codigo, nombre, descripcion, precio, usuario);
+				Producto p = new Producto(codigo, nombre, descripcion, Double.parseDouble(precio), usuario);
 				pm.makePersistent(p);
 				tx.commit();
 			} finally {

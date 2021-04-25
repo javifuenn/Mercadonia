@@ -93,6 +93,7 @@ public class VentanaCesta extends JFrame{
 		final JList list = new JList();
 		
 		final List<Producto> product=CestaResource.verProductosCesta(usuario);
+		productos = CestaResource.verProductosCesta(usuario);
 		final DefaultListModel<Producto> DLM = new DefaultListModel<>();
 		for(Producto p: product) {	
 			DLM.addElement(p);
@@ -107,7 +108,8 @@ public class VentanaCesta extends JFrame{
 		JButton btnComprar = new JButton("PAGAR");
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaPago ventana = new VentanaPago(usuario,productos);
+				Usuario usenv =usuario;
+				VentanaPago ventana = new VentanaPago(usenv,productos);
 				double precio = 0.0;
 				for(Producto p: product) {
 					ventana.modelProducto.addElement(p);
