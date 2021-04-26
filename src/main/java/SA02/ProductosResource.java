@@ -77,8 +77,10 @@ public class ProductosResource {
 		String nombre = productoL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query q = pm.newQuery("DELETE FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
-		q.execute();
+		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+		List<Producto> product = q.executeList();
+		pm.deletePersistentAll(product);
+		pm.close();
 	}
 
 	@POST

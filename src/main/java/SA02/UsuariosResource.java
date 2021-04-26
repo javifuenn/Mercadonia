@@ -16,6 +16,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jdo.Cesta;
 import jdo.Usuario;
 
 @Path("usuarios")
@@ -88,9 +89,10 @@ public class UsuariosResource {
 		String nick = usuarioL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-
-		Query q = pm.newQuery("DELETE FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
-		q.execute();
+		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+		List<Usuario> user = q.executeList();
+		pm.deletePersistentAll(user);
+		pm.close();
 
 	}
 

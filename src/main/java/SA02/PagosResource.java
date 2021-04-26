@@ -1,5 +1,7 @@
 package SA02;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.Extent;
@@ -46,29 +48,33 @@ public class PagosResource {
 	
 		return paypal;
 	  }
-	  
-		public static boolean anadirPedido(Pedido pedido) {
+	  	@POST
+	  	@Path("añadir")
+	  	@Produces(MediaType.APPLICATION_JSON)
+		public static void anadirPedido(List<String> pedidoL) {
+	  		String nombre = pedidoL.get(0);
+	  		String fechaPago = pedidoL.get(1);
+	  		List<String> productos = new ArrayList<String>();
+	  		for(int i = 2; i <= pedidoL.size()-1; i++) {
+	  			productos.add(pedidoL.get(i));
+	  		}
+	  		String direccion = pedidoL.get(pedidoL.size());
+	  		Date fecha = new Date();
+	  		fecha.setDate(Integer.parseInt(fechaPago));
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
-			boolean respuesta = false;
-
 			try {
 				tx.begin();
-				System.out.println("  * Storing an object: " + pedido);
-				pm.makePersistent(pedido);
+				Pedido p = new Pedido(nombre, fecha, productos, direccion);
+				pm.makePersistent(p);
 				tx.commit();
-				respuesta = true;
-
-			} catch (Exception ex) {
-				System.out.println("  $ Error storing an object: " + ex.getMessage());
 			} finally {
 				if (tx.isActive()) {
 					tx.rollback();
 				}
 				pm.close();
 			}
-			return respuesta;
 		}
 		
 		  @GET

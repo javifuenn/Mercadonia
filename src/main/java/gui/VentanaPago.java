@@ -11,6 +11,7 @@ import SA02.CestaResource;
 import SA02.PagosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
@@ -25,7 +26,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -194,8 +199,23 @@ public class VentanaPago extends JFrame {
 						Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
 						
-						boolean r=PagosResource.anadirPedido(pedido);
-						System.out.println(r);
+						WebTarget pedidoAñadirTarget = pagoTarget.path("añadir");
+						List<String> pedidoL = new ArrayList<>();
+						pedidoL.add(usuario.getUsername());
+						Calendar fecha = new GregorianCalendar();
+						int año = fecha.get(Calendar.YEAR);
+				        int mes = fecha.get(Calendar.MONTH);
+				        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+				        Date fecha2 = new Date(año, mes, dia);
+				        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				        String fechaPedido = sdf.format(fecha2);
+				        pedidoL.add(fechaPedido);
+				        for(Producto p : productos) {
+				        	pedidoL.add(p.getNombre());
+				        }
+				        pedidoL.add(textDireccion.getText());
+				        pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
+						
 						
 					}
 					
@@ -226,7 +246,22 @@ public class VentanaPago extends JFrame {
 								
 								Pedido pedido = new Pedido(usuario.getUsername(), null, productosCesta, textDireccion.getText());
 								
-								boolean respuesta = PagosResource.anadirPedido(pedido);
+								WebTarget pedidoAñadirTarget = pagoTarget.path("añadir");
+								List<String> pedidoL = new ArrayList<>();
+								pedidoL.add(usuario.getUsername());
+								Calendar fecha = new GregorianCalendar();
+								int año = fecha.get(Calendar.YEAR);
+						        int mes = fecha.get(Calendar.MONTH);
+						        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+						        Date fecha2 = new Date(año, mes, dia);
+						        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						        String fechaPedido = sdf.format(fecha2);
+						        pedidoL.add(fechaPedido);
+						        for(Producto p : productos) {
+						        	pedidoL.add(p.getNombre());
+						        }
+						        pedidoL.add(textDireccion.getText());
+						        pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
 							}
 							
 						}
