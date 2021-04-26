@@ -61,8 +61,7 @@ public class ProductosResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		Query<Producto> q = pm
-				.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
+		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
 
 		List<Producto> productos = q.executeList();
 
@@ -78,7 +77,7 @@ public class ProductosResource {
 		String nombre = productoL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+		Query q = pm.newQuery("DELETE FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
 		q.execute();
 	}
 

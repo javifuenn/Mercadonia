@@ -89,7 +89,7 @@ public class UsuariosResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		Query<Usuario> q = pm.newQuery("DELETE FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+		Query q = pm.newQuery("DELETE FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 		q.execute();
 
 	}
