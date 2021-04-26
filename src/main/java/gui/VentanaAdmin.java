@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -55,6 +56,7 @@ public class VentanaAdmin extends JFrame {
 	private DefaultListModel<Producto> modeloListProducto = new DefaultListModel<>();
 	private List<Usuario> usuarios;
 	private List<Producto> productos;
+	private Producto p;
 	
 	private static Usuario usuario;
 	private JLabel lblCodigo;
@@ -62,6 +64,7 @@ public class VentanaAdmin extends JFrame {
 	private JLabel lblDescripcion;
 	private JLabel lblPrecio;
 	private String aModificar = null;
+	private JButton btnActualizar;
 
 	/**
 	 * Launch the application.
@@ -162,7 +165,7 @@ public class VentanaAdmin extends JFrame {
 		listVer_us_pro.setBounds(10, 0, 335, 423);
 		panelVerResultados.add(listVer_us_pro);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		final JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("usuarios")) {
@@ -190,7 +193,7 @@ public class VentanaAdmin extends JFrame {
 		btnEliminar.setBounds(404, 26, 131, 39);
 		panelVerResultados.add(btnEliminar);
 		
-		JButton btnAñadir = new JButton("Añadir");
+		final JButton btnAñadir = new JButton("Añadir");
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(aModificar.equals("usuarios") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty()) {
@@ -233,6 +236,8 @@ public class VentanaAdmin extends JFrame {
 		textCodigo.setBounds(647, 114, 143, 19);
 		panelVerResultados.add(textCodigo);
 		
+		
+		
 		textNombre = new JTextField();
 		textNombre.setColumns(10);
 		textNombre.setBounds(647, 174, 143, 19);
@@ -262,5 +267,60 @@ public class VentanaAdmin extends JFrame {
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPrecio.setBounds(582, 303, 76, 32);
 		panelVerResultados.add(lblPrecio);
+	
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("usuarios")) {
+					
+					
+				}
+				else if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("productos")) {
+					p=productos.get(listVer_us_pro.getSelectedIndex());
+					textCodigo.setText(p.getCodigo());
+					textNombre.setText(p.getNombre());
+					textDesc.setText(p.getDescripcion());
+					String precio = Double.toString(p.getPrecio());
+					textprecio.setText(precio);
+					btnActualizar.setVisible(true);
+					btnEliminar.setVisible(false);
+					btnAñadir.setVisible(false);
+					
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Seleccionar un elemento antes de eliminar");
+				}
+				
+			}
+		});
+		
+		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnModificar.setBounds(659, 371, 131, 39);
+		panelVerResultados.add(btnModificar);
+		
+		btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				WebTarget productUpdateTarget = userTarget.path("update");
+				String c = p.getCodigo();
+				p.setCodigo(textCodigo.getText()+","+c);
+				p.setNombre(textNombre.getText());
+				p.setDescripcion(textDesc.getText());
+				double preci = Double.parseDouble(textprecio.getText());
+				p.setPrecio(preci);
+				productUpdateTarget.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
+				btnActualizar.setVisible(false);
+				btnEliminar.setVisible(true);
+				btnAñadir.setVisible(true);
+				
+			}
+		});
+		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnActualizar.setBounds(502, 371, 131, 39);
+		panelVerResultados.add(btnActualizar);
+		btnActualizar.setVisible(false);
 	}
 }
