@@ -11,6 +11,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import jdo.Producto;
+
 public class MandarMail {
 
 	public static int codigo;
@@ -50,7 +52,7 @@ public class MandarMail {
 
 	}
 
-	public static int mandarRespuesta(String recipiente, String mensajecuerpo) {
+	public static int mandarStockAviso(String recipiente,Producto producto) {
 		Properties propiedades = new Properties();
 
 		propiedades.put("mail.smtp.auth", "true");
@@ -67,7 +69,7 @@ public class MandarMail {
 
 		});
 
-		Message mensaje = prepararMensajeRespuesta(sesion, cuentamail, recipiente, mensajecuerpo);
+		Message mensaje = prepararMensajeRespuesta(sesion, cuentamail, recipiente, producto);
 
 		try {
 			Transport.send(mensaje);
@@ -81,37 +83,7 @@ public class MandarMail {
 
 	}
 
-	public static int mandarmail(String texto, String asunto, int idusuario) {
-		Properties propiedades = new Properties();
-
-		propiedades.put("mail.smtp.auth", "true");
-		propiedades.put("mail.smtp.starttls.enable", "true");
-		propiedades.put("mail.smtp.host", "smtp.gmail.com");
-		propiedades.put("mail.smtp.port", "587");
-
-		Session sesion = Session.getInstance(propiedades, new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-
-				return new PasswordAuthentication(cuentamail, contrasenya);
-			}
-
-		});
-
-		Message mensaje = prepararMensajeConsulta(sesion, cuentamail, texto, asunto, idusuario);
-
-		try {
-			Transport.send(mensaje);
-			mVerificado = "Mensaje enviado";
-			System.out.println(mVerificado);
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return codigo;
-
-	}
-
+	
 	private static Message prepararMensajeCodigo(Session sesion, String cuentamail, String recipiente) {
 
 		Message mensaje = new MimeMessage(sesion);
@@ -135,14 +107,14 @@ public class MandarMail {
 	}
 
 	private static Message prepararMensajeRespuesta(Session sesion, String cuentamail, String recipiente,
-			String mensajecuerpo) {
+			Producto producto) {
 
 		Message mensaje = new MimeMessage(sesion);
 		try {
 			mensaje.setFrom(new InternetAddress(cuentamail));
 			mensaje.setRecipient(Message.RecipientType.TO, new InternetAddress(recipiente));
-			mensaje.setSubject("MisMarcadoresWaterpolo ha respondido tu consulta");
-			mensaje.setText(mensajecuerpo);
+			mensaje.setSubject("Aviso de falta de stock del producto "+ producto.getNombre());
+			mensaje.setText("El producto "+ producto.getNombre() + " solo tiene "+ producto.getCantidad() + " unidades disponibles.");
 			return mensaje;
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
@@ -156,26 +128,6 @@ public class MandarMail {
 
 	}
 
-	private static Message prepararMensajeConsulta(Session sesion, String cuentamail, String texto, String asunto,
-			int idusuario) {
-		String recipiente = "mismarcadoreswaterpolo.deusto@gmail.com";
-		Message mensaje = new MimeMessage(sesion);
-		try {
-			mensaje.setFrom(new InternetAddress(cuentamail));
-			mensaje.setRecipient(Message.RecipientType.TO, new InternetAddress(recipiente));
-			mensaje.setSubject("Consulta de ID: " + idusuario + ". Asunto : " + asunto);
-			mensaje.setText(texto);
-			return mensaje;
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-
-	}
+	
 
 }
