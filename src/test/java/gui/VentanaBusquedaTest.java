@@ -1,4 +1,4 @@
-package SA02;
+package gui;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +25,7 @@ public class VentanaBusquedaTest {
 		VentanaBusqueda vent = new VentanaBusqueda(usuario);
 		List<Producto> productos = vent.busquedaProd("Manzana");
 		
-		assertEquals(listProd.get(0).getCodigo(), productos.get(0).getCodigo());
+		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 		
 	}
 

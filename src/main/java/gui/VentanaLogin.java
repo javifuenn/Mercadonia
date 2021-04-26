@@ -161,8 +161,8 @@ public class VentanaLogin extends JFrame {
 					boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
-						VentanaBusqueda window = new VentanaBusqueda(usuarios);
-						window.setVisible(true);
+						VentanaOpcion window1 = new VentanaOpcion(usuarios);
+						window1.setVisible(true);
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuario incorrecto");

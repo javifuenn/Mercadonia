@@ -1,4 +1,4 @@
-package SA02;
+package gui;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,21 +46,5 @@ public class VentanaLoginTest {
 		
 	}
 	
-	@Test
-	public void testRegistro() {
-		
-		List<Usuario> usuario1 = Arrays.asList(
-    			new Usuario("pepe", "1234"));
-		
-		WebTarget userRegTarget = userTarget.path("reg").queryParam("nick",usuario1.get(0).getUsername()).queryParam("contaseña", usuario1.get(0).getPassword());
-		userRegTarget.request(MediaType.APPLICATION_JSON);
-		
-		WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "pepe");
-		GenericType<Usuario> genericType = new GenericType<Usuario>() {};
-		Usuario usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		
-		assertEquals("pepe", usuarios.getUsername());
-		
-	}
 
 }

@@ -24,8 +24,12 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
+import jdo.Usuario;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaVentaProductos extends JFrame{
 
@@ -34,33 +38,18 @@ public class VentanaVentaProductos extends JFrame{
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget productTarget = appTarget.path("productos");
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaVentaProductos window = new VentanaVentaProductos("javi");
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public VentanaVentaProductos(final String usuario) {
-		initialize(usuario);
+	public VentanaVentaProductos(final Usuario username) {
+		initialize(username);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final String usuario) {
+	private void initialize(final Usuario usuario) {
 		
 		setBounds(100, 100, 640, 523);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +59,7 @@ public class VentanaVentaProductos extends JFrame{
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", usuario);
+		WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", usuario.getUsername());
 		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 		List<Producto> productos = productUserTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		
@@ -80,9 +69,10 @@ public class VentanaVentaProductos extends JFrame{
 	    tableModel.addColumn("Nombre");
 	    tableModel.addColumn("Descripcion");
 	    tableModel.addColumn("Precio");
+	    tableModel.addColumn("Stock");
 	    
 	    for(Producto p: productos){
-			tableModel.insertRow(0, new Object[] {p.getCodigo(), p.getNombre(), p.getDescripcion(), String.valueOf(p.getPrecio())});
+			tableModel.insertRow(0, new Object[] {p.getCodigo(), p.getNombre(), p.getDescripcion(), String.valueOf(p.getPrecio()), String.valueOf(p.getCantidad())});
 		}
 		
 		
@@ -108,5 +98,17 @@ public class VentanaVentaProductos extends JFrame{
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton.setBounds(480, 428, 116, 37);
 		panel.add(btnNewButton);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaOpcion v2 = new VentanaOpcion(usuario);
+				v2.setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVolver.setBounds(38, 428, 116, 37);
+		panel.add(btnVolver);
 	}
 }

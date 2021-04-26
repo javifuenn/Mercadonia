@@ -30,9 +30,7 @@ public class ProductosResourceTest {
 		
 	    @Before
 	    public void setUp() throws Exception {
-	        // start the server
-	        server = Main.startServer();
-	        // create the client
+	    	
 	        Client c = ClientBuilder.newClient();
 
 	        // uncomment the following line if you want to enable
@@ -41,16 +39,11 @@ public class ProductosResourceTest {
 	        // --
 	        // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
 
-	        target = c.target(Main.BASE_URI);
 		   
 	       
 	    	
 	    }
 
-	    @After
-	    public void tearDown() throws Exception {
-	        server.stop();
-	    }
 
 	    /**
 	     * Test to see that the message "Got it!" is sent in the response.
@@ -62,13 +55,13 @@ public class ProductosResourceTest {
 	    			new Producto("Lechuga", "Muy sana", 2.4, "unai",55),
 	    			new Producto("Manzana", "Deliciosa", 3, "sergio",55),
 	    			new Producto("Pan", "Recien horneado", 0.6, "javi",55));
-	    	//List<Producto> productos = ProductosResource.getProductos();
+
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
-	        assertEquals(listProd.get(0).getCodigo(), productos.get(0).getCodigo());
-	        assertEquals(listProd.get(1).getCodigo(), productos.get(1).getCodigo());
-	        assertEquals(listProd.get(2).getCodigo(), productos.get(2).getCodigo());
+	        assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
+	        assertEquals(listProd.get(1).getNombre(), productos.get(1).getNombre());
+	        assertEquals(listProd.get(2).getNombre(), productos.get(2).getNombre());
 	    }
 }
 

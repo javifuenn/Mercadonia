@@ -30,8 +30,7 @@ public class UsuariosResourceTest {
     
     @Before
     public void setUp() throws Exception {
-        // start the server
-        server = Main.startServer();
+
         // create the client
         Client c = ClientBuilder.newClient();
 
@@ -40,15 +39,9 @@ public class UsuariosResourceTest {
         // dependency on jersey-media-json module in pom.xml and Main.startServer())
         // --
         // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
-
-        target = c.target(Main.BASE_URI);
 	   	
     }
     
-    @After
-    public void tearDown() throws Exception {
-        server.stop();
-    }
     
     @Test
     public void testGetIt() {

@@ -172,9 +172,12 @@ public class VentanaBusqueda extends JFrame {
 		JButton volver = new JButton("VOLVER");
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaLogin log = new VentanaLogin();
-				log.setVisible(true);
-				setVisible(false);
+//				VentanaLogin log = new VentanaLogin();
+//				log.setVisible(true);
+//				setVisible(false);
+				VentanaOpcion v2 = new VentanaOpcion(usuario);
+				v2.setVisible(true);
+				dispose();
 			}
 		});
 		volver.setBackground(new Color(135, 206, 250));
