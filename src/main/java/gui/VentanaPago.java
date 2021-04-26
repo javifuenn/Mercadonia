@@ -227,7 +227,7 @@ public class VentanaPago extends JFrame {
 						
 						WebTarget pagoVisaTarget = pagoTarget.path("visai").queryParam("numTarjeta",textNumeroTarjeta.getText());
 						GenericType<Visa> genericType = new GenericType<Visa>() {};
-						Visa visa = pagoVisaTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+						Visa visa = pagoVisaTarget.request(MediaType.APPLICATION_JSON).get(genericType); 
 						
 						if(visa.getnTarjeta()==Integer.parseInt(textNumeroTarjeta.getText())) {
 							if (visa.getCv()==Integer.parseInt(textCV.getText())) {
