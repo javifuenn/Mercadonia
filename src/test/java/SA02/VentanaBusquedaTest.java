@@ -20,7 +20,7 @@ public class VentanaBusquedaTest {
 		
 		
 		List<Producto> listProd = Arrays.asList(
-    			new Producto("Manzana", "Deliciosa", 3, "sergio"));
+    			new Producto("Manzana", "Deliciosa", 3, "sergio",555));
 		Usuario usuario = new Usuario();
 		VentanaBusqueda vent = new VentanaBusqueda(usuario);
 		List<Producto> productos = vent.busquedaProd("Manzana");

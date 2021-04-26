@@ -44,7 +44,7 @@ public class VentanaLogin extends JFrame {
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 	private static Usuario usuarios;
-	private JLabel lblNewLabel;
+	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
@@ -105,7 +105,7 @@ public class VentanaLogin extends JFrame {
 		final JCheckBox showpass = new JCheckBox("Mostrar Contrase\u00F1a");
 		showpass.setForeground(SystemColor.textHighlight);
 		showpass.setBackground(UIManager.getColor("Button.highlight"));
-		showpass.setBounds(215, 241, 121, 23);
+		showpass.setBounds(216, 242, 121, 23);
 		getContentPane().add(showpass);
 		showpass.addActionListener(new ActionListener() {
 
@@ -141,7 +141,9 @@ public class VentanaLogin extends JFrame {
 		JButton crear = new JButton("REGISTRARSE");
 		crear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				registro(textnombre_usuario.getText(), textContraseña.getText());
+				cc.setVisible(true);
+				setVisible(false);
+
 			}
 		});
 		crear.setBackground(Color.LIGHT_GRAY);
@@ -173,13 +175,6 @@ public class VentanaLogin extends JFrame {
 		loginbtn.setBackground(SystemColor.textHighlight);
 		loginbtn.setBounds(53, 297, 284, 43);
 		contentPane.add(loginbtn);
-
-		lblNewLabel = new JLabel("BIENVENIDO!");
-		lblNewLabel.setVisible(false);
-
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 432, 350, 14);
-		contentPane.add(lblNewLabel);
 	}
 
 	public boolean login(String usuario, String contraseña) {
@@ -196,18 +191,5 @@ public class VentanaLogin extends JFrame {
 			return false;
 	}
 
-	public void registro(String usuario, String contraseña) {
-		if (!usuario.equals("") && !contraseña.equals("")) {
-			WebTarget userRegTarget = userTarget.path("reg");
-			List<String> usuarioL = new ArrayList<>(); 
-			usuarioL.add(usuario);
-			usuarioL.add(contraseña);
-			userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
-			lblNewLabel.setVisible(true);
-			
-		} else {
-			JOptionPane.showMessageDialog(null, "Introducir datos de registro");
-		}
-
-	}
+	
 }

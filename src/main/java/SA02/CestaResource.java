@@ -27,12 +27,13 @@ public class CestaResource {
 	@GET
 	@Path("anadir")
 	@Produces(MediaType.APPLICATION_JSON)
-	public static boolean anadirProductoCesta(@QueryParam("Producto") String producto,@QueryParam("Usuario") String usuario) {
+	public static boolean anadirProductoCesta(@QueryParam("Producto") String producto,
+			@QueryParam("Usuario") String usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		boolean respuesta = false;
-		
+
 		Cesta cesta = new Cesta(producto, null, usuario);
 		try {
 			tx.begin();

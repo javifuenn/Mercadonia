@@ -32,10 +32,10 @@
 			<artifactId>jersey-hk2</artifactId>
 		</dependency>
 
-		<dependency> 
-			<groupId>org.glassfish.jersey.media</groupId> 
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-binding</artifactId>
-		</dependency> 
+		</dependency>
 
 		<dependency>
 			<groupId>org.datanucleus</groupId>
@@ -73,6 +73,19 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -189,7 +202,7 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<properties>
 		<jersey.version>3.0.1</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

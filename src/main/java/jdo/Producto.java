@@ -17,17 +17,19 @@ public class Producto {
 	private String descripcion;
 	private double precio;
 	private String usuario;
+	private int cantidad;
 	
 
 	public Producto() {
 		
 	}
 	
-	public Producto(String nombre, String descripcion, double precio, String usuario) {
+	public Producto(String nombre, String descripcion, double precio, String usuario, int cantidad) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.usuario = usuario;
+		this.cantidad = cantidad;
 	}
 	
 	public String getUsuario() {
@@ -68,6 +70,15 @@ public class Producto {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public String toString() {

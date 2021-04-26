@@ -22,110 +22,112 @@ import jdo.Usuario;
 @Path("productos")
 public class ProductosResource {
 
-	  @GET
-	  @Path("all")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Producto> getProductos() {
-	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	@GET
+	@Path("all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Producto> getProductos() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		
+
 		Query<Producto> q = pm.newQuery(Producto.class);
-		
+
 		List<Producto> productos = q.executeList();
-		
+
 		pm.close();
-	
+
 		return productos;
-    }
-	  
-	  @GET
-	  @Path("nom")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Producto> getProductosNom(@QueryParam("nombre") String nombre) {
-	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	}
+
+	@GET
+	@Path("nom")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Producto> getProductosNom(@QueryParam("nombre") String nombre) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		
+
 		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
-		
+
 		List<Producto> productos = q.executeList();
-		
+
 		pm.close();
-	
+
 		return productos;
-	  }
-	  
-	  @GET
-	  @Path("user")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Producto> getProductosUser(@QueryParam("usuario") String usuario) {
-	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	}
+
+	@GET
+	@Path("user")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Producto> getProductosUser(@QueryParam("usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		
-		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
-		
+
+		Query<Producto> q = pm
+				.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
+
 		List<Producto> productos = q.executeList();
-		
+
 		pm.close();
-	
+
 		return productos;
-	  }
-	  
-	  @POST
-	  @Path("elim")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void eliminarProducto(List<String> productoL) {
-		  String nombre = productoL.get(0);
-		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-		  PersistenceManager pm = pmf.getPersistenceManager();
-		  Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
-		  q.execute();
-	  }
-	  
-	  @POST
-	  @Path("ins")
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static void insertarProducto(List<String> productoL) {
-		  String nombre = productoL.get(0);
-		  String descripcion = productoL.get(1);
-		  String precio = productoL.get(2);
-		  String usuario = productoL.get(3);
-		  
-		  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-		  PersistenceManager pm = pmf.getPersistenceManager();
-		  Transaction tx = pm.currentTransaction();
-			try {
-				tx.begin();
-				Producto p = new Producto(nombre, descripcion, Double.parseDouble(precio), usuario);
-				pm.makePersistent(p);
-				tx.commit();
-			} finally {
-				if (tx.isActive()) {
-					tx.rollback();
-				}
-				pm.close();
+	}
+
+	@POST
+	@Path("elim")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void eliminarProducto(List<String> productoL) {
+		String nombre = productoL.get(0);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query<Producto> q = pm.newQuery("DELETE FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+		q.execute();
+	}
+
+	@POST
+	@Path("ins")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void insertarProducto(List<String> productoL) {
+		String nombre = productoL.get(0);
+		String descripcion = productoL.get(1);
+		String precio = productoL.get(2);
+		String usuario = productoL.get(3);
+		String cantidad = productoL.get(4);
+
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Producto p = new Producto(nombre, descripcion, Double.parseDouble(precio), usuario,
+					Integer.parseInt(cantidad));
+			pm.makePersistent(p);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
 			}
-	  }
-	  
-	  @GET
-	  @Produces(MediaType.APPLICATION_JSON)
-	  public static List<Producto> getProductosCesta(List<Cesta> cesta) {
-	   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			pm.close();
+		}
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Producto> getProductosCesta(List<Cesta> cesta) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		List<Producto> productos;
-		
-		
-		for(Cesta cestav: cesta) {
-			
-			Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cestav.getNombreproducto() + "'");
-			
+
+		for (Cesta cestav : cesta) {
+
+			Query<Producto> q = pm.newQuery(
+					"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cestav.getNombreproducto() + "'");
+
 			List<Producto> productosv = q.executeList();
-			
-			
+
 		}
-		
+
 		pm.close();
-	
+
 		return null;
-	  }
-	  
+	}
+
 }
