@@ -11,7 +11,6 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import SA02.CestaResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
@@ -20,6 +19,7 @@ import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuario;
+import sa02.CestaResource;
 
 import javax.swing.JButton;
 import javax.swing.JList;

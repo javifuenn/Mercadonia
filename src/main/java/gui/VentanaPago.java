@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import SA02.CestaResource;
-import SA02.PagosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -21,6 +19,8 @@ import jdo.Pedido;
 import jdo.Producto;
 import jdo.Usuario;
 import jdo.Visa;
+import sa02.CestaResource;
+import sa02.PagosResource;
 
 import javax.swing.JLabel;
 import java.awt.Font;

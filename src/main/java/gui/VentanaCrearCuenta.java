@@ -22,8 +22,8 @@ import java.util.Arrays;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import SA02.MandarMail;
-import SA02.UsuariosResource;
+import sa02.MandarMail;
+import sa02.UsuariosResource;
 
 import javax.swing.JTextField;
 import java.awt.Color;

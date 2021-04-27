@@ -1,4 +1,4 @@
-package SA02;
+package sa02;
 
 import static org.junit.Assert.assertEquals;
 

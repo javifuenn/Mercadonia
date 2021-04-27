@@ -10,8 +10,6 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import SA02.CestaResource;
-import SA02.ProductosResource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -20,6 +18,8 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
+import sa02.CestaResource;
+import sa02.ProductosResource;
 
 import javax.swing.JButton;
 import javax.swing.JList;

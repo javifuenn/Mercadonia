@@ -1,4 +1,4 @@
-package SA02;
+package sa02;
 
 import java.util.*;
 import javax.mail.Authenticator;
