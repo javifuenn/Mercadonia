@@ -39,10 +39,10 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-        	mvn clean compile
-        	mvn compile datanucleus:schema-create
-        	mvn exec:java -P datos
-        	mvn exec:java
-        	mvn test
+          mvn clean compile
+          mvn compile datanucleus:schema-create
+          mvn exec:java -P datos
+          mvn exec:java
+          mvn test
         env:
           DISPLAY: ':99'
