@@ -41,10 +41,6 @@ public class ProductosResourceTest {
 	        // dependency on jersey-media-json module in pom.xml and Main.startServer())
 	        // --
 	        // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
-
-		   
-	       
-	    	
 	    }
 
 
