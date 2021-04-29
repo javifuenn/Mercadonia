@@ -42,17 +42,18 @@ Para la ejecucuión de los tests unitarios
 
     mvn test
 
+**Test GUI**
+
+Para la ejecucuión de los tests de las ventanas
+
+    mvn verify -P gui
+
 **Test Integración**
 
 Para la ejecucuión de los tests de integración
 
     mvn verify -P integration
 
-**Test GUI**
-
-Para la ejecucuión de los tests de las ventanas
-
-    mvn verify -P gui
 
 **Inicio del servidor**
 

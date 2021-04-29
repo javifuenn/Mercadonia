@@ -46,6 +46,16 @@ jobs:
       - name: Test Unitarios
         run: mvn --batch-mode --update-snapshots test 
       - name: Test Integracion
-        run: mvn --batch-mode --update-snapshots verify -P integration 
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -uroot -proot < src/main/resources/database.sql
+          mvn --batch-mode --update-snapshots exec:java -P datos
+          mvn --batch-mode --update-snapshots verify -P integration
+      - name: Test Ventanas
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -uroot -proot < src/main/resources/database.sql
+          mvn --batch-mode --update-snapshots exec:java -P datos
+          mvn --batch-mode --update-snapshots verify -P gui  
         env:
           DISPLAY: ':99'

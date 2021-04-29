@@ -27,7 +27,7 @@ import jdo.Usuario;
 @Category(IntegrationTest.class)
 public class UsuariosResourceTest {
 	
-	//@Rule public ContiPerfRule rule = new ContiPerfRule();
+		@Rule public ContiPerfRule rule = new ContiPerfRule();
 	
 	private HttpServer server;
     private WebTarget appTarget;
@@ -50,8 +50,8 @@ public class UsuariosResourceTest {
     
     
     @Test
-   // @PerfTest(invocations = 1000, threads = 40)
-    public void testGetIt() {
+    @PerfTest(invocations = 1000, threads = 40)
+    public void testGetUsuarios() {
     	
     	WebTarget userTarget = appTarget.path("usuarios");
     	WebTarget userAllTarget = userTarget.path("all");
