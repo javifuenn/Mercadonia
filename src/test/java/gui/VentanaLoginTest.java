@@ -11,7 +11,9 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import categories.IntegrationTest;
 import gui.VentanaLogin;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -20,6 +22,7 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Usuario;
 
+@Category(IntegrationTest.class)
 public class VentanaLoginTest {
 	
 	Client cliente = ClientBuilder.newClient();

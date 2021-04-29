@@ -6,13 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import categories.IntegrationTest;
 import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jdo.Producto;
 import jdo.Usuario;
 
+@Category(IntegrationTest.class)
 public class VentanaBusquedaTest {
 
 	@Test
