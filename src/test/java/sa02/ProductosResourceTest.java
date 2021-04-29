@@ -54,7 +54,6 @@ public class ProductosResourceTest {
 	     */
 	    @Test
 	    public void testGetIt() {
-	    	
 	    	WebTarget productTarget = appTarget.path("productos");
 		    WebTarget productAllTarget = productTarget.path("all");
 	    	
@@ -69,6 +68,23 @@ public class ProductosResourceTest {
 	        assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 	        assertEquals(listProd.get(1).getNombre(), productos.get(1).getNombre());
 	        assertEquals(listProd.get(2).getNombre(), productos.get(2).getNombre());
+	    }
+	    @Test
+	    public void testgetNombreProductos() {
+	    	WebTarget productTarget = appTarget.path("productos");
+		    WebTarget productNomTarget = productTarget.path("nom");
+		    
+		    List<Producto> listProd = Arrays.asList(
+	    			new Producto("Lechuga", "Muy sana", 2.4, "unai",55),
+	    			new Producto("Manzana", "Deliciosa", 3, "sergio",55),
+	    			new Producto("Pan", "Recien horneado", 0.6, "javi",55));
+		    
+		    GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+		    List<Producto> productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		    
+		    assertEquals(listProd.get(0).getNombre(), productos.get(0));
+	        assertEquals(listProd.get(1).getNombre(), productos.get(1));
+	        assertEquals(listProd.get(2).getNombre(), productos.get(2));
 	    }
 }
 
