@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import categories.GuiTest;
 import categories.IntegrationTest;
 import gui.VentanaLogin;
 import jakarta.ws.rs.client.Client;
@@ -26,7 +27,7 @@ import jakarta.ws.rs.core.MediaType;
 import jdo.Usuario;
 import sa02.Main;
 
-@Category(IntegrationTest.class)
+@Category(GuiTest.class)
 public class VentanaLoginTest {
 	
 	private HttpServer server;

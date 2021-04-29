@@ -36,6 +36,23 @@ Para introducir datos para el funcionamiento mínimo de la aplicación
 
     mvn exec:java -P datos
 
+**Test Unitarios**
+
+Para la ejecucuión de los tests unitarios
+
+    mvn test
+
+**Test Integración**
+
+Para la ejecucuión de los tests de integración
+
+    mvn verify -P integration
+
+**Test GUI**
+
+Para la ejecucuión de los tests de las ventanas
+
+    mvn verify -P gui
 
 **Inicio del servidor**
 

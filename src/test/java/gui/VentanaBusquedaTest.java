@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mockito;
 
+import categories.GuiTest;
 import categories.IntegrationTest;
 import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
@@ -24,7 +25,7 @@ import jdo.Producto;
 import jdo.Usuario;
 import sa02.Main;
 
-@Category(IntegrationTest.class)
+@Category(GuiTest.class)
 public class VentanaBusquedaTest {
 	
 	private HttpServer server;
