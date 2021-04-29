@@ -1,6 +1,7 @@
 package sa02;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ProductosResourceTest {
 		    GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 		    List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		    
-		    assertEquals(listProd.get(0).getPrecio(), producto.get(0).getPrecio());
+		    assertEquals(listProd.get(0).getNombre(), producto.get(0).getNombre());
 	    }
 	    @Test
 	    public void testgetProductosUser() {
@@ -102,12 +103,7 @@ public class ProductosResourceTest {
 	    }
 	    @Test
 	    public void testEliminarProducto() {
-	    	List<String> listProd = Arrays.asList();
-	    	listProd.add("Lechuga");
-	    	listProd.add("Muy sana");
-	    	listProd.add("2.4");
-	    	listProd.add("unai");
-	    	listProd.add("55");
+	    	List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
 	    	WebTarget productTarget = appTarget.path("productos");
 	    	WebTarget productElimTarget = productTarget.path("elim");
 	    	productElimTarget.request().post(Entity.entity(listProd, MediaType.APPLICATION_JSON));
@@ -116,7 +112,7 @@ public class ProductosResourceTest {
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
-	    	assertEquals(null, producto.get(0));
+	    	assertTrue(producto.isEmpty());
 	    }
 }
 

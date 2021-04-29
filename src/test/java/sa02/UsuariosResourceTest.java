@@ -5,9 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
+import org.databene.contiperf.PerfTest;
+import org.databene.contiperf.junit.ContiPerfRule;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -24,16 +27,16 @@ import jdo.Usuario;
 @Category(IntegrationTest.class)
 public class UsuariosResourceTest {
 	
+	//@Rule public ContiPerfRule rule = new ContiPerfRule();
+	
 	private HttpServer server;
-    private WebTarget target;
-    Client cliente = ClientBuilder.newClient();
-    final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
-	final WebTarget userTarget = appTarget.path("usuarios");
-    final WebTarget userAllTarget = userTarget.path("all");
+    private WebTarget appTarget;
+    private Client c;
     
     @Before
     public void setUp() throws Exception {
-
+    	
+    	server = Main.startServer();
         // create the client
         Client c = ClientBuilder.newClient();
 
@@ -42,20 +45,22 @@ public class UsuariosResourceTest {
         // dependency on jersey-media-json module in pom.xml and Main.startServer())
         // --
         // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
-	   	
+        appTarget = c.target(Main.BASE_URI);
     }
     
     
     @Test
+   // @PerfTest(invocations = 1000, threads = 40)
     public void testGetIt() {
+    	
+    	WebTarget userTarget = appTarget.path("usuarios");
+    	WebTarget userAllTarget = userTarget.path("all");
     	
     	List<Usuario> listUsuarios = Arrays.asList(
     			new Usuario("sergio", "1234"),
     			new Usuario("unai", "1234"),
     			new Usuario("javi", "4321"));
     			
-    	
-    	//List<Usuario> usuarios = UsuariosResource.getUsuarios();
     	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
     	List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
