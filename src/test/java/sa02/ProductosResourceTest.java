@@ -15,6 +15,7 @@ import categories.IntegrationTest;
 import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
@@ -72,7 +73,7 @@ public class ProductosResourceTest {
 	    @Test
 	    public void testgetNombreProductos() {
 	    	WebTarget productTarget = appTarget.path("productos");
-		    WebTarget productNomTarget = productTarget.path("nom");
+		    WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre", "Lechuga");
 		    
 		    List<Producto> listProd = Arrays.asList(
 	    			new Producto("Lechuga", "Muy sana", 2.4, "unai",55),
@@ -80,11 +81,42 @@ public class ProductosResourceTest {
 	    			new Producto("Pan", "Recien horneado", 0.6, "javi",55));
 		    
 		    GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
-		    List<Producto> productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		    List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		    
-		    assertEquals(listProd.get(0).getNombre(), productos.get(0));
-	        assertEquals(listProd.get(1).getNombre(), productos.get(1));
-	        assertEquals(listProd.get(2).getNombre(), productos.get(2));
+		    assertEquals(listProd.get(0).getPrecio(), producto.get(0).getPrecio());
+	    }
+	    @Test
+	    public void testgetProductosUser() {
+	    	WebTarget productTarget = appTarget.path("productos");
+	    	WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", "unai");
+	    	
+	    	List<Producto> listProd = Arrays.asList(
+	    			new Producto("Lechuga", "Muy sana", 2.4, "unai",55),
+	    			new Producto("Manzana", "Deliciosa", 3, "sergio",55),
+	    			new Producto("Pan", "Recien horneado", 0.6, "javi",55));
+	    	
+	    	 GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+	    	 List<Producto> productos = productUserTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+	    	 
+	    	 assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
+	    }
+	    @Test
+	    public void testEliminarProducto() {
+	    	List<String> listProd = Arrays.asList();
+	    	listProd.add("Lechuga");
+	    	listProd.add("Muy sana");
+	    	listProd.add("2.4");
+	    	listProd.add("unai");
+	    	listProd.add("55");
+	    	WebTarget productTarget = appTarget.path("productos");
+	    	WebTarget productElimTarget = productTarget.path("elim");
+	    	productElimTarget.request().post(Entity.entity(listProd, MediaType.APPLICATION_JSON));
+	    	
+	    	WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre", "Lechuga");
+	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
+	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+	    	
+	    	assertEquals(null, producto.get(0));
 	    }
 }
 
