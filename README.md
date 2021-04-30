@@ -54,6 +54,11 @@ Para la ejecucuión de los tests de integración
 
     mvn verify -P integration
 
+**Code coverage (JaCoCo)**
+
+Generación de reporte de la cobertura de los test en HTML
+
+    mvn jacoco:report
 
 **Inicio del servidor**
 
