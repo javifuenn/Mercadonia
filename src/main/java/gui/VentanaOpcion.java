@@ -34,7 +34,7 @@ public class VentanaOpcion extends JFrame{
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaBusqueda window = new VentanaBusqueda(usuario);
+				VentanaBusqueda2 window = new VentanaBusqueda2(usuario);
 				window.setVisible(true);
 				dispose();
 			}

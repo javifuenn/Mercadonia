@@ -152,7 +152,7 @@ public class VentanaCesta extends JFrame {
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario us = usuario;
-				VentanaBusqueda vb = new VentanaBusqueda(us);
+				VentanaBusqueda2 vb = new VentanaBusqueda2(us);
 				vb.setVisible(true);
 				setVisible(false);
 			}
