@@ -54,7 +54,8 @@ public class VentanaBusqueda2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaBusqueda2 frame = new VentanaBusqueda2(usuario);
+					Usuario u = new Usuario();
+					VentanaBusqueda2 frame = new VentanaBusqueda2(u);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -123,7 +124,6 @@ public class VentanaBusqueda2 extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				productos = busquedaProd(textBuscador.getText());
-				tableModel.addRow(new Object[]{"Column 1", "Column 2", "Column 3"});
 				for (Producto p : productos) {
 					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getPrecio(), p.getCantidad()});
 				}

@@ -55,7 +55,8 @@ public class VentanaBusqueda extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaBusqueda window = new VentanaBusqueda(usuario);
+					Usuario u = new Usuario();
+					VentanaBusqueda window = new VentanaBusqueda(u);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
