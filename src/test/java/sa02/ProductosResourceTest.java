@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import categories.IntegrationTest;
-import gui.VentanaBusqueda;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -21,7 +20,6 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
-import jdo.Usuario;
 
 @Category(IntegrationTest.class)
 public class ProductosResourceTest {
@@ -126,6 +124,10 @@ public class ProductosResourceTest {
 	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
 	    	assertTrue(!producto.isEmpty());
+	    	
+	    }
+	    @Test
+	    public void testUpdateProducto() {
 	    	
 	    }
 }
