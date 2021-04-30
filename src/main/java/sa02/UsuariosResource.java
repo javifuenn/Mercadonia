@@ -85,7 +85,7 @@ public class UsuariosResource {
 	@POST
 	@Path("elim")
 	@Produces(MediaType.APPLICATION_JSON)
-	public static void eliminarusuario(List<String> usuarioL) {
+	public static void eliminarUsuario(List<String> usuarioL) {
 		String nick = usuarioL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
