@@ -4,6 +4,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.io.File;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -16,6 +22,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 
 import jakarta.ws.rs.client.Client;
@@ -25,11 +34,15 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Locale;
 
 public class VentanaVentaProductos extends JFrame{
 
@@ -77,13 +90,13 @@ public class VentanaVentaProductos extends JFrame{
 		
 		
 		JScrollPane scroll = new JScrollPane(table);
-		scroll.setBounds(97, 57, 425, 351);
+		scroll.setBounds(38, 57, 425, 351);
 		panel.add(scroll);
 		
 		JLabel lblNewLabel = new JLabel("Tus Productos");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(156, 10, 283, 37);
+		lblNewLabel.setBounds(93, 10, 283, 37);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Añadir");
@@ -110,5 +123,74 @@ public class VentanaVentaProductos extends JFrame{
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVolver.setBounds(38, 428, 116, 37);
 		panel.add(btnVolver);
+
+		final JButton btnCrearOferta = new JButton("Crear oferta");
+		btnCrearOferta.setEnabled(false);
+		
+		final JButton btnGenFactura = new JButton("Generar reporte");
+		btnGenFactura.setEnabled(false);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent event) {
+				btnGenFactura.setEnabled(true);
+				btnCrearOferta.setEnabled(true);
+			}
+		});
+		btnGenFactura.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnGenFactura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int column = 0;
+				int row = table.getSelectedRow();
+				String value = table.getModel().getValueAt(row, column).toString();
+				/*
+				try {
+					InputStream plantilla = getClass().getResourceAsStream("/FGFactura.jrxml");
+					JasperDesign jd = JRXmlLoader.load(plantilla);
+					HashMap param = new HashMap();
+					param.put("id_fac", id_factura);
+					JasperReport jr = JasperCompileManager.compileReport(jd);
+					JasperPrint jp = JasperFillManager.fillReport(jr, param, conn);
+					File home = FileSystemView.getFileSystemView().getHomeDirectory();
+
+					Month month = LocalDate.now().getMonth();
+					String mes = month.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+					File file = new File(home.getAbsolutePath() + "/FACTURAS/" + anyo + "/" + mes);
+					boolean dirCreated = file.mkdirs();
+					System.out.println(dirCreated);
+
+					Date date = new Date();
+					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+					JasperExportManager.exportReportToPdfFile(jp, home.getAbsolutePath() +"/FACTURAS/" + anyo + "/" + mes + "/Factura" + " " + id_factura + " - " + f.getCliente().getNombre() + ".pdf");
+
+					if (f.getCliente().getEmail().equals("")) {
+						System.out.println("No se enviará ningún correo");
+					} else {
+						EnviarMail.EnviarMail(f, home.getAbsolutePath() +"/FACTURAS/" + anyo + "/" + mes + "/Factura" + " " + id_factura + " - " + f.getCliente().getNombre() + ".pdf");
+					}
+					//Para imprimir
+					//JasperViewer jv = new JasperViewer(jp, false);
+					//jv.setVisible(true);
+				} catch (JRException | JRException ex) {
+					System.out.println(ex);
+				}
+				*/
+			}
+		});
+		btnGenFactura.setBounds(220, 418, 185, 27);
+		panel.add(btnGenFactura);
+		
+		
+		btnCrearOferta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCrearOferta.setBounds(490, 55, 106, 21);
+		panel.add(btnCrearOferta);
+		btnCrearOferta.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			int column = 0;
+			int row = table.getSelectedRow();
+			
+			dispose();
+			}
+		});
+			
 	}
 }
