@@ -49,10 +49,11 @@ public class UsuariosResource {
 		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 
 		List<Usuario> usuariosl = q.executeList();
-
-		usuarios = usuariosl.get(0);
-
-		System.out.println(usuarios);
+		
+		if(!usuariosl.isEmpty()) 
+			usuarios = usuariosl.get(0);
+		
+		//System.out.println(usuarios);
 
 		pm.close();
 

@@ -41,7 +41,6 @@ public class UsuariosResourceTest {
     	server = Main.startServer();
         // create the client
         Client c = ClientBuilder.newClient();
-
         // uncomment the following line if you want to enable
         // support for JSON in the client (you also have to uncomment
         // dependency on jersey-media-json module in pom.xml and Main.startServer())
@@ -50,18 +49,23 @@ public class UsuariosResourceTest {
         appTarget = c.target(Main.BASE_URI);
     }
     
+    @After
+    public void tearDown() throws Exception {
+        server.stop();
+    }
+    
     
     @Test
-    @PerfTest(invocations = 1000, threads = 40)
+    @PerfTest(invocations = 100, threads = 40)
     public void testGetUsuarios() {
     	
     	WebTarget userTarget = appTarget.path("usuarios");
     	WebTarget userAllTarget = userTarget.path("all");
     	
     	List<Usuario> listUsuarios = Arrays.asList(
-    			new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es"),
     			new Usuario("unai", "1234","email"),
-    			new Usuario("javi", "4321","email"));
+    			new Usuario("javi", "4321","email"),
+    			new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es"));
     			
     	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
     	List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
@@ -72,7 +76,7 @@ public class UsuariosResourceTest {
     }
     
     @Test
-    @PerfTest(invocations = 1000, threads = 40)
+    @PerfTest(invocations = 100, threads = 40)
     public void testgetUsuariosLogin() {
     	WebTarget userTarget = appTarget.path("usuarios");
     	WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "sergio");
@@ -81,28 +85,28 @@ public class UsuariosResourceTest {
     			new Usuario("sergio", "1234", "sergiosanchezprieto@opendeusto.es"),
     			new Usuario("unai", "1234","email"),
     			new Usuario("javi", "4321","email"));
-    	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-    	List<Usuario> usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	GenericType<Usuario> genericType = new GenericType<Usuario>() {};
+    	Usuario usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
-    	assertEquals(listUsuarios.get(0).getUsername(), usuario.get(0).getUsername());
+    	assertEquals(listUsuarios.get(0).getUsername(), usuario.getUsername());
     	
     }
     @Test
-    @PerfTest(invocations = 1000, threads = 40)
+    @PerfTest(invocations = 100, threads = 40)
     public void testInsertarUsuario() {
     	WebTarget userTarget = appTarget.path("usuarios");
     	WebTarget userRegTarget = userTarget.path("reg");
-    	List<String> listuser = Arrays.asList("juan", "1111");
+    	List<String> listuser = Arrays.asList("sergio", "1234", "sergiosanchezprieto@opendeusto.es");
     	userRegTarget.request().post(Entity.entity(listuser, MediaType.APPLICATION_JSON));
     	
-    	WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "juan");
-    	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-    	List<Usuario> usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "sergio");
+    	GenericType <Usuario> genericType = new GenericType <Usuario>() {};
+    	Usuario usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
-    	assertTrue(!usuario.isEmpty());
+    	assertEquals("sergio", usuario.getUsername());
     }
     @Test
-    @PerfTest(invocations = 1000, threads = 40)
+    @PerfTest(invocations = 100, threads = 40)
     public void testEliminarUsuario() {
     	List<String> listuser = Arrays.asList("sergio", "1234");
     	WebTarget userTarget = appTarget.path("usuarios");
@@ -110,14 +114,14 @@ public class UsuariosResourceTest {
     	userElimTarget.request().post(Entity.entity(listuser, MediaType.APPLICATION_JSON));
     	
     	WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", "sergio");
-    	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
-    	List<Usuario> usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	GenericType<Usuario> genericType = new GenericType<Usuario>() {};
+    	Usuario usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
-    	assertTrue(usuario.isEmpty());
+    	assertEquals(null, usuario);
     	
     }
     @Test
-    @PerfTest(invocations = 1000, threads = 40)
+    @PerfTest(invocations = 100, threads = 40)
     public void testNomCheck() {
     	WebTarget userTarget = appTarget.path("usuarios");
     	WebTarget userNomCheckTarget = userTarget.path("nomcheck").queryParam("nick", "unai");
