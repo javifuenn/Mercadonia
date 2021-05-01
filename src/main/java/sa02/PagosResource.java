@@ -102,7 +102,7 @@ public class PagosResource {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 
-			Visa visa = null;
+			Visa visa = new Visa();
 			
 			Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE nTarjeta== '" + numTarjeta + "'");
 			

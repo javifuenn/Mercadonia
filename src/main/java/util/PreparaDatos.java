@@ -51,6 +51,7 @@ public class PreparaDatos {
 			List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
 			Pedido pedido = new Pedido("sergio", new Date(121,3,4), listProd, "universidad");
 			pm.makePersistent(pedido);
+			
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {

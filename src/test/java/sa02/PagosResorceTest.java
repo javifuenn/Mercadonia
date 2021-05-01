@@ -79,26 +79,27 @@ public class PagosResorceTest {
    	 	assertEquals(pedido.getNombre(), pedidos.get(0).getNombre());
     }
     
-   /* @Test
-    public void testAñadirPedido() {
-    	WebTarget pagosTarget = appTarget.path("pagos");
-    	WebTarget pagosAñadirTarget = pagosTarget.path("añadir");
-    	Date fecha2 = new Date(121,3,4);
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	String fechaPedido = sdf.format(fecha2);
-    	List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
-    	List<String> pedidoL = Arrays.asList("juan", fechaPedido, listProd.get(0), listProd.get(1), listProd.get(2), listProd.get(3),listProd.get(4),"universidad");
-    	pagosAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
-    	
-    	
-    	WebTarget pagosPedidosTarget = pagosTarget.path("pedidos").queryParam("nombre", "juan");
-    	GenericType<List<Pedido>> genericType = new GenericType<List<Pedido>>() {};
-   	 	List<Pedido> pedidos = pagosPedidosTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-   	 	
-   	 	System.out.println(pedidos.get(0));
-   	 	assertEquals("Lechuga", pedidos.get(0).getProductos().get(0));
-    	
-    }
+//    @Test
+//    public void testAñadirPedido() {
+//    	WebTarget pagosTarget = appTarget.path("pagos");
+//    	WebTarget pagosAñadirTarget = pagosTarget.path("añadir");
+//    	Date fecha2 = new Date(121,3,4);
+//    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//    	String fechaPedido = sdf.format(fecha2);
+//    	List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
+//    	List<String> pedidoL = Arrays.asList("juan", fechaPedido, listProd.get(0), listProd.get(1), listProd.get(2), listProd.get(3),listProd.get(4),"universidad");
+//    	pagosAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
+//    	
+//    	
+//    	WebTarget pagosPedidosTarget = pagosTarget.path("pedidos").queryParam("nombre", "juan");
+//    	GenericType<List<Pedido>> genericType = new GenericType<List<Pedido>>() {};
+//   	 	List<Pedido> pedidos = pagosPedidosTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+//   	 	
+//   	 	System.out.println(pedidos.get(0));
+//   	 	assertEquals(pedidoL.get(2), pedidos.get(0).getProductos().get(0));
+//    	
+//    }
+    
     @Test
     public void testgetUsuarioVisa() {
     	WebTarget pagosTarget = appTarget.path("pagos");
@@ -110,6 +111,6 @@ public class PagosResorceTest {
 		 Visa visa = pagosVisaiTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		    
 		 assertEquals(listVisa.get(0).getnTarjeta(), visa.getnTarjeta());
-    }*/
+    }
 
 }

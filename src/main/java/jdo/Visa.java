@@ -21,6 +21,9 @@ public class Visa {
 		this.cv = cv;
 		this.fCaducidad = fCaducidad;
 	}
+public Visa() {
+		
+	}
 
 	public int getnTarjeta() {
 		return nTarjeta;
