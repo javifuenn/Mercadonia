@@ -98,7 +98,7 @@ public class PagosResource {
 		  @GET
 		  @Path("visai")
 		  @Produces(MediaType.APPLICATION_JSON)
-		  public static Visa getUsuarioVisa(int numTarjeta) {
+		  public static Visa getUsuarioVisa(@QueryParam("numTarjeta") int numTarjeta) {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 

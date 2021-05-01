@@ -1,6 +1,10 @@
 package util;
 
 
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -8,6 +12,7 @@ import javax.jdo.Transaction;
 
 import jdo.Cesta;
 import jdo.Paypal;
+import jdo.Pedido;
 import jdo.Producto;
 import jdo.Usuario;
 import jdo.Visa;
@@ -43,6 +48,9 @@ public class PreparaDatos {
 			Visa visa = new Visa(123456789, "Jon", 123, "nunca");
 			pm.makePersistent(visa);
 			
+			List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
+			Pedido pedido = new Pedido("sergio", new Date(121,3,4), listProd, "universidad");
+			pm.makePersistent(pedido);
 			tx.commit();
 		} finally {
 			if (tx.isActive()) {
