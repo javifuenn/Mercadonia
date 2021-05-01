@@ -103,7 +103,7 @@ public class PagosResorceTest {
     @Test
     public void testgetUsuarioVisa() {
     	WebTarget pagosTarget = appTarget.path("pagos");
-    	WebTarget pagosVisaiTarget = pagosTarget.path("visai").queryParam("nTarjeta", 123456789);
+    	WebTarget pagosVisaiTarget = pagosTarget.path("visai").queryParam("titular", "Jon");
     	 List<Visa> listVisa = Arrays.asList(
 	    			new Visa(123456789, "Jon", 123, "nunca"));
     	 
