@@ -141,15 +141,13 @@ public class ProductosResource {
 	@Path("update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public static void modificarProducto(Producto p) {
-
-		String[] parts = p.getCodigo().split(",");
-		p.setCodigo(parts[0]);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '" + p.getCodigo()
-				+ "', nombre== '" + p.getNombre() + "',descripcion== '" + p.getDescripcion() + "',precio== '"
-				+ p.getPrecio() + "',  WHERE codigo== '" + parts[1] + "'");
+		System.out.println(p.getDescripcion());
+		Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET nombre= '" + p.getNombre() + "',descripcion= '"
+				+ p.getDescripcion() + "' ,precio= " + p.getPrecio() + " WHERE codigo= " + p.getCodigo());
 		q.execute();
+
 	}
 
 	@POST

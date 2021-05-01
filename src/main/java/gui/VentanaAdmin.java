@@ -304,9 +304,9 @@ public class VentanaAdmin extends JFrame {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				WebTarget productUpdateTarget = userTarget.path("update");
+				WebTarget productUpdateTarget = productTarget.path("update");
 				String c = p.getCodigo();
-				p.setCodigo(textCodigo.getText()+","+c);
+				p.setCodigo(textCodigo.getText());
 				p.setNombre(textNombre.getText());
 				p.setDescripcion(textDesc.getText());
 				double preci = Double.parseDouble(textprecio.getText());
