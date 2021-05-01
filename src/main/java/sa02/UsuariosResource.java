@@ -65,12 +65,13 @@ public class UsuariosResource {
 	public static void insertarUsuario(List<String> usuarioL) {
 		String nick = usuarioL.get(0);
 		String contraseña = usuarioL.get(1);
+		String email = usuarioL.get(2);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Usuario usuario1 = new Usuario(nick, contraseña);
+			Usuario usuario1 = new Usuario(nick, contraseña,email);
 			pm.makePersistent(usuario1);
 			tx.commit();
 		} finally {

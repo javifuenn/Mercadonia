@@ -197,7 +197,7 @@ public class VentanaAdmin extends JFrame {
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(aModificar.equals("usuarios") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty()) {
-					Usuario u = new Usuario(textCodigo.getText(), textNombre.getText());
+					Usuario u = new Usuario(textCodigo.getText(), textNombre.getText(), "email-null");
 					modeloListUsuario.addElement(u);
 					
 					WebTarget userRegTarget = userTarget.path("reg");
