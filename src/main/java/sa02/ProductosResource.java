@@ -152,6 +152,17 @@ public class ProductosResource {
 		q.execute();
 	}
 
+	@POST
+	@Path("modifprecio")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void modificarPrecio(Producto p) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET precio= "
+				+ p.getPrecio() + " WHERE codigo= '" + p.getCodigo() + "'");
+		q.execute();
+	}
+
 	@SuppressWarnings("unchecked")
 	@POST
 	@Path("comprar")

@@ -1,45 +1,25 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.GridLayout;
-import java.io.File;
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import java.awt.BorderLayout;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.table.DefaultTableModel;
-
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
 
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaVentaProductos extends JFrame{
 
@@ -181,11 +161,32 @@ public class VentanaVentaProductos extends JFrame{
 		btnCrearOferta.setBounds(490, 55, 106, 21);
 		panel.add(btnCrearOferta);
 		btnCrearOferta.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			int column = 0;
-			int row = table.getSelectedRow();
-			
-			dispose();
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+
+				String descuento = JOptionPane.showInputDialog(null, "Porcentaje de descuento:", "%");
+				int porc = descuento.indexOf('%');
+				StringBuilder sb = new StringBuilder(descuento);
+				sb.setCharAt(porc, ' ');
+				descuento = sb.toString();
+				double porcentaje = Double.parseDouble(descuento) * 0.01;
+				System.out.println(porcentaje);
+				if (!(descuento.equals(" "))) {
+					Producto p = new Producto();
+					p.setCodigo(table.getModel().getValueAt(row, 0).toString());
+					p.setNombre(table.getModel().getValueAt(row, 1).toString());
+					p.setDescripcion(table.getModel().getValueAt(row, 2).toString());
+					p.setPrecio(Double.parseDouble(table.getModel().getValueAt(row, 3).toString()) * porcentaje);
+					p.setUsuario("");
+					p.setCantidad(Integer.parseInt(table.getModel().getValueAt(row, 4).toString()));
+					JOptionPane.showMessageDialog(null, p);
+
+					WebTarget productInsTarget = productTarget.path("modifprecio");
+					productInsTarget.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
+					JOptionPane.showMessageDialog(null, "Descuento aplicado!");
+				} else {
+					JOptionPane.showMessageDialog(null, "Introduce un porcentaje válido");
+				}
 			}
 		});
 			
