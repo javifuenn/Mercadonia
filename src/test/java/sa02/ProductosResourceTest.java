@@ -117,7 +117,7 @@ public class ProductosResourceTest {
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
-	    	assertTrue(producto.isEmpty());
+	    	assertEquals(null, producto);
 	    }
 	    @Test
 	    @PerfTest(invocations = 1000, threads = 40)
@@ -131,11 +131,7 @@ public class ProductosResourceTest {
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
-	    	assertTrue(!producto.isEmpty());
-	    	
-	    }
-	    @Test
-	    public void testUpdateProducto() {
+	    	assertEquals("Zanahoria", producto.get(0).getNombre());
 	    	
 	    }
 }

@@ -62,10 +62,10 @@ public class PagosResorceTest {
     	 List<Paypal> listPedidos = Arrays.asList(
 	    			new Paypal("correo", "1234"));
     	 
-    	 GenericType<List<Paypal>> genericType = new GenericType<List<Paypal>>() {};
-		 List<Paypal> Paypal = pagosPaypaliTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		    
-		 assertEquals(listPedidos.get(0).getCorreo(), Paypal.get(0).getCorreo());
+    	 GenericType<Paypal> genericType = new GenericType<Paypal>() {};
+		 Paypal paypal = pagosPaypaliTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		 
+		 assertEquals(listPedidos.get(0).getCorreo(), paypal.getCorreo());
     }
     @Test
     public void testgetPedido() {
@@ -95,7 +95,7 @@ public class PagosResorceTest {
     	GenericType<List<Pedido>> genericType = new GenericType<List<Pedido>>() {};
    	 	List<Pedido> pedidos = pagosPedidosTarget.request(MediaType.APPLICATION_JSON).get(genericType);
    	 	
-   	 	assertTrue(!pedidos.isEmpty());
+   	 	assertEquals("Lechuga", pedidos.get(0).getProductos().get(0));
     	
     }
     @Test
@@ -105,10 +105,10 @@ public class PagosResorceTest {
     	 List<Visa> listVisa = Arrays.asList(
 	    			new Visa(123456789, "Jon", 123, "nunca"));
     	 
-    	 GenericType<List<Visa>> genericType = new GenericType<List<Visa>>() {};
-		 List<Visa> visa = pagosVisaiTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	 GenericType<Visa> genericType = new GenericType<Visa>() {};
+		 Visa visa = pagosVisaiTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		    
-		 assertEquals(listVisa.get(0).getnTarjeta(), visa.get(0).getnTarjeta());
+		 assertEquals(listVisa.get(0).getnTarjeta(), visa.getnTarjeta());
     }
 
 }
