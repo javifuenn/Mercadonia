@@ -56,7 +56,7 @@ public class ProductosResourceTest {
 	     * Test to see that the message "Got it!" is sent in the response.
 	     */
 	    @Test
-	    @PerfTest(invocations = 1000, threads = 40)
+	    @PerfTest(invocations = 100, threads = 40)
 	    public void testGetIt() {
 	    	WebTarget productTarget = appTarget.path("productos");
 		    WebTarget productAllTarget = productTarget.path("all");
@@ -74,7 +74,7 @@ public class ProductosResourceTest {
 	        assertEquals(listProd.get(2).getNombre(), productos.get(2).getNombre());
 	    }
 	    @Test
-	    @PerfTest(invocations = 1000, threads = 40)
+	    @PerfTest(invocations = 100, threads = 40)
 	    public void testgetNombreProductos() {
 	    	WebTarget productTarget = appTarget.path("productos");
 		    WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre", "Lechuga");
@@ -90,7 +90,7 @@ public class ProductosResourceTest {
 		    assertEquals(listProd.get(0).getNombre(), producto.get(0).getNombre());
 	    }
 	    @Test
-	    @PerfTest(invocations = 1000, threads = 40)
+	    @PerfTest(invocations = 100, threads = 40)
 	    public void testgetProductosUser() {
 	    	WebTarget productTarget = appTarget.path("productos");
 	    	WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", "unai");
@@ -106,7 +106,7 @@ public class ProductosResourceTest {
 	    	 assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 	    }
 	    @Test
-	    @PerfTest(invocations = 1000, threads = 40)
+	    @PerfTest(invocations = 100, threads = 40)
 	    public void testEliminarProducto() {
 	    	List<String> listProd = Arrays.asList("Lechuga", "Muy sana", "2.4", "unai", "55" );
 	    	WebTarget productTarget = appTarget.path("productos");
@@ -117,10 +117,10 @@ public class ProductosResourceTest {
 	    	GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 	    	List<Producto> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 	    	
-	    	assertEquals(null, producto);
+	    	assertTrue(producto.isEmpty());
 	    }
 	    @Test
-	    @PerfTest(invocations = 1000, threads = 40)
+	    @PerfTest(invocations = 100, threads = 40)
 	    public void testInsertarProducto() {
 	    	WebTarget productTarget = appTarget.path("productos");
 	    	WebTarget productInsTarget = productTarget.path("ins");
