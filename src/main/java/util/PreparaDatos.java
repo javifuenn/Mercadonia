@@ -35,11 +35,11 @@ public class PreparaDatos {
 			Producto prod3 = new Producto("Pan", "Recien horneado", 0.6, "javi", 75);
 			pm.makePersistent(prod3);
 
-			Usuario usuario1 = new Usuario("sergio", "1234");
+			Usuario usuario1 = new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es");
 			pm.makePersistent(usuario1);
-			Usuario usuario2 = new Usuario("unai", "1234");
+			Usuario usuario2 = new Usuario("unai", "1234","null");
 			pm.makePersistent(usuario2);
-			Usuario usuario3 = new Usuario("javi", "4321");
+			Usuario usuario3 = new Usuario("javi", "4321","null");
 			pm.makePersistent(usuario3);
 			
 			Paypal paypal = new Paypal("correo", "1234");

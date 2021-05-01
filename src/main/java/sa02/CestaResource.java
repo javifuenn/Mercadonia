@@ -70,6 +70,38 @@ public class CestaResource {
 		pm.close();
 
 	}
+	
+	@POST
+	@Path("comprar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void comprarProductos(Producto producto) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Query<Producto> q = pm.newQuery(
+				"UPDATE " + Producto.class.getName() + " SET CANTIDAD == CANTIDAD - " + producto.getCantidad() + "   WHERE Nombre == '"+ producto.getNombre() +"'");
+
+		List<Producto> cestav = q.executeList();
+
+		
+		
+		Query<Producto> stock =  pm.newQuery(
+				"SELECT CANTIDAD FROM " + Producto.class.getName() + "  WHERE Nombre == '"+ producto.getNombre() +"'");
+		
+		//int cantidad = stock.execute();
+
+		
+		
+		
+		
+		
+		pm.deletePersistentAll(cestav);
+		pm.close();
+
+	}
+	
+	
+
+	
 
 	@GET
 	@Path("buscar")

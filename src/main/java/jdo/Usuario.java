@@ -10,10 +10,12 @@ public class Usuario {
 	
 	private String username;
 	private String password;
+	private String email;
 	
-	public Usuario(String Usuario, String password) {
+	public Usuario(String Usuario, String password, String email) {
 		this.username = Usuario;
 		this.password = password;
+		this.email = email;
 	}
 
 	public Usuario() {
@@ -36,6 +38,16 @@ public class Usuario {
 		this.password = password;
 	}
 	
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuarios [username=" + username + ", password=" + password + "]";

@@ -63,7 +63,7 @@ public class VentanaLoginTest {
 	    WebTarget userAllTarget = userTarget.path("all");
 		
 		List<Usuario> usuario1 = Arrays.asList(
-    			new Usuario("sergio", "1234"));
+    			new Usuario("sergio", "1234", "sergiosanchezprieto@opendeusto.es"));
 		VentanaLogin vent = new VentanaLogin();
 		boolean result = vent.login("sergio", "1234");
 		boolean comp = false;

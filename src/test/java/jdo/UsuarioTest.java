@@ -15,7 +15,7 @@ public class UsuarioTest {
 	
 	@Before
     public void crearusuario() {
-        u = new Usuario("sergio", "1234");
+        u = new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es");
     }
 	
 	@Test
