@@ -34,9 +34,6 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
