@@ -18,3 +18,5 @@ target/
 
 #Datanucleus
 datanucleus.log
+
+*.pdf

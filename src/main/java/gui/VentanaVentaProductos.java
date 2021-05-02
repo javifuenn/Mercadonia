@@ -1,5 +1,7 @@
 package gui;
 
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -10,6 +12,14 @@ import jdo.Producto;
 import jdo.Usuario;
 import jdo.VentaProducto;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -19,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class VentanaVentaProductos extends JFrame{
@@ -143,42 +154,26 @@ public class VentanaVentaProductos extends JFrame{
 		btnGenFactura.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnGenFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int column = 0;
 				int row = table.getSelectedRow();
-				String value = table.getModel().getValueAt(row, column).toString();
-				/*
+				Document document = new Document();
 				try {
-					InputStream plantilla = getClass().getResourceAsStream("/FGFactura.jrxml");
-					JasperDesign jd = JRXmlLoader.load(plantilla);
-					HashMap param = new HashMap();
-					param.put("id_fac", id_factura);
-					JasperReport jr = JasperCompileManager.compileReport(jd);
-					JasperPrint jp = JasperFillManager.fillReport(jr, param, conn);
-					File home = FileSystemView.getFileSystemView().getHomeDirectory();
-
-					Month month = LocalDate.now().getMonth();
-					String mes = month.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-					File file = new File(home.getAbsolutePath() + "/FACTURAS/" + anyo + "/" + mes);
-					boolean dirCreated = file.mkdirs();
-					System.out.println(dirCreated);
-
-					Date date = new Date();
-					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
-					JasperExportManager.exportReportToPdfFile(jp, home.getAbsolutePath() +"/FACTURAS/" + anyo + "/" + mes + "/Factura" + " " + id_factura + " - " + f.getCliente().getNombre() + ".pdf");
-
-					if (f.getCliente().getEmail().equals("")) {
-						System.out.println("No se enviará ningún correo");
-					} else {
-						EnviarMail.EnviarMail(f, home.getAbsolutePath() +"/FACTURAS/" + anyo + "/" + mes + "/Factura" + " " + id_factura + " - " + f.getCliente().getNombre() + ".pdf");
-					}
-					//Para imprimir
-					//JasperViewer jv = new JasperViewer(jp, false);
-					//jv.setVisible(true);
-				} catch (JRException | JRException ex) {
-					System.out.println(ex);
+					PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(
+							"Producto " + table.getModel().getValueAt(row, 0).toString() + ".pdf"));
+					document.open();
+					document.add(new Paragraph("MERCADONIA - Producto"));
+					document.add(new Paragraph("Producto: " + table.getModel().getValueAt(row, 1).toString()));
+					document.add(new Paragraph("Descripcion: " + table.getModel().getValueAt(row, 2).toString()));
+					document.add(new Paragraph("Precio: " + table.getModel().getValueAt(row, 3).toString() + "€"));
+					document.add(new Paragraph("Stock: " + table.getModel().getValueAt(row, 4).toString()));
+					document.close();
+					writer.close();
+					JOptionPane.showMessageDialog(null, "Archivo creado");
+				} catch (DocumentException ex) {
+					ex.printStackTrace();
+				} catch (FileNotFoundException e2) {
+					e2.printStackTrace();
 				}
-				*/
+
 			}
 		});
 		btnGenFactura.setBounds(220, 418, 185, 27);
@@ -208,7 +203,6 @@ public class VentanaVentaProductos extends JFrame{
 					p.setPrecio(Double.parseDouble(table.getModel().getValueAt(row, 3).toString()) * porcentaje);
 					p.setUsuario("");
 					p.setCantidad(Integer.parseInt(table.getModel().getValueAt(row, 4).toString()));
-					JOptionPane.showMessageDialog(null, p);
 
 					WebTarget productInsTarget = productTarget.path("modifprecio");
 					productInsTarget.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
