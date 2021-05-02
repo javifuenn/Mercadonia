@@ -104,13 +104,11 @@ public class PagosResorceTest {
     public void testgetUsuarioVisa() {
     	WebTarget pagosTarget = appTarget.path("pagos");
     	WebTarget pagosVisaiTarget = pagosTarget.path("visai").queryParam("titular", "Jon");
-    	 List<Visa> listVisa = Arrays.asList(
-	    			new Visa(123456789, "Jon", 123, "nunca"));
-    	 
-    	 GenericType<Visa> genericType = new GenericType<Visa>() {};
-		 Visa visa = pagosVisaiTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	Visa visaObj = new Visa(123456789, "Jon", 123, "nunca");
+    	GenericType<Visa> genericType = new GenericType<Visa>() {};
+		Visa visa = pagosVisaiTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		    
-		 assertEquals(listVisa.get(0).getnTarjeta(), visa.getnTarjeta());
+		assertEquals(visaObj.getnTarjeta(), visa.getnTarjeta());
     }
 
 }
