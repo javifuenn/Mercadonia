@@ -107,7 +107,7 @@ public class PagosResorceTest {
    	 	List<Pedido> pedidos = pagosPedidosTarget.request(MediaType.APPLICATION_JSON).get(genericType);
    	 	
    	 	System.out.println(pedidos.get(0));
-   	 	assertEquals(pedidoL.get(2), pedidos.get(0).getProductos().get(0));
+   	 	assertEquals(pedidoL.get(0), pedidos.get(0).getNombre());
     	
     }
     
