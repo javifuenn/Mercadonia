@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
+import jdo.VentaProducto;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -26,6 +27,7 @@ public class VentanaVentaProductos extends JFrame{
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget productTarget = appTarget.path("productos");
+	final WebTarget ventasTarget = appTarget.path("ventasproductos");
 
 
 	/**
@@ -63,8 +65,30 @@ public class VentanaVentaProductos extends JFrame{
 	    for(Producto p: productos){
 			tableModel.insertRow(0, new Object[] {p.getCodigo(), p.getNombre(), p.getDescripcion(), String.valueOf(p.getPrecio()), String.valueOf(p.getCantidad())});
 		}
-		
-		
+
+
+		final JButton btnVendidos = new JButton("Mostrar vendidos");
+
+		btnVendidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int column = 0;
+				int row = table.getSelectedRow();
+				String value = table.getModel().getValueAt(row, column).toString();
+				System.out.println(value);
+
+				WebTarget ventasUserTarget = ventasTarget.path("producto").queryParam("producto", value);
+				GenericType<List<VentaProducto>> genericVentas = new GenericType<List<VentaProducto>>() {};
+				List<VentaProducto> prod = ventasUserTarget.request(MediaType.APPLICATION_JSON).get(genericVentas);
+
+				VentanaNumVentas vnv = new VentanaNumVentas(prod.get(0));
+				vnv.setVisible(true);
+			}
+		});
+
+
+
+
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(38, 57, 425, 351);
 		panel.add(scroll);
@@ -74,6 +98,12 @@ public class VentanaVentaProductos extends JFrame{
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(93, 10, 283, 37);
 		panel.add(lblNewLabel);
+		
+		btnVendidos.setEnabled(false);
+		btnVendidos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnVendidos.setBounds(473, 102, 143, 27);
+		panel.add(btnVendidos);
+		
 		
 		JButton btnNewButton = new JButton("Añadir");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -109,6 +139,7 @@ public class VentanaVentaProductos extends JFrame{
 			public void valueChanged(ListSelectionEvent event) {
 				btnGenFactura.setEnabled(true);
 				btnCrearOferta.setEnabled(true);
+				btnVendidos.setEnabled(true);
 			}
 		});
 		btnGenFactura.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -159,6 +190,8 @@ public class VentanaVentaProductos extends JFrame{
 		btnCrearOferta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCrearOferta.setBounds(490, 55, 106, 21);
 		panel.add(btnCrearOferta);
+		
+		
 		btnCrearOferta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
