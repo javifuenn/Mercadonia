@@ -19,6 +19,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
+import jdo.Producto;
 import jdo.Usuario;
 import jdo.VentaProducto;
 
@@ -49,17 +50,16 @@ public class ventaProductosResource {
         server.stop();
     }
     
-    @Test
-    public void testgetVentaProducto() {
-    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
-    	
-    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
-    	
-    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
-    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-    	
-    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
-    }
-
+//    @Test
+//    public void testgetVentaProducto() {
+//    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+//    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
+//    	
+//    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
+//    	
+//    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+//    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+//    	
+//    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
+//    }
 }
