@@ -72,16 +72,14 @@ public class VentanaVentaProductos extends JFrame{
 		btnVendidos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int column = 0;
 				int row = table.getSelectedRow();
-				String value = table.getModel().getValueAt(row, column).toString();
-				System.out.println(value);
+				String value = table.getModel().getValueAt(row, 0).toString();
 
-				WebTarget ventasUserTarget = ventasTarget.path("producto").queryParam("producto", value);
+				WebTarget ventasUserTarget = ventasTarget.path("cod").queryParam("codigo", value);
 				GenericType<List<VentaProducto>> genericVentas = new GenericType<List<VentaProducto>>() {};
 				List<VentaProducto> prod = ventasUserTarget.request(MediaType.APPLICATION_JSON).get(genericVentas);
-
-				VentanaNumVentas vnv = new VentanaNumVentas(prod.get(0));
+				String prod_name = table.getModel().getValueAt(row, 1).toString();
+				VentanaNumVentas vnv = new VentanaNumVentas(prod.get(0), prod_name);
 				vnv.setVisible(true);
 			}
 		});

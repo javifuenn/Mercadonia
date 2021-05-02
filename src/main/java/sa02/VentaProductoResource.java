@@ -39,19 +39,19 @@ public class VentaProductoResource {
     }
 
     @GET
-    @Path("prod")
+    @Path("cod")
     @Produces(MediaType.APPLICATION_JSON)
-    public static List<VentaProducto> getVentasProd(@QueryParam("producto") String producto) {
+    public static List<VentaProducto> getProductosNom(@QueryParam("codigo") String codigo) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
 
-        Query<VentaProducto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE producto== '" + producto + "'");
+        Query<VentaProducto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
 
-        List<VentaProducto> ventas = q.executeList();
+        List<VentaProducto> productos = q.executeList();
 
         pm.close();
 
-        return ventas;
+        return productos;
     }
 
     @GET
