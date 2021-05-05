@@ -309,5 +309,8 @@
 		<jersey.version>3.0.1</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<config.files.dir>${basedir}/src/main/resources</config.files.dir>
+		<sonar.projectKey>javifuenn_SPQ-Mercadonia</sonar.projectKey>
+		<sonar.organization>paesoestanramon</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 </project>
