@@ -72,6 +72,7 @@ public class VentanaPago extends JFrame {
 	final WebTarget productosTarget = appTarget.path("productos");
 
 	private JTextField textDireccion;
+	private JTextField textCupon;
 
 	/**
 	 * Launch the application.
@@ -157,12 +158,12 @@ public class VentanaPago extends JFrame {
 
 		lblPrecio = new JLabel("Precio:");
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPrecio.setBounds(461, 366, 59, 21);
+		lblPrecio.setBounds(461, 409, 59, 21);
 		contentPane.add(lblPrecio);
 
 		textPrecio = new JTextField();
 		textPrecio.setColumns(10);
-		textPrecio.setBounds(524, 369, 137, 19);
+		textPrecio.setBounds(524, 412, 137, 19);
 		contentPane.add(textPrecio);
 
 		JButton btnPagar = new JButton("PAGAR");
@@ -339,5 +340,15 @@ public class VentanaPago extends JFrame {
 		textDireccion.setColumns(10);
 		textDireccion.setBounds(162, 233, 137, 19);
 		panelVisa.add(textDireccion);
+		
+		JLabel lblCupon = new JLabel("Cupon:");
+		lblCupon.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCupon.setBounds(461, 368, 59, 21);
+		contentPane.add(lblCupon);
+		
+		textCupon = new JTextField();
+		textCupon.setColumns(10);
+		textCupon.setBounds(524, 371, 137, 19);
+		contentPane.add(textCupon);
 	}
 }
