@@ -11,6 +11,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
 import jdo.Cesta;
+import jdo.Cupon;
 import jdo.Paypal;
 import jdo.Pedido;
 import jdo.Producto;
@@ -58,6 +59,13 @@ public class PreparaDatos {
 			
 			VentaProducto vp1 = new VentaProducto("Manzana", "unai", 2);
 			pm.makePersistent(vp1);
+			
+			Cupon cupon1 = new Cupon("descuento10", 10, "sergio");
+			pm.makePersistent(cupon1);
+			
+			Cupon cupon2 = new Cupon("descuento40", 40, "unai");
+			pm.makePersistent(cupon2);
+			
 			
 			tx.commit();
 		} finally {
