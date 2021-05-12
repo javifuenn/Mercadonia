@@ -4,13 +4,32 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jdo.Resenya;
+
 import javax.swing.JTextArea;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaResenya extends JFrame{
+	
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget resenyaTarget = appTarget.path("resenya");
 
 	/**
 	 * Launch the application.
@@ -19,7 +38,7 @@ public class VentanaResenya extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaResenya window = new VentanaResenya();
+					VentanaResenya window = new VentanaResenya("Manzana", "unai");
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,14 +50,14 @@ public class VentanaResenya extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public VentanaResenya() {
-		initialize();
+	public VentanaResenya(String producto, String usuario) {
+		initialize(producto, usuario);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final String producto, final String usuario) {
 		setBounds(100, 100, 634, 420);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -48,12 +67,7 @@ public class VentanaResenya extends JFrame{
 		lblNewLabel.setBounds(241, 10, 131, 39);
 		getContentPane().add(lblNewLabel);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("1");
-		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rdbtnNewRadioButton.setBounds(38, 172, 103, 21);
-		getContentPane().add(rdbtnNewRadioButton);
-		
-		JLabel lblNewLabel_1 = new JLabel("Producto");
+		JLabel lblNewLabel_1 = new JLabel(producto);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(263, 59, 75, 13);
 		getContentPane().add(lblNewLabel_1);
@@ -68,27 +82,39 @@ public class VentanaResenya extends JFrame{
 		lblNewLabel_1_1_1.setBounds(38, 124, 167, 31);
 		getContentPane().add(lblNewLabel_1_1_1);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("2");
+		final JRadioButton rdbtnNewRadioButton = new JRadioButton("1");
+		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnNewRadioButton.setBounds(38, 172, 103, 21);
+		getContentPane().add(rdbtnNewRadioButton);
+		
+		final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("2");
 		rdbtnNewRadioButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtnNewRadioButton_1.setBounds(38, 194, 103, 21);
 		getContentPane().add(rdbtnNewRadioButton_1);
 		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("3");
+		final JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("3");
 		rdbtnNewRadioButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtnNewRadioButton_2.setBounds(38, 215, 103, 21);
 		getContentPane().add(rdbtnNewRadioButton_2);
 		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("4");
+		final JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("4");
 		rdbtnNewRadioButton_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtnNewRadioButton_3.setBounds(38, 238, 103, 21);
 		getContentPane().add(rdbtnNewRadioButton_3);
 		
-		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("5");
+		final JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("5");
 		rdbtnNewRadioButton_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtnNewRadioButton_4.setBounds(38, 261, 103, 21);
 		getContentPane().add(rdbtnNewRadioButton_4);
 		
-		JTextArea textArea = new JTextArea();
+		ButtonGroup group = new ButtonGroup();
+		group.add(rdbtnNewRadioButton);
+		group.add(rdbtnNewRadioButton_1);
+		group.add(rdbtnNewRadioButton_2);
+		group.add(rdbtnNewRadioButton_3);
+		group.add(rdbtnNewRadioButton_4);
+		
+		final JTextArea textArea = new JTextArea();
 		textArea.setBounds(337, 152, 220, 171);
 		getContentPane().add(textArea);
 		
@@ -98,6 +124,37 @@ public class VentanaResenya extends JFrame{
 		getContentPane().add(lblNewLabel_1_1_2);
 		
 		JButton btnNewButton = new JButton("Añadir");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (textArea.getText().isEmpty() || (!rdbtnNewRadioButton.isSelected()&&!rdbtnNewRadioButton_1.isSelected()&&!rdbtnNewRadioButton_2.isSelected()&&!rdbtnNewRadioButton_3.isSelected()&&!rdbtnNewRadioButton_4.isSelected())) {
+					JOptionPane.showMessageDialog(null, "Faltan Campos por Rellenar");
+				}else {
+					int cal;
+					if (rdbtnNewRadioButton.isSelected()) {
+						cal = 1;
+					} else if (rdbtnNewRadioButton_1.isSelected()) {
+						cal = 2;
+					}else if (rdbtnNewRadioButton_2.isSelected()) {
+						cal = 3;
+					}else if (rdbtnNewRadioButton_3.isSelected()) {
+						cal = 4;
+					}else {
+						cal = 5;
+					}
+					
+					Resenya res = new Resenya(producto, usuario, cal, textArea.getText());
+					List<String> resenya = new ArrayList<>();
+					resenya.add(res.getProducto());
+					resenya.add(res.getUsuario());
+					resenya.add(String.valueOf(res.getCalificacion()));
+					resenya.add(res.getOpinion());
+					WebTarget productInsTarget = resenyaTarget.path("add");
+					productInsTarget.request().post(Entity.entity(resenya, MediaType.APPLICATION_JSON));
+					JOptionPane.showMessageDialog(null, "Reseña Añadida Correctamente");
+				}
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.setBounds(253, 341, 85, 21);
 		getContentPane().add(btnNewButton);

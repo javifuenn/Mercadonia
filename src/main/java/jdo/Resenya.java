@@ -54,8 +54,8 @@ public class Resenya {
 	
 	@Override
 	public String toString() {
-		return "Reseña [producto=" + producto + ", usuario=" + usuario + "calificacion, =" + calificacion + 
-				"opinion, =" + opinion + "]";
+		return "Reseña [producto=" + producto + ", usuario=" + usuario + ", calificacion =" + calificacion + 
+				", opinion =" + opinion + "]";
 	}
 	
 
