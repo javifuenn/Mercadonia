@@ -11,6 +11,8 @@ import javax.jdo.annotations.PrimaryKey;
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class Producto {
 	
+	
+
 	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
 	private String codigo;
 	private String nombre;
@@ -18,6 +20,7 @@ public class Producto {
 	private double precio;
 	private String usuario;
 	private int cantidad;
+	private boolean enOferta;
 	
 
 	public Producto() {
@@ -30,6 +33,14 @@ public class Producto {
 		this.precio = precio;
 		this.usuario = usuario;
 		this.cantidad = cantidad;
+	}
+	public Producto(String nombre, String descripcion, double precio, String usuario, int cantidad, boolean enOferta) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.usuario = usuario;
+		this.cantidad = cantidad;
+		this.enOferta = enOferta;
 	}
 	
 	public String getUsuario() {
@@ -79,6 +90,13 @@ public class Producto {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+	public boolean isEnOferta() {
+		return enOferta;
+	}
+
+	public void setEnOferta(boolean enOferta) {
+		this.enOferta = enOferta;
 	}
 
 	public String toString() {

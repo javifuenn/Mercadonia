@@ -36,6 +36,12 @@ public class PreparaDatos {
 			pm.makePersistent(prod2);
 			Producto prod3 = new Producto("Pan", "Recien horneado", 0.6, "javi", 75);
 			pm.makePersistent(prod3);
+			Producto prod4 = new Producto("Tomate", "Recien cocinado", 0.9, "javi", 75);
+			pm.makePersistent(prod4);
+			Producto prod5 = new Producto("Carne", "Recien cortada", 13, "unai", 75, true);
+			pm.makePersistent(prod5);
+			Producto prod6 = new Producto("Patatas", "Para freir", 1.1, "javi", 75, true);
+			pm.makePersistent(prod6);
 
 			Usuario usuario1 = new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es");
 			pm.makePersistent(usuario1);

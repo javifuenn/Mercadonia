@@ -11,7 +11,7 @@ public class ProductoTest {
 	
 	@Before
 	public void crearProducto() {
-		p = new Producto("Lechuga", "Rica", 2.3, "javi", 20);
+		p = new Producto("Lechuga", "Rica", 2.3, "javi", 20, true);
 	}
 	
 	@Test
@@ -37,6 +37,10 @@ public class ProductoTest {
 	@Test
 	public void testGetCantidad() {
 		assertEquals(20, p.getCantidad());
+	}
+	@Test
+	public void testGetEnOferta() {
+		assertEquals(true, p.isEnOferta());
 	}
 	
 	@Test
@@ -67,6 +71,11 @@ public class ProductoTest {
 	public void testSetCantidad() {
 		p.setCantidad(10);
 		assertEquals(10, p.getCantidad());
+	}
+	@Test
+	public void testSetEnOferta() {
+		p.setEnOferta(false);
+		assertEquals(false, p.isEnOferta());
 	}
 	
 }

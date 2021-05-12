@@ -38,6 +38,7 @@ public class VentanaBusqueda2 extends JFrame {
 	private static Usuario usuario;
 	private static int cantidad;
 	private static List<Producto> productos;
+	private JButton btnVerOfertas;
 	
 	private JButton btnCesta;
 	
@@ -69,6 +70,9 @@ public class VentanaBusqueda2 extends JFrame {
 		initialize();
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public VentanaBusqueda2(Usuario usuarioValidado, int cantidadproductosa) {
 		usuario = usuarioValidado;
 		initialize();
@@ -77,7 +81,7 @@ public class VentanaBusqueda2 extends JFrame {
 	public List<Producto> busquedaProd(String producto) {
 		List<Producto> productos = null;
 
-		if (producto.equals("")) {
+		if (producto.equals("") || btnVerOfertas.isSelected()) {
 			GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {
 			};
 			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
@@ -104,7 +108,7 @@ public class VentanaBusqueda2 extends JFrame {
 		cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 672, 576);
+		setBounds(100, 100, 745, 576);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -125,7 +129,7 @@ public class VentanaBusqueda2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				productos = busquedaProd(textBuscador.getText());
 				for (Producto p : productos) {
-					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getPrecio(), p.getCantidad()});
+					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
 				}
 			}
 		});
@@ -175,17 +179,17 @@ public class VentanaBusqueda2 extends JFrame {
 				}
 			}
 		});
-		btnAñadir.setBounds(255, 468, 146, 32);
+		btnAñadir.setBounds(283, 468, 146, 32);
 		btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnAñadir);
 		
 		
-		btnCesta.setBounds(523, 468, 91, 32);
+		btnCesta.setBounds(564, 468, 91, 32);
 		btnCesta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnCesta);
 		
 		JScrollPane scroll = new JScrollPane((Component) null);
-		scroll.setBounds(87, 109, 455, 295);
+		scroll.setBounds(87, 109, 527, 295);
 		contentPane.add(scroll);
 		
 		table = new JTable((TableModel) null);
@@ -193,8 +197,26 @@ public class VentanaBusqueda2 extends JFrame {
 		tableModel.addColumn("Codigo");
 	    tableModel.addColumn("Nombre");
 	    tableModel.addColumn("Descripcion");
-	    tableModel.addColumn("Precio");
 	    tableModel.addColumn("Stock");
+	    tableModel.addColumn("Precio");
 		scroll.setViewportView(table);
+		
+		btnVerOfertas = new JButton("Ofertas del dia");
+		btnVerOfertas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(int i = 0; i< tableModel.getRowCount(); i++) {
+					tableModel.removeRow(i);
+				}
+				tableModel.addColumn("Nuevo precio");
+				for(Producto p : productos) {
+					if(p.isEnOferta()==true) {
+						tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio(), p.getPrecio()*0.6});
+					}
+				}
+			}
+		});
+		btnVerOfertas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnVerOfertas.setBounds(564, 43, 132, 21);
+		contentPane.add(btnVerOfertas);
 	}
 }
