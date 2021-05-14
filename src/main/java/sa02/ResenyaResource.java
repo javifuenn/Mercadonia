@@ -5,12 +5,16 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jdo.Producto;
 import jdo.Resenya;
 
 @Path("resenya")
@@ -40,5 +44,21 @@ public class ResenyaResource {
 			}
 			pm.close();
 		}
+	}
+	
+	@GET
+	@Path("nom")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Resenya> getResenya(@QueryParam("producto") String producto) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		Query<Resenya> q = pm.newQuery("SELECT FROM " + Resenya.class.getName() + " WHERE producto== '" + producto + "'");
+
+		List<Resenya> resenyas = q.executeList();
+
+		pm.close();
+
+		return resenyas;
 	}
 }

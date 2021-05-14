@@ -15,6 +15,7 @@ import jdo.Cupon;
 import jdo.Paypal;
 import jdo.Pedido;
 import jdo.Producto;
+import jdo.Resenya;
 import jdo.Usuario;
 import jdo.VentaProducto;
 import jdo.Visa;
@@ -75,6 +76,8 @@ public class PreparaDatos {
 			Cesta cesta = new Cesta("Manzana",null,"unai");
 			pm.makePersistent(cesta);
 			
+			Resenya resenya = new Resenya("Lechuga", "unai", 4, "Estaba bien");
+			pm.makePersistent(resenya);
 			
 			tx.commit();
 		} finally {

@@ -1,5 +1,6 @@
 Proyecto Mercadonia
 ===============================
+![java ci workflow](https://github.com/javifuenn/SPQ-Mercadonia/actions/workflows/java-ci.yml/badge.svg)
 
 Configuración
 ------------- 
