@@ -1,7 +1,10 @@
 package sa02;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.databene.contiperf.junit.ContiPerfRule;
@@ -65,4 +68,38 @@ public class CestaResorceTest {
     	assertTrue(producto.isEmpty());
     	
     }
+    
+    
+    @Test
+	public void testverProdcutosCesta() {
+		WebTarget cestaTarget = appTarget.path("cesta");
+		WebTarget abuscarTarget = cestaTarget.path("buscar").queryParam("Usuario", "unai");
+
+		List<Producto> listCesta = Arrays.asList(new Producto("Manzana", "Deliciosa", 3, "sergio", 90));
+
+		GenericType<ArrayList<Producto>> genericType = new GenericType<ArrayList<Producto>>() {
+		};
+		ArrayList<Producto> cesta = abuscarTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+		assertEquals(listCesta.get(0).getNombre(), cesta.get(0).getNombre());
+		assertEquals(listCesta.get(0).getCantidad(), cesta.get(0).getCantidad());
+		assertEquals(listCesta.get(0).getDescripcion(), cesta.get(0).getDescripcion());
+		assertEquals(listCesta.get(0).getUsuario(), cesta.get(0).getUsuario());
+	}
+
+	@Test
+	public void testContador() throws InterruptedException {
+		Thread.sleep(2000);
+		WebTarget cestaTarget = appTarget.path("cesta");
+		WebTarget contarTarget = cestaTarget.path("contar").queryParam("Usuario", "unai");
+
+		int contado = 1;
+
+		GenericType<Integer> genericType = new GenericType<Integer>() {
+		};
+		int contar = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+		assertEquals(contado, contar);
+
+	}
 }
