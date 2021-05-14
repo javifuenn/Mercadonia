@@ -72,6 +72,9 @@ public class PreparaDatos {
 			Cupon cupon2 = new Cupon("descuento40", 40, "unai");
 			pm.makePersistent(cupon2);
 			
+			Cesta cesta = new Cesta("Manzana",null,"unai");
+			pm.makePersistent(cesta);
+			
 			
 			tx.commit();
 		} finally {
