@@ -82,7 +82,6 @@ public class CestaResorceTest {
 		ArrayList<Producto> cesta = abuscarTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 
 		assertEquals(listCesta.get(0).getNombre(), cesta.get(0).getNombre());
-		assertEquals(listCesta.get(0).getCantidad(), cesta.get(0).getCantidad());
 		assertEquals(listCesta.get(0).getDescripcion(), cesta.get(0).getDescripcion());
 		assertEquals(listCesta.get(0).getUsuario(), cesta.get(0).getUsuario());
 	}
