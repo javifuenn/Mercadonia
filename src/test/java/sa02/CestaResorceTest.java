@@ -52,6 +52,19 @@ public class CestaResorceTest {
     public void tearDown() throws Exception {
         server.stop();
     }
+    
+    @Test
+    public void testAñadirProductoCesta() {
+    	WebTarget cestaTarget = appTarget.path("cesta");
+    	Producto p = new Producto("peras", "muy dulces", 0.5, "unai", 10);
+    	WebTarget cestaAñadirTarget = cestaTarget.path("anadir").queryParam("Producto", p.getNombre()).queryParam("Usuario", "sergio");
+    	
+    	GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
+		boolean respuesta = cestaAñadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
+		
+		assertEquals(true, respuesta);
+    	
+    }
 
     
     @Test
