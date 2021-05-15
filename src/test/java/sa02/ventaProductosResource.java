@@ -75,4 +75,17 @@ public class ventaProductosResource {
 //		 
 //		 assertEquals(prod1.getNombre(), producto.get(0).getProducto());
 //    }
+    
+    @Test
+    public void testGetProductosUser() {
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
+    	
+    	VentaProducto vp1 = new VentaProducto("Manzana", "unai", 2);
+    	
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+    	assertEquals(vp1.getUsuario(), producto.get(0).getUsuario());
+    }
 }
