@@ -50,16 +50,29 @@ public class ventaProductosResource {
         server.stop();
     }
     
+//    @Test
+//    public void testgetVentaProducto() {
+//    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+//    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
+//    	
+//    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
+//    	
+//    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+//    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+//    	
+//    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
+//    }
+    
     @Test
-    public void testgetVentaProducto() {
+    public void testGetProductosNom() {
     	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
+    	WebTarget ventaProductosCodTarget = ventaProductosTarget.path("cod").queryParam("codigo", "1");
     	
-    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
+    	Producto prod1 = new Producto("Lechuga", "Muy sana", 2.4, "unai", 6);
     	
-    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
-    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-    	
-    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
+    	 GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		 List<VentaProducto> producto = ventaProductosCodTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		 
+		 assertEquals(prod1.getNombre(), producto.get(0).getProducto());
     }
 }
