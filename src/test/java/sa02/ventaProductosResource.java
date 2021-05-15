@@ -1,6 +1,7 @@
 package sa02;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.junit.experimental.categories.Category;
 import categories.IntegrationTest;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
@@ -87,5 +89,21 @@ public class ventaProductosResource {
 		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 
     	assertEquals(vp1.getUsuario(), producto.get(0).getUsuario());
+    }
+    
+    @Test
+    public void testEliminarProducto() {
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosElimTarget = ventaProductosTarget.path("elim");
+    	List<String> listVentaProd = Arrays.asList("unai");
+    	ventaProductosElimTarget.request().post(Entity.entity(listVentaProd, MediaType.APPLICATION_JSON));
+    	
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		assertTrue(producto.isEmpty());
+    	
+    	
     }
 }
