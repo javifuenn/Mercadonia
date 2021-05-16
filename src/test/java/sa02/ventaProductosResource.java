@@ -103,7 +103,18 @@ public class ventaProductosResource {
 		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		
 		assertTrue(producto.isEmpty());
+    }
+    @Test
+    public void testInsertarProducto() {
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosInsTarget = ventaProductosTarget.path("ins");
+    	List<String> listVentaProd = Arrays.asList("cacerolas", "pepe", "4");
+    	ventaProductosInsTarget.request().post(Entity.entity(listVentaProd, MediaType.APPLICATION_JSON));
     	
-    	
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "pepe");
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		assertEquals(listVentaProd.get(0), producto.get(0).getProducto());
     }
 }
