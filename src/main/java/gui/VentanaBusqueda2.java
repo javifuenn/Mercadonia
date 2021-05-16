@@ -134,7 +134,7 @@ public class VentanaBusqueda2 extends JFrame {
 				for (Producto p : productos) {
 					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
 				}
-				if(table.getColumnCount() == 5) {
+				if(table.getColumnCount() == 6) {
 					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 				
@@ -222,9 +222,6 @@ public class VentanaBusqueda2 extends JFrame {
 					if(p.isEnOferta() == true) {
 						tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio(), p.getPrecio()*0.6});
 					}
-				}
-				if(table.getColumnCount() == 5) {
-					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 			}
 		});
