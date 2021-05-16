@@ -214,7 +214,7 @@ public class VentanaBusqueda2 extends JFrame {
 				for(int i = 0; i< tableModel.getRowCount(); i++) {
 					tableModel.removeRow(i);
 				}
-				if(table.getColumnCount() == 4) {
+				if(table.getColumnCount() == 5) {
 					tableModel.addColumn("Nuevo precio");
 				}
 				productos = busquedaProd(textBuscador.getText());
