@@ -127,11 +127,14 @@ public class VentanaBusqueda2 extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for(int i = 0; i< tableModel.getRowCount(); i++) {
+					tableModel.removeRow(i);
+				}
 				productos = busquedaProd(textBuscador.getText());
 				for (Producto p : productos) {
 					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
 				}
-				if(table.getColumnCount() == 5) {
+				if(table.getColumnCount() == 6) {
 					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 				
@@ -213,7 +216,7 @@ public class VentanaBusqueda2 extends JFrame {
 				}
 				tableModel.addColumn("Nuevo precio");
 				for(Producto p : productos) {
-					if(p.isEnOferta()==true) {
+					if(p.isEnOferta()) {
 						tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio(), p.getPrecio()*0.6});
 					}
 				}
