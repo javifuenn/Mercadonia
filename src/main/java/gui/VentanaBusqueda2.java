@@ -215,10 +215,14 @@ public class VentanaBusqueda2 extends JFrame {
 					tableModel.removeRow(i);
 				}
 				tableModel.addColumn("Nuevo precio");
+				productos = busquedaProd(textBuscador.getText());
 				for(Producto p : productos) {
 					if(p.isEnOferta()) {
 						tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio(), p.getPrecio()*0.6});
 					}
+				}
+				if(table.getColumnCount() == 6) {
+					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 			}
 		});
