@@ -131,6 +131,10 @@ public class VentanaBusqueda2 extends JFrame {
 				for (Producto p : productos) {
 					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
 				}
+				if(table.getColumnCount() == 5) {
+					table.removeColumn(table.getColumnModel().getColumn(5));
+				}
+				
 			}
 		});
 		btnBuscar.setBounds(443, 43, 85, 21);
