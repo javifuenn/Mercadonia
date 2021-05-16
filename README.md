@@ -1,6 +1,6 @@
 Proyecto Mercadonia
 ===============================
-![java ci workflow](https://github.com/javifuenn/SPQ-Mercadonia/actions/workflows/java-CI.yml/badge.svg)
+![java ci workflow](https://github.com/javifuenn/SPQ-Mercadonia/actions/workflows/java-CI.yml/badge.svg)    [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=javifuenn_SPQ-Mercadonia&metric=code_smells)](https://sonarcloud.io/dashboard?id=javifuenn_SPQ-Mercadonia)
 
 Configuración
 ------------- 
