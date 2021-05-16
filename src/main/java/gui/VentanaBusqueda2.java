@@ -223,6 +223,9 @@ public class VentanaBusqueda2 extends JFrame {
 						tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio(), p.getPrecio()*0.6});
 					}
 				}
+				if(table.getColumnCount() == 6) {
+					table.removeColumn(table.getColumnModel().getColumn(5));
+				}
 			}
 		});
 		btnVerOfertas.setFont(new Font("Tahoma", Font.PLAIN, 14));
