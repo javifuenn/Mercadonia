@@ -127,6 +127,7 @@ public class VentanaBusqueda2 extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(table.getColumnCount());
 				for(int i = 0; i< tableModel.getRowCount(); i++) {
 					tableModel.removeRow(i);
 				}
@@ -135,6 +136,7 @@ public class VentanaBusqueda2 extends JFrame {
 					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
 				}
 				if(table.getColumnCount() == 5) {
+					System.out.println(table.getColumnCount());
 					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 				
@@ -214,7 +216,8 @@ public class VentanaBusqueda2 extends JFrame {
 				for(int i = 0; i< tableModel.getRowCount(); i++) {
 					tableModel.removeRow(i);
 				}
-				if(table.getColumnCount() == 4) {
+				if(table.getColumnCount() == 5) {
+					System.out.println(table.getColumnCount());
 					tableModel.addColumn("Nuevo precio");
 				}
 				productos = busquedaProd(textBuscador.getText());
@@ -224,6 +227,7 @@ public class VentanaBusqueda2 extends JFrame {
 					}
 				}
 				if(table.getColumnCount() == 6) {
+					System.out.println(table.getColumnCount());
 					table.removeColumn(table.getColumnModel().getColumn(5));
 				}
 			}
