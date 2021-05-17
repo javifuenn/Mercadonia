@@ -108,10 +108,10 @@ public class ventaProductosResource {
     public void testInsertarProducto() {
     	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
     	WebTarget ventaProductosInsTarget = ventaProductosTarget.path("ins");
-    	List<String> listVentaProd = Arrays.asList("cacerolas", "pepe", "4");
+    	List<String> listVentaProd = Arrays.asList("Lechuga", "unai", "4");
     	ventaProductosInsTarget.request().post(Entity.entity(listVentaProd, MediaType.APPLICATION_JSON));
     	
-    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "pepe");
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
     	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
 		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		
