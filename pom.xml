@@ -192,6 +192,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	
 
 	<profiles>
 		<profile>
@@ -302,6 +304,15 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>3.0.0-M5</version>		 
 			</plugin>
+			<plugin>
+				<groupId>com.soebes.maven.plugins</groupId>
+				<artifactId>doxygen-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<configuration>
+					<configurationFile>${doxygen.config.file}</configurationFile>
+					<goalPrefix>doxygen</goalPrefix>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
 
@@ -312,5 +323,6 @@
 		<sonar.projectKey>javifuenn_SPQ-Mercadonia</sonar.projectKey>
 		<sonar.organization>paesoestanramon</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
 	</properties>
 </project>

@@ -98,12 +98,6 @@ public class VentanaAdmin extends JFrame {
 		contentPane.add(panel1_botones);
 		panel1_botones.setLayout(null);
 		
-		panelVerResultados = new JPanel();
-		panelVerResultados.setBounds(10, 10, 834, 433);
-		contentPane.add(panelVerResultados);
-		panelVerResultados.setLayout(null);
-		panelVerResultados.setVisible(false);
-		
 		JButton btn_1_Usuarios = new JButton("Usuarios");
 		btn_1_Usuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,14 +108,15 @@ public class VentanaAdmin extends JFrame {
 				usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 				for(Usuario u : usuarios) {
 					modeloListUsuario.addElement(u);
+					System.out.println(modeloListUsuario.getSize());
 				}
 				lblCodigo.setText("Usuario: ");
-				lblNombre.setText("Contraseña: ");
-				lblDescripcion.setVisible(false);
+				lblNombre.setText("Passw: ");
+				lblDescripcion.setText("Email: ");
 				lblPrecio.setVisible(false);
 				textCodigo.setText("");
 				textNombre.setText("");
-				textDesc.setVisible(false);
+				textDesc.setText("");
 				textprecio.setVisible(false);
 				aModificar = "usuarios";
 				
@@ -146,7 +141,7 @@ public class VentanaAdmin extends JFrame {
 				}
 				lblCodigo.setText("Codigo: ");
 				lblNombre.setText("Nombre: ");
-				lblDescripcion.setVisible(true);
+				lblDescripcion.setText("Descripcion: ");
 				lblPrecio.setVisible(true);
 				textCodigo.setText("");
 				textNombre.setText("");
@@ -161,6 +156,12 @@ public class VentanaAdmin extends JFrame {
 		btn_1_productos.setBounds(295, 83, 178, 90);
 		panel1_botones.add(btn_1_productos);
 		
+		panelVerResultados = new JPanel();
+		panelVerResultados.setBounds(10, 10, 834, 433);
+		contentPane.add(panelVerResultados);
+		panelVerResultados.setLayout(null);
+		panelVerResultados.setVisible(false);
+		
 		listVer_us_pro = new JList();
 		listVer_us_pro.setBounds(10, 0, 335, 423);
 		panelVerResultados.add(listVer_us_pro);
@@ -168,22 +169,21 @@ public class VentanaAdmin extends JFrame {
 		final JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(listVer_us_pro.getSelectedIndex());
 				if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("usuarios")) {
-					modeloListUsuario.remove(listVer_us_pro.getSelectedIndex());
-
 					WebTarget userElimTarget = userTarget.path("elim");
 					List<String> usuarioL = new ArrayList<>(); 
 					usuarioL.add(modeloListUsuario.get(listVer_us_pro.getSelectedIndex()).getUsername());
 					userElimTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
+					modeloListUsuario.remove(listVer_us_pro.getSelectedIndex());
 					
 				}
 				else if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("productos")) {
-					modeloListProducto.remove(listVer_us_pro.getSelectedIndex());
-					
 					WebTarget productElimTarget = productTarget.path("elim");
 					List<String> productoL = new ArrayList<>(); 
 					productoL.add(modeloListProducto.get(listVer_us_pro.getSelectedIndex()).getNombre());
 					productElimTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
+					modeloListProducto.remove(listVer_us_pro.getSelectedIndex());
 				}else {
 					JOptionPane.showMessageDialog(null, "Seleccionar un elemento antes de eliminar");
 				}
@@ -204,18 +204,20 @@ public class VentanaAdmin extends JFrame {
 					List<String> usuarioL = new ArrayList<>(); 
 					usuarioL.add(textCodigo.getText());
 					usuarioL.add(textNombre.getText());
+					usuarioL.add(textDesc.getText());
 					userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 				}
 				else if(aModificar.equals("productos") && !textCodigo.getText().isEmpty() && !textNombre.getText().isEmpty() && !textDesc.getText().isEmpty() && !textprecio.getText().isEmpty()) {
-					Producto p = new Producto(textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), usuario.getUsername(),5); //ARREGLA EL 5
+					Producto p = new Producto(textNombre.getText(), textDesc.getText(), Double.parseDouble(textprecio.getText()), "admin",5); //ARREGLA EL 5
 					modeloListProducto.addElement(p);
 					
 					WebTarget productInsTarget = productTarget.path("ins");
 					List<String> productoL = new ArrayList<>(); 
-					productoL.add(textNombre.getText());
-					productoL.add(textDesc.getText());
+					productoL.add(p.getNombre());
+					productoL.add(p.getDescripcion());
 					productoL.add(textprecio.getText());
-					productoL.add(usuario.getUsername());
+					productoL.add(p.getUsuario());
+					productoL.add(String.valueOf(p.getCantidad()));
 					productInsTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
 				}else {
 					JOptionPane.showMessageDialog(null, "Rellenar todos los campos");
@@ -255,7 +257,7 @@ public class VentanaAdmin extends JFrame {
 		
 		lblDescripcion = new JLabel("Descripcion: ");
 		lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDescripcion.setBounds(582, 228, 76, 32);
+		lblDescripcion.setBounds(558, 228, 100, 32);
 		panelVerResultados.add(lblDescripcion);
 		
 		textprecio = new JTextField();
