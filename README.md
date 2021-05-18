@@ -61,6 +61,12 @@ Generación de reporte de la cobertura de los test en HTML
 
     mvn jacoco:report
 
+**Documentación (DOxygen)**
+
+Generación de reporte de la documentación en HTML y TeX
+
+    mvn doxygen:report
+
 **Inicio del servidor**
 
 El servidor REST de la aplicación se lanza utilizando el comando
