@@ -16,7 +16,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.VentaProducto;
-//import jdo.Producto;
 
 
 @Path("ventasproductos")
@@ -29,11 +28,16 @@ public class VentaProductoResource {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
 
-        Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
+        List<VentaProducto> ventaProducto = null;
+        try {
+            Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
 
-        List<VentaProducto> ventaProducto = q.executeList();
-
-        pm.close();
+            ventaProducto = q.executeList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pm.close();
+        }
 
         return ventaProducto;
     }
@@ -44,12 +48,17 @@ public class VentaProductoResource {
     public static List<VentaProducto> getProductosNom(@QueryParam("codigo") String codigo) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
+        List<VentaProducto> productos = null;
 
-        Query<VentaProducto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
+        try {
+            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
 
-        List<VentaProducto> productos = q.executeList();
-
-        pm.close();
+            productos = q.executeList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pm.close();
+        }
 
         return productos;
     }
@@ -60,13 +69,17 @@ public class VentaProductoResource {
     public static List<VentaProducto> getProductosUser(@QueryParam("usuario") String usuario) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
+        List<VentaProducto> productos = null;
 
-        Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
+        try {
+            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
 
-        List<VentaProducto> productos = q.executeList();
-
-        pm.close();
-
+            productos = q.executeList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pm.close();
+        }
         return productos;
     }
 
@@ -77,10 +90,16 @@ public class VentaProductoResource {
         String usuario = VentaProductoL.get(0);
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
-        Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
-        List<VentaProducto> product = q.executeList();
-        pm.deletePersistentAll(product);
-        pm.close();
+
+        try {
+            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
+            List<VentaProducto> product = q.executeList();
+            pm.deletePersistentAll(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pm.close();
+        }
     }
 
     @POST
@@ -113,8 +132,14 @@ public class VentaProductoResource {
     public static void setCantidad(VentaProducto vp) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
-        Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'");
-
-        q.execute();
+        try {
+            Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'");
+            q.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pm.close();
+        }
     }
+
 }

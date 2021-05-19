@@ -83,15 +83,18 @@ public class PagosResource {
 		  public static List<Pedido> getPedidos(@QueryParam("nombre") String nombre) {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
+			List<Pedido> visa1 = null;
+			
+			try {
+				Query<Pedido> q = pm.newQuery("SELECT FROM " + Pedido.class.getName() + " WHERE nombre== '" + nombre + "'");
 
+				visa1 = q.executeList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pm.close();
+			}
 			
-			Query<Pedido> q = pm.newQuery("SELECT FROM " + Pedido.class.getName() + " WHERE nombre== '" + nombre + "'");
-			
-			List<Pedido> visa1 = q.executeList();
-			
-			
-			pm.close();
-		
 			return visa1;
 		  }
 		
@@ -103,16 +106,17 @@ public class PagosResource {
 			PersistenceManager pm = pmf.getPersistenceManager();
 
 			Visa visa = new Visa();
-			
-			Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE titular== '" + titular + "'");
-			
-			List<Visa> visa1 = q.executeList();
-			
-			visa = visa1.get(0);
-			
-			
-			pm.close();
-		
+			try {
+				Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE titular== '" + titular + "'");
+
+				List<Visa> visa1 = q.executeList();
+				visa = visa1.get(0);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pm.close();
+			}
 			return visa;
 		  }
 		  
@@ -125,11 +129,15 @@ public class PagosResource {
 			  p.setCodigo(parts[0]);
 			  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			  PersistenceManager pm = pmf.getPersistenceManager();
-			  Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '"+ p.getCodigo() +"', nombre== '"+ p.getNombre() +"',descripcion== '"+ p.getDescripcion() +"',precio== '"+ p.getPrecio() +"',  WHERE codigo== '" + parts[1] + "'");
-			  q.execute();
+			  try {
+				  Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '"+ p.getCodigo() +"', nombre== '"+ p.getNombre() +"',descripcion== '"+ p.getDescripcion() +"',precio== '"+ p.getPrecio() +"',  WHERE codigo== '" + parts[1] + "'");
+				  q.execute();
+			  } catch (Exception e) {
+			  	e.printStackTrace();
+			  } finally {
+			  	pm.close();
+			  }
+
 		  }
-		  
-	  
-	 
-	  
+
 }

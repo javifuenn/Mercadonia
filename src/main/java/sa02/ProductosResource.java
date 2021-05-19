@@ -1,20 +1,6 @@
 package sa02;
 
-import java.util.List;
-
-import javax.jdo.Extent;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-import javax.jdo.Transaction;
-
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -23,6 +9,9 @@ import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuario;
+
+import javax.jdo.*;
+import java.util.List;
 
 @Path("productos")
 public class ProductosResource {
@@ -49,12 +38,16 @@ public class ProductosResource {
 	public static List<Producto> getProductosNom(@QueryParam("nombre") String nombre) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Producto> productos = null;
+		try {
+			Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
 
-		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+			productos = q.executeList();
+		} catch (Exception e) {
 
-		List<Producto> productos = q.executeList();
-
-		pm.close();
+		} finally {
+			pm.close();
+		}
 
 		return productos;
 	}
@@ -65,14 +58,18 @@ public class ProductosResource {
 	public static List<Producto> getProductosUser(@QueryParam("usuario") String usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Producto> productos = null;
 
-		Query<Producto> q = pm
-				.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
+		try {
+			Query<Producto> q = pm
+					.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE usuario== '" + usuario + "'");
 
-		List<Producto> productos = q.executeList();
-
-		pm.close();
-
+			productos = q.executeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 		return productos;
 	}
 
@@ -83,10 +80,15 @@ public class ProductosResource {
 		String nombre = productoL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
-		List<Producto> product = q.executeList();
-		pm.deletePersistentAll(product);
-		pm.close();
+		try {
+			Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+			List<Producto> product = q.executeList();
+			pm.deletePersistentAll(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 
 	@POST
@@ -124,16 +126,17 @@ public class ProductosResource {
 		List<Producto> productos;
 
 		for (Cesta cestav : cesta) {
+			try {
+				Query<Producto> q = pm.newQuery(
+						"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cestav.getNombreproducto() + "'");
 
-			Query<Producto> q = pm.newQuery(
-					"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cestav.getNombreproducto() + "'");
-
-			List<Producto> productosv = q.executeList();
-
+				List<Producto> productosv = q.executeList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pm.close();
+			}
 		}
-
-		pm.close();
-
 		return null;
 	}
 
@@ -143,10 +146,15 @@ public class ProductosResource {
 	public static void modificarProducto(Producto p) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET nombre= '" + p.getNombre() + "',descripcion= '"
-				+ p.getDescripcion() + "' ,precio= " + p.getPrecio() + " WHERE codigo= " + p.getCodigo());
-		q.execute();
-
+		try {
+			Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET nombre= '" + p.getNombre() + "',descripcion= '"
+					+ p.getDescripcion() + "' ,precio= " + p.getPrecio() + " WHERE codigo= " + p.getCodigo());
+			q.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 
 	@POST
@@ -155,9 +163,16 @@ public class ProductosResource {
 	public static void modificarPrecio(Producto p) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET precio= "
-				+ p.getPrecio() + " WHERE codigo= '" + p.getCodigo() + "'");
-		q.execute();
+
+		try {
+			Query<Producto> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET precio= "
+					+ p.getPrecio() + " WHERE codigo= '" + p.getCodigo() + "'");
+			q.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -169,33 +184,44 @@ public class ProductosResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Producto producto = new Producto();
+
+
+		List<Cesta> cestav = null;
+		try {
+			Query<Cesta> cesta = pm.newQuery("SELECT FROM "+Cesta.class.getName()+" WHERE NombreUsuario == '" + usuario.getUsername() + "'");
+			cestav = cesta.executeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 		
-
-		System.out.println("SELECT");
-		Query<Cesta> cesta = pm.newQuery("SELECT FROM "+Cesta.class.getName()+" WHERE NombreUsuario == '" + usuario.getUsername() + "'");
-		List<Cesta> cestav = cesta.executeList();
-
-		System.out.println(cestav);
 		for (Cesta cesv : cestav) {
+			try {
+				producto.setNombre(cesv.getNombreproducto());
+
+				Query qq = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET CANTIDAD = CANTIDAD - 1   WHERE Nombre = '" + producto.getNombre() + "'");
+
+				qq.execute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pm.close();
+			}
 			
-		
-			producto.setNombre(cesv.getNombreproducto());
-
-			System.out.println("UPDATE "+Producto.class.getName()+" SET CANTIDAD == CANTIDAD - 1  WHERE Nombre == '" + producto.getNombre() + "'");
-			Query qq = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET CANTIDAD = CANTIDAD - 1   WHERE Nombre = '" + producto.getNombre() + "'");
-
-			qq.execute();
-
 		}
 
-		System.out.println("SELECT GRUPAL");
-	
+		List<Producto> cestavg = null;
+		try {
+			Query<Producto> cestag = pm.newQuery("SELECT FROM "+Producto.class.getName());
+
+			cestavg = cestag.executeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 		
-		Query<Producto> cestag = pm.newQuery("SELECT FROM "+Producto.class.getName());
-	
-		List<Producto> cestavg = cestag.executeList();
-		
-		System.out.println("CONTEO");
 		for (Producto p : cestavg) {
 
 			if (p.getCantidad() < 5) {

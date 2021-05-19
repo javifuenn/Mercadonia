@@ -60,20 +60,18 @@ public class CestaResource {
 	public static void vaciarCesta(Usuario usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Cesta> q = pm.newQuery(
-				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
 
-		List<Cesta> cestav = q.executeList();
+		try {
+			Query<Cesta> q = pm.newQuery(
+					"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
 
-		pm.deletePersistentAll(cestav);
+			List<Cesta> cestav = q.executeList();
 
-		pm.close();
-
+			pm.deletePersistentAll(cestav);
+		} finally {
+			pm.close();
+		}
 	}
-	
-
-	
-	
 
 	
 
@@ -83,25 +81,29 @@ public class CestaResource {
 	public static List<Producto> verProductosCesta(@QueryParam("Usuario") String usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		ArrayList<Producto> productos = new ArrayList<Producto>();
+		ArrayList<Producto> productos = new ArrayList<>();
 
-		Query<Cesta> q = pm
-				.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
+		try {
+			Query<Cesta> q = pm
+					.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
 
-		List<Cesta> cestav = q.executeList();
+			List<Cesta> cestav = q.executeList();
 
-		for (Cesta cesta : cestav) {
+			for (Cesta cesta : cestav) {
 
-			Query<Producto> qq = pm.newQuery(
-					"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cesta.getNombreproducto() + "'");
+				Query<Producto> qq = pm.newQuery(
+						"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cesta.getNombreproducto() + "'");
 
-			List<Producto> productosr = qq.executeList();
+				List<Producto> productosr = qq.executeList();
 
-			productos.add(productosr.get(0));
+				productos.add(productosr.get(0));
 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
 		}
-
-		pm.close();
 		return productos;
 	}
 
@@ -111,20 +113,22 @@ public class CestaResource {
 	public static int contarPoductos(@QueryParam("Usuario") String usuario) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-
-		Query<Cesta> q = pm
-				.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
-
-		List<Cesta> cestav = q.executeList();
-
 		int contador = 0;
-		for (Cesta cesta : cestav) {
 
-			contador = contador + 1;
+		try {
+			Query<Cesta> q = pm
+					.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
 
+			List<Cesta> cestav = q.executeList();
+
+			for (Cesta cesta : cestav) {
+				contador = contador + 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
 		}
-
-		pm.close();
 		return contador;
 	}
 

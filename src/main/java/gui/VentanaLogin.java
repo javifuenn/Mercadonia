@@ -182,7 +182,7 @@ public class VentanaLogin extends JFrame {
 			WebTarget userNomTarget = userTarget.path("nom").queryParam("nick",usuario);
 			GenericType<Usuario> genericType = new GenericType<Usuario>() {};
 			usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-			if (usuarios.getPassword().equals(contraseña) || !usuarios.equals(null)) {
+			if (usuarios.getPassword().equals(contraseña) || !(usuarios == null)) {
 				return true;
 			} else {
 				return false;

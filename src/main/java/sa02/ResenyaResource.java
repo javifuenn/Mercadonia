@@ -52,13 +52,17 @@ public class ResenyaResource {
 	public static List<Resenya> getResenya(@QueryParam("producto") String producto) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Resenya> resenyas = null;
 
-		Query<Resenya> q = pm.newQuery("SELECT FROM " + Resenya.class.getName() + " WHERE producto== '" + producto + "'");
+		try {
+			Query<Resenya> q = pm.newQuery("SELECT FROM " + Resenya.class.getName() + " WHERE producto== '" + producto + "'");
 
-		List<Resenya> resenyas = q.executeList();
-
-		pm.close();
-
+			resenyas = q.executeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 		return resenyas;
 	}
 }

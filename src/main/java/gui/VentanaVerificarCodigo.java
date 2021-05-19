@@ -101,12 +101,6 @@ public class VentanaVerificarCodigo extends JFrame {
 				// TODO Auto-generated method stub
 				// COMPROBRACION DE CODIGO DE EMAIL
 				if (!textcodigo.getText().equals(Integer.toString(codigoverificacion))) {
-
-					System.out.println("El codigo introducido es erroneo" + textcodigo.getText() + codigoverificacion);
-				}
-				// COMPROBRACION DE CODIGO DE EMAIL
-				else if (!textcodigo.getText().equals(Integer.toString(codigoverificacion))) {
-
 					System.out.println("El codigo introducido es erroneo" + textcodigo.getText() + codigoverificacion);
 				} else {
 					String contrasenya = VentanaCrearCuenta.returncontra();

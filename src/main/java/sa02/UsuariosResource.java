@@ -1,23 +1,11 @@
 package sa02;
 
-import java.util.List;
-
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-import javax.jdo.Transaction;
-import javax.swing.JOptionPane;
-
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Cesta;
 import jdo.Usuario;
+
+import javax.jdo.*;
+import java.util.List;
 
 @Path("usuarios")
 public class UsuariosResource {
@@ -27,13 +15,16 @@ public class UsuariosResource {
 	public static List<Usuario> getUsuarios() {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Usuario> usuarios = null;
 
-		Query<Usuario> q = pm.newQuery(Usuario.class);
-
-		List<Usuario> usuarios = q.executeList();
-
-		pm.close();
-
+		try {
+			Query<Usuario> q = pm.newQuery(Usuario.class);
+			usuarios = q.executeList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 		return usuarios;
 	}
 
@@ -46,16 +37,18 @@ public class UsuariosResource {
 
 		Usuario usuarios = null;
 
-		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 
-		List<Usuario> usuariosl = q.executeList();
-		
-		if(!usuariosl.isEmpty()) 
-			usuarios = usuariosl.get(0);
-		
-		//System.out.println(usuarios);
+			List<Usuario> usuariosl = q.executeList();
 
-		pm.close();
+			if(!usuariosl.isEmpty())
+				usuarios = usuariosl.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 
 		return usuarios;
 	}
@@ -91,11 +84,16 @@ public class UsuariosResource {
 		String nick = usuarioL.get(0);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
-		List<Usuario> user = q.executeList();
-		pm.deletePersistentAll(user);
-		pm.close();
 
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+			List<Usuario> user = q.executeList();
+			pm.deletePersistentAll(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 
 	@GET
@@ -107,18 +105,21 @@ public class UsuariosResource {
 
 		boolean usuariousado = false;
 
-		Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 
-		List<Usuario> usuariosl = q.executeList();
+			List<Usuario> usuariosl = q.executeList();
 
-		if (usuariosl.isEmpty()) {
-			usuariousado = false;
-		} else {
-			usuariousado = true;
+			if (usuariosl.isEmpty()) {
+				usuariousado = false;
+			} else {
+				usuariousado = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
 		}
-
-		pm.close();
-
 		return usuariousado;
 	}
 

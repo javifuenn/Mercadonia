@@ -120,7 +120,7 @@ public class Loading extends JFrame {
 				try {
 					Thread.sleep(50);
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 
 			}
