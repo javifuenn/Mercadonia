@@ -317,8 +317,6 @@ public class VentanaAdmin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				WebTarget productUpdateTarget = productTarget.path("update");
-				String c = p.getCodigo();
-				p.setCodigo(textCodigo.getText());
 				p.setNombre(textNombre.getText());
 				p.setDescripcion(textDesc.getText());
 				double preci = Double.parseDouble(textprecio.getText());
@@ -333,6 +331,5 @@ public class VentanaAdmin extends JFrame {
 		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnActualizar.setBounds(502, 371, 131, 39);
 		panelVerResultados.add(btnActualizar);
-		btnActualizar.setVisible(false);
 	}
 }
