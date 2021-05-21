@@ -2,6 +2,7 @@ package sa02;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jdo.Producto;
 import jdo.Usuario;
 
 import javax.jdo.*;
@@ -121,6 +122,22 @@ public class UsuariosResource {
 			pm.close();
 		}
 		return usuariousado;
+	}
+	
+	@POST
+	@Path("update")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void modificarusuario(Usuario u) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		try {
+			Query<Usuario> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE usuario SET password= '" + u.getPassword() + "' ,email= " + u.getEmail() + " WHERE username= " + u.getUsername());
+			q.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 
 }

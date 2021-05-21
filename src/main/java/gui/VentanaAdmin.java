@@ -57,6 +57,7 @@ public class VentanaAdmin extends JFrame {
 	private List<Usuario> usuarios;
 	private List<Producto> productos;
 	private Producto p;
+	private Usuario u;
 	
 	private static Usuario usuario;
 	private JLabel lblCodigo;
@@ -286,7 +287,13 @@ public class VentanaAdmin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("usuarios")) {
-					
+					u = usuarios.get(listVer_us_pro.getSelectedIndex());
+					textCodigo.setText(u.getUsername());
+					textNombre.setText(u.getPassword());
+					textDesc.setText(u.getEmail());
+					btnActualizar.setVisible(true);
+					btnEliminar.setVisible(false);
+					btnAñadir.setVisible(false);
 					
 				}
 				else if(listVer_us_pro.getSelectedIndex() != -1 && aModificar.equals("productos")) {
@@ -315,24 +322,31 @@ public class VentanaAdmin extends JFrame {
 		btnActualizar = new JButton("Actualizar");
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(aModificar.equals("productos")) {
+					WebTarget productUpdateTarget = productTarget.path("update");
+					p.setNombre(textNombre.getText());
+					p.setDescripcion(textDesc.getText());
+					double preci = Double.parseDouble(textprecio.getText());
+					p.setPrecio(preci);
+					productUpdateTarget.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
+					btnActualizar.setVisible(false);
+					btnEliminar.setVisible(true);
+					btnAñadir.setVisible(true);
+				}else {
+					WebTarget userUpdateTarget = userTarget.path("update");
+					u.setPassword(textNombre.getText());
+					u.setEmail(textDesc.getText());
+					userUpdateTarget.request().post(Entity.entity(u, MediaType.APPLICATION_JSON));
+					btnActualizar.setVisible(false);
+					btnEliminar.setVisible(true);
+					btnAñadir.setVisible(true);
+				}
 				
-				WebTarget productUpdateTarget = productTarget.path("update");
-				String c = p.getCodigo();
-				p.setCodigo(textCodigo.getText());
-				p.setNombre(textNombre.getText());
-				p.setDescripcion(textDesc.getText());
-				double preci = Double.parseDouble(textprecio.getText());
-				p.setPrecio(preci);
-				productUpdateTarget.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
-				btnActualizar.setVisible(false);
-				btnEliminar.setVisible(true);
-				btnAñadir.setVisible(true);
 				
 			}
 		});
 		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnActualizar.setBounds(502, 371, 131, 39);
 		panelVerResultados.add(btnActualizar);
-		btnActualizar.setVisible(false);
 	}
 }
