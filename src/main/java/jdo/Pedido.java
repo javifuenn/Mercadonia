@@ -34,7 +34,9 @@ public class Pedido {
 		super();
 		this.nombre = nombre;
 		this.fechaPago = fechaPago;
+		
 		this.productos = productos;
+		
 		this.direccion = direccion;
 	}
 	/**

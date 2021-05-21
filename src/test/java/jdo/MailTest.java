@@ -10,16 +10,19 @@ import org.junit.Test;
 public class MailTest {
 
 private Cesta c;
+
 	
 	@Before
 	public void crearProducto() {
 		c = new Cesta("Lechuga", new Date(121, 10, 1), "javi");
 	}
 	
+	
 	@Test
 	public void testGetNombreProducto() {
 		assertEquals("Lechuga", c.getNombreproducto());
 	}
+	
 	
 	@Test
 	public void testGetFechaExpiracion() {
