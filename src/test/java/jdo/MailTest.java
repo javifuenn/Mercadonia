@@ -4,52 +4,77 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
+import javax.mail.Address;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class MailTest {
 
-private Cesta c;
+private Mail c;
 
 	
 	@Before
 	public void crearProducto() {
-		c = new Cesta("Lechuga", new Date(121, 10, 1), "javi");
+		Address a = null;
+		c = new Mail(new Date(121, 10, 1),a , "jon", "Contenido","Mensaje prueba");
 	}
 	
 	
 	@Test
-	public void testGetNombreProducto() {
-		assertEquals("Lechuga", c.getNombreproducto());
+	public void testGetDate() {
+		assertEquals(new Date(121, 10, 1), c.getDate());
 	}
 	
 	
 	@Test
-	public void testGetFechaExpiracion() {
-		assertEquals(new Date(121, 10, 1), c.getFechaExpiracion());
+	public void testSetDate() {
+		c.setDate(new Date(121, 10, 1));
+		assertEquals(new Date(121, 10, 1), c.getDate());
 	}
 	
 	@Test
-	public void testGetNombreUsuario() {
-		assertEquals("javi", c.getNombreUsuario());
+	public void testGetFrom() {
+		assertEquals(null, c.getFrom());
 	}
 	
 	@Test
-	public void testSetNombreProducto() {
-		c.setNombreproducto("Manzana");
-		assertEquals("Manzana", c.getNombreproducto());
+	public void testSetFrom() {
+		c.setFrom(null);
+		assertEquals(null, c.getFrom());
 	}
 	
 	@Test
-	public void testSetFechaExpiracion() {
-		c.setFechaExpiracion(new Date(120, 10, 1));
-		assertEquals(new Date(120, 10, 1), c.getFechaExpiracion());
+	public void testGetSubject() {
+		assertEquals("jon", c.getSubject());
 	}
 	
 	@Test
-	public void testSetNombreUsuario() {
-		c.setNombreUsuario("unai");
-		assertEquals("unai", c.getNombreUsuario());
+	public void testSetSubject() {
+		c.setSubject("jon");
+		assertEquals("jon", c.getSubject());
+	}
+	
+	@Test
+	public void testGetContent() {
+		assertEquals("Contenido", c.getContent());
+	}
+	
+	@Test
+	public void testSetContent() {
+		c.setContent("Contenido");
+		assertEquals("Contenido", c.getContent());
+	}
+	
+	@Test
+	public void testGetMessage() {
+		assertEquals("Mensaje prueba", c.getMessage());
+	}
+	
+	@Test
+	public void testSetMessage() {
+		c.setMessage("Mensaje prueba");
+		assertEquals("Mensaje prueba", c.getMessage());
 	}
 
 }
