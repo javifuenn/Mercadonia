@@ -17,11 +17,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jdo.Cupon;
 import sa02.MandarMail;
 import sa02.UsuariosResource;
 
@@ -35,6 +44,11 @@ public class VentanaCrearCupon extends JFrame {
 
 	public static JTextField nombrecupontxt;
 	public static JTextField porcentajecupontxt;
+	private JTextField usuariocupontxt;
+	Client cliente = ClientBuilder.newClient();
+	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget cupontarget = appTarget.path("cupones");
+	final WebTarget anadirtarget = cupontarget.path("anadir");
 
 	/**
 	 * Launch the application.
@@ -69,7 +83,7 @@ public class VentanaCrearCupon extends JFrame {
 		/**
 		 * Valores propios de la ventana JFRAME
 		 */
-		setBounds(100, 100, 645, 310);
+		setBounds(100, 100, 646, 357);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
@@ -108,7 +122,7 @@ public class VentanaCrearCupon extends JFrame {
 		// Jbutton cerrar. Simplemente cierra la aplicacion
 		JButton cerrar = new JButton("CERRAR");
 		cerrar.setBackground(SystemColor.controlShadow);
-		cerrar.setBounds(503, 220, 89, 23);
+		cerrar.setBounds(505, 263, 89, 23);
 		getContentPane().add(cerrar);
 		cerrar.addActionListener(new ActionListener() {
 
@@ -123,27 +137,45 @@ public class VentanaCrearCupon extends JFrame {
 		recibircodigo.setBackground(SystemColor.textHighlight);
 		recibircodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+		
+				WebTarget anadir = cupontarget.path("anadir");
+				Cupon cupon = new Cupon();
+				cupon.setPorcentajeDescuento(Integer.parseInt(porcentajecupontxt.getText()));
+				cupon.setTextoCupon(nombrecupontxt.getText());
+				cupon.setUsuario(usuariocupontxt.getText());
+				anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+				
 				
 			}
 		});
-		recibircodigo.setBounds(185, 198, 234, 45);
+		recibircodigo.setBounds(188, 240, 234, 45);
 		getContentPane().add(recibircodigo);
 
 		JButton Volverbtn = new JButton("VOLVER");
 		Volverbtn.setBackground(SystemColor.controlShadow);
-		Volverbtn.setBounds(10, 220, 89, 23);
+		Volverbtn.setBounds(10, 263, 89, 23);
 		getContentPane().add(Volverbtn);
+
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUsuario.setBounds(150, 179, 104, 29);
+		getContentPane().add(lblUsuario);
+
+		usuariocupontxt = new JTextField();
+		usuariocupontxt.setColumns(10);
+		usuariocupontxt.setBounds(264, 172, 138, 45);
+		getContentPane().add(usuariocupontxt);
 		Volverbtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				VentanaAdmin va =  new VentanaAdmin();;
+				VentanaAdmin va = new VentanaAdmin();
+				;
 				setVisible(false);
 				va.setVisible(true);
 			}
 		});
-		
-	}}
 
-
+	}
+}
