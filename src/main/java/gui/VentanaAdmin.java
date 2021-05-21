@@ -156,6 +156,16 @@ public class VentanaAdmin extends JFrame {
 		btn_1_productos.setBounds(295, 83, 178, 90);
 		panel1_botones.add(btn_1_productos);
 		
+		JButton btnNewButton = new JButton("Cupones");
+		btnNewButton.setBounds(198, 208, 89, 23);
+		panel1_botones.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				VentanaCrearCupon cc = new VentanaCrearCupon();
+				cc.setVisible(true);
+			}});
+		
 		panelVerResultados = new JPanel();
 		panelVerResultados.setBounds(10, 10, 834, 433);
 		contentPane.add(panelVerResultados);
