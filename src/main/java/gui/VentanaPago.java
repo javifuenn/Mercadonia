@@ -222,6 +222,7 @@ public class VentanaPago extends JFrame {
 						
 						
 						pedidoL.add(textDireccion.getText());
+						System.out.println(pedidoL);
 						pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
 
 					}

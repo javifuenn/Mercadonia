@@ -36,7 +36,7 @@ public class VentanaCompras extends JFrame {
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget pagoTarget = appTarget.path("pagos");
 	final WebTarget cestaTarget = appTarget.path("cesta");
-	final WebTarget cuentaTarget = appTarget.path("contar");
+	final WebTarget cuentaTarget = cestaTarget.path("contar");
 
 	/**
 	 * Launch the application.
@@ -60,7 +60,7 @@ public class VentanaCompras extends JFrame {
 	public VentanaCompras(Usuario usuario1) {
 		usuario = usuario1;
 
-		cuentaTarget.path("contar").queryParam("Usuario", usuario.getUsername());
+		cuentaTarget.queryParam("Usuario", usuario.getUsername());
 		GenericType<Integer> genericType2 = new GenericType<Integer>() {
 		};
 		cantidad = cuentaTarget.request(MediaType.APPLICATION_JSON).get(genericType2);
@@ -75,6 +75,7 @@ public class VentanaCompras extends JFrame {
 		JList listProductos = new JList();
 		listProductos.setBounds(355, 23, 475, 398);
 		DefaultListModel<Pedido> DLM = new DefaultListModel<>();
+		
 		WebTarget pagoPedidoTarget = pagoTarget.path("pedidos").queryParam("nombre", usuario.getUsername());
 		GenericType<List<Pedido>> genericType = new GenericType<List<Pedido>>() {
 		};

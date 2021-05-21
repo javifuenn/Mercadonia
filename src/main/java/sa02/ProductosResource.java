@@ -192,8 +192,6 @@ public class ProductosResource {
 			cestav = cesta.executeList();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			pm.close();
 		}
 		
 		for (Cesta cesv : cestav) {
@@ -218,8 +216,6 @@ public class ProductosResource {
 			cestavg = cestag.executeList();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			pm.close();
 		}
 		
 		for (Producto p : cestavg) {
