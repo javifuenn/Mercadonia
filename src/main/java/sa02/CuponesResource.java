@@ -49,6 +49,54 @@ public class CuponesResource {
 		}
 		System.out.println("cupones");
 	}
+	
+	@POST
+	@Path("borrar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void borrarCupon(Cupon cupon) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		try {
+			Query<Cupon>cupo = pm.newQuery(
+					"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + cupon.getTextoCupon() + "'");
+
+			List<Cupon> c = cupo.executeList();
+
+			pm.deletePersistentAll(c);
+		} finally {
+			pm.close();
+		}
+	}
+	
+	@GET
+	@Path("buscar")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Cupon> verCupones(@QueryParam("Usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		ArrayList<Cupon> cupones = new ArrayList<>();
+
+		try {
+			Query<Cupon> cupon = pm
+					.newQuery("SELECT FROM " + Cupon.class.getName() + " WHERE usuario == '" + usuario + "'");
+
+			List<Cupon> cup = cupon.executeList();
+
+			for (Cupon c : cup) {
+
+				cupones.add(c);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
+		return cupones;
+	}
+	
+	
 
 	
 
