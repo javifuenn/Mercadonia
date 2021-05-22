@@ -28,17 +28,16 @@ public class CuponesResource {
 	@POST
 	@Path("anadir")
 	@Produces(MediaType.APPLICATION_JSON)
-	public static void insertarProducto(Cupon cupon) {
-		System.out.println("cupones");
+	public static void insertarCupon(Cupon cupon) {
 		String nombre = cupon.getTextoCupon();
-		int porce =cupon.getPorcentajeDescuento();
+		int porce = cupon.getPorcentajeDescuento();
 		String usuario = cupon.getUsuario();
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Cupon c = new Cupon(nombre,porce,usuario);
+			Cupon c = new Cupon(nombre, porce, usuario);
 			pm.makePersistent(c);
 			tx.commit();
 		} finally {
@@ -47,28 +46,29 @@ public class CuponesResource {
 			}
 			pm.close();
 		}
-		System.out.println("cupones");
 	}
-	
+
 	@POST
 	@Path("borrar")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public static void borrarCupon(Cupon cupon) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-
+		String nombrecupon = cupon.getTextoCupon();
+		System.out.println(nombrecupon);
 		try {
-			Query<Cupon>cupo = pm.newQuery(
-					"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + cupon.getTextoCupon() + "'");
+			
+				Query<Cupon> q = pm.newQuery(
+						"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + nombrecupon + "'");
 
-			List<Cupon> c = cupo.executeList();
+				List<Cupon> cuponn = q.executeList();
 
-			pm.deletePersistentAll(c);
-		} finally {
+				pm.deletePersistentAll(cuponn);
+			}  finally {
 			pm.close();
 		}
 	}
-	
+
 	@GET
 	@Path("buscar")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -95,9 +95,5 @@ public class CuponesResource {
 		}
 		return cupones;
 	}
-	
-	
-
-	
 
 }

@@ -138,13 +138,16 @@ public class VentanaCrearCupon extends JFrame {
 		recibircodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 		
-				WebTarget anadir = cupontarget.path("anadir");
-				Cupon cupon = new Cupon();
-				cupon.setPorcentajeDescuento(Integer.parseInt(porcentajecupontxt.getText()));
-				cupon.setTextoCupon(nombrecupontxt.getText());
-				cupon.setUsuario(usuariocupontxt.getText());
-				anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
-				
+//				WebTarget anadir = cupontarget.path("anadir");
+//				Cupon cupon = new Cupon();
+//				cupon.setPorcentajeDescuento(Integer.parseInt(porcentajecupontxt.getText()));
+//				cupon.setTextoCupon(nombrecupontxt.getText());
+//				cupon.setUsuario(usuariocupontxt.getText());
+//				anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+//				
+				Cupon cuponn = new Cupon(nombrecupontxt.getText(), Integer.parseInt(porcentajecupontxt.getText()), usuariocupontxt.getText());
+		    	WebTarget anadirr = cupontarget.path("anadir");
+				anadirr.request().post(Entity.entity(cuponn, MediaType.APPLICATION_JSON));
 				
 			}
 		});

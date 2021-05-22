@@ -15,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import categories.IntegrationTest;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -27,16 +26,16 @@ import jdo.Cupon;
 
 
 public class CuponesResourceTest {
-	
+
 @Rule public ContiPerfRule rule = new ContiPerfRule();
-	
+
 	private HttpServer server;
     private WebTarget appTarget;
     private Client c;
-    
+
     @Before
     public void setUp() throws Exception {
-    	
+
     	server = Main.startServer();
         // create the client
         Client c = ClientBuilder.newClient();
@@ -47,28 +46,58 @@ public class CuponesResourceTest {
         // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
         appTarget = c.target(Main.BASE_URI);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         server.stop();
     }
-    
+
     @Test
-    public void testAnadirProducto() {
+    public void testAnadirCuponYVer() {
     	WebTarget cupontarget = appTarget.path("cupones");
     	Cupon cupon = new Cupon("Test", 5, "testeando");
     	WebTarget anadir = cupontarget.path("anadir");
 		anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
-		
+
 		WebTarget vertarget = cupontarget.path("buscar").queryParam("Usuario", "testeando");
-		
+
 		GenericType<ArrayList<Cupon>> genericType = new GenericType<ArrayList<Cupon>>() {
 		};
 		ArrayList<Cupon> cupones = vertarget.request(MediaType.APPLICATION_JSON).get(genericType);
 
-		
-		
+
+
 		assertEquals(cupon.getTextoCupon(), cupones.get(0).getTextoCupon());
+
+    }
+    
+
+    @Test
+    public void testBorrarCupon() {
+    	WebTarget cupontarget = appTarget.path("cupones");
+    	Cupon cupon = new Cupon("borrar", 5, "borrador");
+    
     	
+    	WebTarget anadir = cupontarget.path("anadir");
+		anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+
+		System.out.println("hhhnjjjh" );
+
+		WebTarget productElimTarget = cupontarget.path("borrar");
+    	productElimTarget.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+    	
+		System.out.println("hhddshh");
+
+		WebTarget vertarget = cupontarget.path("buscar").queryParam("Usuario", "borrador");
+
+		GenericType<ArrayList<Cupon>> genericType = new GenericType<ArrayList<Cupon>>() {
+		};
+		ArrayList<Cupon> cupones = vertarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+
+		System.out.println("hhhh" + cupones.get(0).getTextoCupon());
+		assertEquals(null, cupones.get(0).getTextoCupon());
+
     }
 }
+
