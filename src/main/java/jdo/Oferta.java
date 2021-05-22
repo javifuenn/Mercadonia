@@ -70,7 +70,7 @@ public class Oferta {
      * Establece la fecha en la que se puede aprovechar la oferta
      * @param fecha Date con la fecha en la que se puede aprovechar la oferta
      */
-    public void setUsuario(Date fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
     /**
