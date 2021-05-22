@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -24,6 +26,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
+import jdo.Resenya;
 import jdo.Usuario;
 import sa02.Main;
 
@@ -33,12 +36,13 @@ public class VentanaResenyaTest {
 	
 	private HttpServer server;
 	private WebTarget appTarget;
-	WebTarget productTarget;
+	WebTarget productTarget, resenyaTarget;
 	private Usuario usuario = Mockito.mock(Usuario.class);
 	private JTextField textField = Mockito.mock(JTextField.class);
 	private JTextField textField_1 = Mockito.mock(JTextField.class);
 	private JTextField textField_2 = Mockito.mock(JTextField.class);
 	private JTextField textField_3 = Mockito.mock(JTextField.class);
+	private JRadioButton RadioBtn = Mockito.mock(JRadioButton.class);
 	
 	 @Before
 	    public void setUp() throws Exception {
@@ -54,6 +58,7 @@ public class VentanaResenyaTest {
 
 	        appTarget = c.target(Main.BASE_URI);
 	        productTarget = appTarget.path("productos");
+	        resenyaTarget = appTarget.path("resenya");
 	    }
 
 	    @After
@@ -65,29 +70,20 @@ public class VentanaResenyaTest {
 	    	
 	        server.stop();
 	    }
-	    
 	@Test
-	public void testAñadirProducto() {
-		List<String> productoL = new ArrayList<>();
-		when(textField.getText()).thenReturn("Pera");
-		productoL.add(textField.getText());
-		when(textField_1.getText()).thenReturn("Rica");
-		productoL.add(textField_1.getText());
-		when(textField_2.getText()).thenReturn("3");
-		productoL.add(textField_2.getText());
-		when(usuario.getUsername()).thenReturn("unai");
-		productoL.add(usuario.getUsername());
-		when(textField_3.getText()).thenReturn("20");
-		productoL.add(textField_3.getText());
-		WebTarget productInsTarget = productTarget.path("ins");
-		productInsTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
-		
-		WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre", "Pera");
-		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {
-		};
-		List<Producto> productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		
-		assertEquals("Pera", productos.get(0).getNombre());
+	public void testSubirResenya() {
+		when(textField.getText()).thenReturn("Texto Comentado de prueba");
+		Producto prod = new Producto("Patatas", "Para freir", 1.1, "javi", 75, true);
+		Usuario usuario = new Usuario("Jon", "1234","jonander.medina@opendeusto.es");
+		Resenya res = new Resenya("Pera", "Jon", 1, textField.getText());
+		List<String> resenya = new ArrayList<>();
+		resenya.add(res.getProducto());
+		resenya.add(res.getUsuario());
+		resenya.add(String.valueOf(res.getCalificacion()));
+		resenya.add(res.getOpinion());
+		WebTarget productInsTarget = resenyaTarget.path("add");
+		productInsTarget.request().post(Entity.entity(resenya, MediaType.APPLICATION_JSON));
+		assertEquals("Texto Comentado de prueba", res.getOpinion());
 	}
 
 }
