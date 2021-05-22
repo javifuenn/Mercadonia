@@ -2,6 +2,7 @@ package sa02;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
@@ -10,20 +11,19 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Cesta;
 import jdo.Cupon;
-import jdo.Producto;
-import jdo.Usuario;
+
+
 
 @Path("cupones")
 public class CuponesResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	@POST
 	@Path("anadir")
@@ -67,7 +67,7 @@ public class CuponesResource {
 					pm.deletePersistentAll(cuponn);
 					System.out.println("6");
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 
 			}
@@ -97,7 +97,7 @@ public class CuponesResource {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -120,7 +120,7 @@ public class CuponesResource {
 			if (!cup.isEmpty())
 				cupones = cup.get(0);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}

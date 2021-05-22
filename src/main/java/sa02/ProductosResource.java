@@ -1,4 +1,5 @@
 package sa02;
+import java.util.logging.Logger;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.client.Client;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Path("productos")
 public class ProductosResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	@GET
 	@Path("all")
@@ -44,7 +46,7 @@ public class ProductosResource {
 
 			productos = q.executeList();
 		} catch (Exception e) {
-
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -66,7 +68,7 @@ public class ProductosResource {
 
 			productos = q.executeList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -84,7 +86,7 @@ public class ProductosResource {
 			List<Producto> product = q.executeList();
 			pm.deletePersistentAll(product);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -129,7 +131,7 @@ public class ProductosResource {
 					"SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + cestav.getNombreproducto() + "'");) {
 				List<Producto> productosv = q.executeList();
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			} finally {
 				pm.close();
 			}
@@ -147,7 +149,7 @@ public class ProductosResource {
 				+ p.getDescripcion() + "' ,precio= " + p.getPrecio() + " WHERE codigo= " + p.getCodigo());) {
 			q.execute();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -165,7 +167,7 @@ public class ProductosResource {
 
 			q.execute();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -185,7 +187,7 @@ public class ProductosResource {
 		try (Query<Cesta> cesta = pm.newQuery("SELECT FROM "+Cesta.class.getName()+" WHERE NombreUsuario == '" + usuario.getUsername() + "'")) {
 			cestav = cesta.executeList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} 
 		
 		for (Cesta cesv : cestav) {
@@ -202,7 +204,7 @@ public class ProductosResource {
 		try (Query<Producto> cestag = pm.newQuery("SELECT FROM "+Producto.class.getName())) {
 			cestavg = cestag.executeList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} 
 		
 		for (Producto p : cestavg) {

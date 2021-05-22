@@ -2,7 +2,7 @@ package sa02;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Producto;
+import java.util.logging.Logger;
 import jdo.Usuario;
 
 import javax.jdo.*;
@@ -10,6 +10,8 @@ import java.util.List;
 
 @Path("usuarios")
 public class UsuariosResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	@GET
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -22,7 +24,7 @@ public class UsuariosResource {
 			Query<Usuario> q = pm.newQuery(Usuario.class);
 			usuarios = q.executeList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -46,7 +48,7 @@ public class UsuariosResource {
 			if(!usuariosl.isEmpty())
 				usuarios = usuariosl.get(0);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -90,7 +92,7 @@ public class UsuariosResource {
 			List<Usuario> user = q.executeList();
 			pm.deletePersistentAll(user);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -116,7 +118,7 @@ public class UsuariosResource {
 				usuariousado = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -132,7 +134,7 @@ public class UsuariosResource {
 		try (Query<Usuario> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE usuario SET password= '" + u.getPassword() + "' ,email= " + u.getEmail() + " WHERE username= " + u.getUsername());) {
 			q.execute();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}

@@ -14,11 +14,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Producto;
+import java.util.logging.Logger;
 import jdo.Resenya;
 
 @Path("resenya")
 public class ResenyaResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	@POST
 	@Path("add")
@@ -59,7 +60,7 @@ public class ResenyaResource {
 
 			resenyas = q.executeList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}

@@ -10,10 +10,12 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.logging.Logger;
 
 import jdo.Producto;
 
 public class MandarMail {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static int codigo;
 	public static String mVerificado;
@@ -45,7 +47,7 @@ public class MandarMail {
 			System.out.println(mVerificado);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 
 		}
 		return codigo;
@@ -77,7 +79,7 @@ public class MandarMail {
 			System.out.println(mVerificado);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		}
 		return codigo;
 
@@ -96,10 +98,10 @@ public class MandarMail {
 			return mensaje;
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		}
 
 		return null;
@@ -118,10 +120,10 @@ public class MandarMail {
 			return mensaje;
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		}
 
 		return null;

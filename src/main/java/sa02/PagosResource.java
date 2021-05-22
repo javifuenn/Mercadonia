@@ -1,6 +1,6 @@
 package sa02;
 
-import java.text.ParseException;
+import java.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +29,7 @@ import jdo.Visa;
 
 @Path("pagos")
 public class PagosResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	  @GET
 	  @Path("paypali")
@@ -77,7 +78,7 @@ public class PagosResource {
 				pm.makePersistent(p);
 				tx.commit();
 			} catch(Exception e){
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			}finally {
 				pm.close();	
 			}
@@ -95,7 +96,7 @@ public class PagosResource {
 				Query<Pedido> q = pm.newQuery("SELECT FROM " + Pedido.class.getName() + " WHERE nombre== '" + nombre + "'");
 				visa1 = q.executeList();
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			} finally {
 				pm.close();
 			}
@@ -118,7 +119,7 @@ public class PagosResource {
 				visa = visa1.get(0);
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			} finally {
 				pm.close();
 			}
@@ -137,7 +138,7 @@ public class PagosResource {
 			  try (Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '"+ p.getCodigo() +"', nombre== '"+ p.getNombre() +"',descripcion== '"+ p.getDescripcion() +"',precio== '"+ p.getPrecio() +"',  WHERE codigo== '" + parts[1] + "'")) {
 				  q.execute();
 			  } catch (Exception e) {
-			  	e.printStackTrace();
+				  LOGGER.severe(e.getMessage());
 			  } finally {
 			  	pm.close();
 			  }

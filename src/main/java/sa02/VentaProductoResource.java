@@ -16,10 +16,13 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.VentaProducto;
+import java.util.logging.Logger;
+
 
 
 @Path("ventasproductos")
 public class VentaProductoResource {
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     @GET
     @Path("all")
@@ -34,7 +37,7 @@ public class VentaProductoResource {
 
             ventaProducto = q.executeList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         } finally {
             pm.close();
         }
@@ -55,7 +58,7 @@ public class VentaProductoResource {
 
             productos = q.executeList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         } finally {
             pm.close();
         }
@@ -76,7 +79,7 @@ public class VentaProductoResource {
 
             productos = q.executeList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         } finally {
             pm.close();
         }
@@ -95,7 +98,7 @@ public class VentaProductoResource {
             List<VentaProducto> product = q.executeList();
             pm.deletePersistentAll(product);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         } finally {
             pm.close();
         }
@@ -134,7 +137,7 @@ public class VentaProductoResource {
         try (Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'")) {
             q.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         } finally {
             pm.close();
         }

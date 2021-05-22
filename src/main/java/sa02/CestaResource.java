@@ -9,8 +9,9 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import java.util.logging.Logger;
+
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -23,6 +24,8 @@ import jdo.Usuario;
 
 @Path("cesta")
 public class CestaResource {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 
 	@GET
 	@Path("anadir")
@@ -37,13 +40,13 @@ public class CestaResource {
 		Cesta cesta = new Cesta(producto, null, usuario);
 		try {
 			tx.begin();
-			System.out.println("  * Storing an object: " + cesta);
+			LOGGER.info("Guardando objeto: " + cesta);
 			pm.makePersistent(cesta);
 			tx.commit();
 			respuesta = true;
 
 		} catch (Exception ex) {
-			System.out.println("  $ Error storing an object: " + ex.getMessage());
+			LOGGER.severe(ex.getMessage());
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -64,10 +67,11 @@ public class CestaResource {
 		try (Query<Cesta> q = pm.newQuery(
 				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'")) {
 			List<Cesta> cestav = q.executeList();
+			LOGGER.info("Cesta borrada");
 
 			pm.deletePersistentAll(cestav);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -100,7 +104,7 @@ public class CestaResource {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
@@ -123,7 +127,7 @@ public class CestaResource {
 				contador = contador + 1;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 		} finally {
 			pm.close();
 		}
