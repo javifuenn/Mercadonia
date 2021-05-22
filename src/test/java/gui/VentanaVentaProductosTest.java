@@ -64,7 +64,6 @@ public class VentanaVentaProductosTest {
 		WebTarget productUserTarget = productTarget.path("user").queryParam("usuario", usuario.getUsername());
 		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {};
 		List<Producto> productos = productUserTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		
 		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 	}
 
