@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -65,29 +66,11 @@ public class VentanaLoadingTest {
 	    	
 	        server.stop();
 	    }
-	    
 	@Test
-	public void testAñadirProducto() {
-		List<String> productoL = new ArrayList<>();
-		when(textField.getText()).thenReturn("Pera");
-		productoL.add(textField.getText());
-		when(textField_1.getText()).thenReturn("Rica");
-		productoL.add(textField_1.getText());
-		when(textField_2.getText()).thenReturn("3");
-		productoL.add(textField_2.getText());
-		when(usuario.getUsername()).thenReturn("unai");
-		productoL.add(usuario.getUsername());
-		when(textField_3.getText()).thenReturn("20");
-		productoL.add(textField_3.getText());
-		WebTarget productInsTarget = productTarget.path("ins");
-		productInsTarget.request().post(Entity.entity(productoL, MediaType.APPLICATION_JSON));
-		
-		WebTarget productNomTarget = productTarget.path("nom").queryParam("nombre", "Pera");
-		GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {
-		};
-		List<Producto> productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		
-		assertEquals("Pera", productos.get(0).getNombre());
+	public void valor100Test() {
+		JProgressBar bar = new JProgressBar();
+		bar.setValue(100);
+		assertEquals(100, bar.getValue());
 	}
 
 }
