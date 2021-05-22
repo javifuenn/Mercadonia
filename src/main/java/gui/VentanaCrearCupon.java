@@ -138,7 +138,7 @@ public class VentanaCrearCupon extends JFrame {
 		recibircodigo.setBackground(SystemColor.textHighlight);
 		recibircodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-		
+
 //				WebTarget anadir = cupontarget.path("anadir");
 //				Cupon cupon = new Cupon();
 //				cupon.setPorcentajeDescuento(Integer.parseInt(porcentajecupontxt.getText()));
@@ -146,10 +146,11 @@ public class VentanaCrearCupon extends JFrame {
 //				cupon.setUsuario(usuariocupontxt.getText());
 //				anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
 //				
-				Cupon cuponn = new Cupon(nombrecupontxt.getText(), Integer.parseInt(porcentajecupontxt.getText()), usuariocupontxt.getText());
-		    	WebTarget anadirr = cupontarget.path("anadir");
+				Cupon cuponn = new Cupon(nombrecupontxt.getText(), Integer.parseInt(porcentajecupontxt.getText()),
+						usuariocupontxt.getText());
+				WebTarget anadirr = cupontarget.path("anadir");
 				anadirr.request().post(Entity.entity(cuponn, MediaType.APPLICATION_JSON));
-				
+
 			}
 		});
 		recibircodigo.setBounds(188, 240, 234, 45);
@@ -169,28 +170,23 @@ public class VentanaCrearCupon extends JFrame {
 		usuariocupontxt.setColumns(10);
 		usuariocupontxt.setBounds(264, 172, 138, 45);
 		getContentPane().add(usuariocupontxt);
-		
+
 		JButton btnNewButton = new JButton("Borrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String cupon = nombrecupontxt.getText();
 				System.out.println(cupon);
 				Cupon cup = new Cupon();
-				
-				System.out.println("1");
+
 				WebTarget buscarcupon = cupontarget.path("buscar1").queryParam("nombrecupon", cupon);
 				GenericType<Cupon> genericType = new GenericType<Cupon>() {
 				};
 				cup = buscarcupon.request(MediaType.APPLICATION_JSON).get(genericType);
-				
-				System.out.println("4");
 
 				WebTarget productElimTarget = cupontarget.path("borrar");
-		    	productElimTarget.request().post(Entity.entity(cup, MediaType.APPLICATION_JSON));
-				System.out.println("7");
+				productElimTarget.request().post(Entity.entity(cup, MediaType.APPLICATION_JSON));
 
-				
 			}
 		});
 		btnNewButton.setBounds(505, 229, 89, 23);

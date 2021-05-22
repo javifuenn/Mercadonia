@@ -100,7 +100,7 @@ public class CuponesResource {
 		}
 		return cupones;
 	}
-	
+
 	@GET
 	@Path("buscar1")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -108,21 +108,19 @@ public class CuponesResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Cupon cupones = null;
-		System.out.println("2");
 		try {
 			Query<Cupon> cupon = pm
-					.newQuery("SELECT FROM " + Cupon.class.getName() + " WHERE TEXTOCUPON == '" + usuario + "'");
+					.newQuery("SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + usuario + "'");
 
 			List<Cupon> cup = cupon.executeList();
 
-			if(!cup.isEmpty())
+			if (!cup.isEmpty())
 				cupones = cup.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pm.close();
 		}
-		System.out.println("3");
 		return cupones;
 	}
 
