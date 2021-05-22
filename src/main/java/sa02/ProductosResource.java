@@ -175,7 +175,6 @@ public class ProductosResource {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@POST
 	@Path("comprar")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -192,7 +191,7 @@ public class ProductosResource {
 			cestav = cesta.executeList();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		for (Cesta cesv : cestav) {
 			try {
@@ -203,9 +202,7 @@ public class ProductosResource {
 				qq.execute();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				pm.close();
-			}
+			} 
 			
 		}
 
@@ -216,7 +213,7 @@ public class ProductosResource {
 			cestavg = cestag.executeList();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		for (Producto p : cestavg) {
 
@@ -235,9 +232,8 @@ public class ProductosResource {
 		final WebTarget cestaTarget = appTarget.path("cesta");
 		WebTarget borrarTarget = cestaTarget.path("borrar");
 		borrarTarget.request().post(Entity.entity(usuario, MediaType.APPLICATION_JSON));
-
+		
 		pm.close();
-
 	}
 
 }

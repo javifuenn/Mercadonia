@@ -1,5 +1,7 @@
 package sa02;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,31 +51,35 @@ public class PagosResource {
 		return paypal;
 	  }
 	  	@POST
-	  	@Path("añadir")
+	  	@Path("anyadir")
 	  	@Produces(MediaType.APPLICATION_JSON)
-		public static void anadirPedido(List<String> pedidoL) {
+		public static void anadirPedido(List<String> pedidoL) throws Exception {
+	  		System.out.println("Guardando");
 	  		String nombre = pedidoL.get(0);
 	  		String fechaPago = pedidoL.get(1);
+	  		String direccion = pedidoL.get(2);
 	  		List<String> productos = new ArrayList<String>();
-	  		for(int i = 2; i <= pedidoL.size()-1; i++) {
+	  		for(int i = 3; i < pedidoL.size(); i++) {
 	  			productos.add(pedidoL.get(i));
+	  			System.out.println(productos);
 	  		}
-	  		String direccion = pedidoL.get(pedidoL.size());
-	  		Date fecha = new Date();
-	  		fecha.setDate(Integer.parseInt(fechaPago));
+	  		
+	  		Date fecha = new SimpleDateFormat("yyy-MM-dd").parse(fechaPago);
+	  		System.out.println("Guardando 2");
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
+			
 			try {
 				tx.begin();
 				Pedido p = new Pedido(nombre, fecha, productos, direccion);
+				System.out.println(p);
 				pm.makePersistent(p);
 				tx.commit();
-			} finally {
-				if (tx.isActive()) {
-					tx.rollback();
-				}
-				pm.close();
+			} catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				pm.close();	
 			}
 		}
 		
@@ -87,7 +93,6 @@ public class PagosResource {
 			
 			try {
 				Query<Pedido> q = pm.newQuery("SELECT FROM " + Pedido.class.getName() + " WHERE nombre== '" + nombre + "'");
-
 				visa1 = q.executeList();
 			} catch (Exception e) {
 				e.printStackTrace();

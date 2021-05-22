@@ -205,25 +205,25 @@ public class VentanaPago extends JFrame {
 								textDireccion.getText());
 						System.out.println("Nos hacemos el pedido y lo vamos a mandar");
 
-						WebTarget pedidoAñadirTarget = pagoTarget.path("añadir");
+						WebTarget pedidoAñadirTarget = pagoTarget.path("anyadir");
 						List<String> pedidoL = new ArrayList<>();
 						pedidoL.add(usuario.getUsername());
 						Calendar fecha = new GregorianCalendar();
-						int año = fecha.get(Calendar.YEAR);
+						int año = fecha.get(Calendar.YEAR)-1900;
 						int mes = fecha.get(Calendar.MONTH);
 						int dia = fecha.get(Calendar.DAY_OF_MONTH);
 						Date fecha2 = new Date(año, mes, dia);
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
 						String fechaPedido = sdf.format(fecha2);
 						pedidoL.add(fechaPedido);
+						pedidoL.add(textDireccion.getText());
 						for (Producto p : productos) {
 							pedidoL.add(p.getNombre());
 						}
 						
-						
-						pedidoL.add(textDireccion.getText());
 						System.out.println(pedidoL);
 						pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
+						System.out.println("He llegado");
 
 					}
 
