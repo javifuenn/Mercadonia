@@ -61,13 +61,13 @@ public class CestaResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		try {
-			Query<Cesta> q = pm.newQuery(
-					"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'");
-
+		try (Query<Cesta> q = pm.newQuery(
+				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'")) {
 			List<Cesta> cestav = q.executeList();
 
 			pm.deletePersistentAll(cestav);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			pm.close();
 		}
@@ -115,10 +115,8 @@ public class CestaResource {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		int contador = 0;
 
-		try {
-			Query<Cesta> q = pm
-					.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
-
+		try (Query<Cesta> q = pm
+				.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'")) {
 			List<Cesta> cestav = q.executeList();
 
 			for (Cesta cesta : cestav) {

@@ -60,13 +60,16 @@ public class CuponesResource {
 			for (Cupon c : cupon) {
 				String nombrecupon = c.getTextoCupon();
 				System.out.println(nombrecupon);
-				Query<Cupon> q = pm.newQuery(
-						"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + nombrecupon + "'");
+				try (Query<Cupon> q = pm.newQuery(
+						"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + nombrecupon + "'")) {
+					List<Cupon> cuponn = q.executeList();
 
-				List<Cupon> cuponn = q.executeList();
+					pm.deletePersistentAll(cuponn);
+					System.out.println("6");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				pm.deletePersistentAll(cuponn);
-				System.out.println("6");
 			}
 
 		} finally {

@@ -91,8 +91,7 @@ public class VentaProductoResource {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
 
-        try {
-            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
+        try (Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");) {
             List<VentaProducto> product = q.executeList();
             pm.deletePersistentAll(product);
         } catch (Exception e) {
@@ -132,8 +131,7 @@ public class VentaProductoResource {
     public static void setCantidad(VentaProducto vp) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
-        try {
-            Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'");
+        try (Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'")) {
             q.execute();
         } catch (Exception e) {
             e.printStackTrace();

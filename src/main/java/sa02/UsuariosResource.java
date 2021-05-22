@@ -86,8 +86,7 @@ public class UsuariosResource {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		try {
-			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+		try (Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");) {
 			List<Usuario> user = q.executeList();
 			pm.deletePersistentAll(user);
 		} catch (Exception e) {
@@ -130,8 +129,7 @@ public class UsuariosResource {
 	public static void modificarusuario(Usuario u) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		try {
-			Query<Usuario> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE usuario SET password= '" + u.getPassword() + "' ,email= " + u.getEmail() + " WHERE username= " + u.getUsername());
+		try (Query<Usuario> q = pm.newQuery("javax.jdo.query.SQL", "UPDATE usuario SET password= '" + u.getPassword() + "' ,email= " + u.getEmail() + " WHERE username= " + u.getUsername());) {
 			q.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

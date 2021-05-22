@@ -134,8 +134,7 @@ public class PagosResource {
 			  p.setCodigo(parts[0]);
 			  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			  PersistenceManager pm = pmf.getPersistenceManager();
-			  try {
-				  Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '"+ p.getCodigo() +"', nombre== '"+ p.getNombre() +"',descripcion== '"+ p.getDescripcion() +"',precio== '"+ p.getPrecio() +"',  WHERE codigo== '" + parts[1] + "'");
+			  try (Query<Producto> q = pm.newQuery("UPDATE " + Producto.class.getName() + "SET codigo== '"+ p.getCodigo() +"', nombre== '"+ p.getNombre() +"',descripcion== '"+ p.getDescripcion() +"',precio== '"+ p.getPrecio() +"',  WHERE codigo== '" + parts[1] + "'")) {
 				  q.execute();
 			  } catch (Exception e) {
 			  	e.printStackTrace();
