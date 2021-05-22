@@ -84,6 +84,7 @@ public class VentanaResenyaTest {
 		WebTarget productInsTarget = resenyaTarget.path("add");
 		productInsTarget.request().post(Entity.entity(resenya, MediaType.APPLICATION_JSON));
 		assertEquals("Texto Comentado de prueba", res.getOpinion());
+		
 	}
 
 }
