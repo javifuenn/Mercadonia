@@ -15,7 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-
+//import categories.IntegrationTest;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -24,39 +24,41 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Cupon;
 
-
+//@Category(IntegrationTest.class)
 public class CuponesResourceTest {
 
-@Rule public ContiPerfRule rule = new ContiPerfRule();
+	@Rule
+	public ContiPerfRule rule = new ContiPerfRule();
 
 	private HttpServer server;
-    private WebTarget appTarget;
-    private Client c;
+	private WebTarget appTarget;
+	private Client c;
 
-    @Before
-    public void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 
-    	server = Main.startServer();
-        // create the client
-        Client c = ClientBuilder.newClient();
-        // uncomment the following line if you want to enable
-        // support for JSON in the client (you also have to uncomment
-        // dependency on jersey-media-json module in pom.xml and Main.startServer())
-        // --
-        // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
-        appTarget = c.target(Main.BASE_URI);
-    }
+		server = Main.startServer();
+		// create the client
+		Client c = ClientBuilder.newClient();
+		// uncomment the following line if you want to enable
+		// support for JSON in the client (you also have to uncomment
+		// dependency on jersey-media-json module in pom.xml and Main.startServer())
+		// --
+		// c.configuration().enable(new
+		// org.glassfish.jersey.media.json.JsonJaxbFeature());
+		appTarget = c.target(Main.BASE_URI);
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        server.stop();
-    }
+	@After
+	public void tearDown() throws Exception {
+		server.stop();
+	}
 
-    @Test
-    public void testAnadirCuponYVer() {
-    	WebTarget cupontarget = appTarget.path("cupones");
-    	Cupon cupon = new Cupon("Test", 5, "testeando");
-    	WebTarget anadir = cupontarget.path("anadir");
+	@Test
+	public void testAnadirCuponYVer() {
+		WebTarget cupontarget = appTarget.path("cupones");
+		Cupon cupon = new Cupon("Test", 5, "testeando");
+		WebTarget anadir = cupontarget.path("anadir");
 		anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
 
 		WebTarget vertarget = cupontarget.path("buscar").queryParam("Usuario", "testeando");
@@ -65,12 +67,9 @@ public class CuponesResourceTest {
 		};
 		ArrayList<Cupon> cupones = vertarget.request(MediaType.APPLICATION_JSON).get(genericType);
 
-
-
 		assertEquals(cupon.getTextoCupon(), cupones.get(0).getTextoCupon());
 
-    }
-    
+	}
 
 //    @Test
 //    public void testBorrarCupon() {
@@ -100,4 +99,3 @@ public class CuponesResourceTest {
 //
 //    }
 }
-

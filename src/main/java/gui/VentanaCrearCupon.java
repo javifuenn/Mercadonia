@@ -31,6 +31,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Cupon;
+import jdo.Producto;
 import sa02.MandarMail;
 import sa02.UsuariosResource;
 
@@ -168,6 +169,32 @@ public class VentanaCrearCupon extends JFrame {
 		usuariocupontxt.setColumns(10);
 		usuariocupontxt.setBounds(264, 172, 138, 45);
 		getContentPane().add(usuariocupontxt);
+		
+		JButton btnNewButton = new JButton("Borrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String cupon = nombrecupontxt.getText();
+				System.out.println(cupon);
+				Cupon cup = new Cupon();
+				
+				System.out.println("1");
+				WebTarget buscarcupon = cupontarget.path("buscar1").queryParam("nombrecupon", cupon);
+				GenericType<Cupon> genericType = new GenericType<Cupon>() {
+				};
+				cup = buscarcupon.request(MediaType.APPLICATION_JSON).get(genericType);
+				
+				System.out.println("4");
+
+				WebTarget productElimTarget = cupontarget.path("borrar");
+		    	productElimTarget.request().post(Entity.entity(cup, MediaType.APPLICATION_JSON));
+				System.out.println("7");
+
+				
+			}
+		});
+		btnNewButton.setBounds(505, 229, 89, 23);
+		getContentPane().add(btnNewButton);
 		Volverbtn.addActionListener(new ActionListener() {
 
 			@Override

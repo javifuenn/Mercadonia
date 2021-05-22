@@ -51,20 +51,25 @@ public class CuponesResource {
 	@POST
 	@Path("borrar")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public static void borrarCupon(Cupon cupon) {
+	public static void borrarCupon(List<Cupon> cupon) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		String nombrecupon = cupon.getTextoCupon();
-		System.out.println(nombrecupon);
+		System.out.println("5");
 		try {
-			
+
+			for (Cupon c : cupon) {
+				String nombrecupon = c.getTextoCupon();
+				System.out.println(nombrecupon);
 				Query<Cupon> q = pm.newQuery(
 						"SELECT FROM " + Cupon.class.getName() + " WHERE textocupon == '" + nombrecupon + "'");
 
 				List<Cupon> cuponn = q.executeList();
 
 				pm.deletePersistentAll(cuponn);
-			}  finally {
+				System.out.println("6");
+			}
+
+		} finally {
 			pm.close();
 		}
 	}
@@ -93,6 +98,31 @@ public class CuponesResource {
 		} finally {
 			pm.close();
 		}
+		return cupones;
+	}
+	
+	@GET
+	@Path("buscar1")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static Cupon verCupon(@QueryParam("nombrecupon") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Cupon cupones = null;
+		System.out.println("2");
+		try {
+			Query<Cupon> cupon = pm
+					.newQuery("SELECT FROM " + Cupon.class.getName() + " WHERE TEXTOCUPON == '" + usuario + "'");
+
+			List<Cupon> cup = cupon.executeList();
+
+			if(!cup.isEmpty())
+				cupones = cup.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
+		System.out.println("3");
 		return cupones;
 	}
 
