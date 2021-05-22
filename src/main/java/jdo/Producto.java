@@ -5,7 +5,6 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 /**
  * Clase Producto donde cada producto tiene su codigo, nombre, descripcion, precio, el usuario vendedor,
  * cantidad y si esta en oferta o no

@@ -1,8 +1,6 @@
 package jdo;
 
 import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Clase USUARIO donde creamos los perfiles de los usuarios del software

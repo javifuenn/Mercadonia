@@ -119,8 +119,9 @@ public class Loading extends JFrame {
 				valor100();
 				try {
 					Thread.sleep(50);
-				} catch (Exception e) {
+				} catch (InterruptedException e) {
 					e.printStackTrace();
+					Thread.currentThread().interrupt();
 				}
 
 			}
