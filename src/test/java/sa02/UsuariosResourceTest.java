@@ -65,7 +65,7 @@ public class UsuariosResourceTest {
     	List<Usuario> listUsuarios = Arrays.asList(
     			new Usuario("unai", "1234","email"),
     			new Usuario("javi", "4321","email"),
-    			new Usuario("sergio", "1234","sergiosanchezprieto@opendeusto.es"));
+    			new Usuario("jon", "1234","jonander.medina@opendeusto.es"));
     			
     	GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {};
     	List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
