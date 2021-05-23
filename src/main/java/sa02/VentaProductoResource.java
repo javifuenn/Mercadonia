@@ -108,6 +108,7 @@ public class VentaProductoResource {
     @Path("ins")
     @Produces(MediaType.APPLICATION_JSON)
     public static void insertarProducto(List<String> productoL) {
+        LOGGER.severe("aaaa");
         String producto = productoL.get(0);
         String usuario = productoL.get(1);
         String cantidad = productoL.get(2);
@@ -120,7 +121,7 @@ public class VentaProductoResource {
             VentaProducto p = new VentaProducto(producto, usuario, Integer.parseInt(cantidad));
             pm.makePersistent(p);
             tx.commit();
-        } finally {
+            LOGGER.info("VentaProducto de " + cantidad + " de " + producto + " registrada en la base de datos"); } finally {
             if (tx.isActive()) {
                 tx.rollback();
             }

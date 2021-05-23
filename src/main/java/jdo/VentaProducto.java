@@ -7,7 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 /**
  * Clase VentaProducto donde un Usuario compra un Producto con una cantidad
- * @author Unai
+ * @author Javi
  *
  */
 @PersistenceCapable(detachable = "true")

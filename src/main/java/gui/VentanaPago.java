@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.*;
 import java.util.logging.Logger;
 import java.awt.EventQueue;
 
@@ -13,12 +14,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
-import jdo.Cesta;
-import jdo.Paypal;
-import jdo.Pedido;
-import jdo.Producto;
-import jdo.Usuario;
-import jdo.Visa;
+import jdo.*;
 import sa02.CestaResource;
 import sa02.PagosResource;
 
@@ -28,10 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -71,6 +63,8 @@ public class VentanaPago extends JFrame {
 	final WebTarget pagoTarget = appTarget.path("pagos");
 	final WebTarget cestaTarget = appTarget.path("cesta");
 	final WebTarget productosTarget = appTarget.path("productos");
+	final WebTarget ventaProductoTarget = appTarget.path("ventasproductos");
+
 
 	private JTextField textDireccion;
 	private JTextField textCupon;
@@ -226,6 +220,18 @@ public class VentanaPago extends JFrame {
 						pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
 						System.out.println("He llegado");
 
+						//VentaProducto
+						WebTarget insVentaProducto = ventaProductoTarget.path("ins");
+						LOGGER.info(insVentaProducto.toString());
+
+						for (Producto producto : productos) {
+							List vp = new ArrayList();
+							vp.add(producto.getNombre());
+							vp.add(usuario.getUsername());
+							vp.add(producto.getCantidad());
+							insVentaProducto.request().post(Entity.entity(vp, MediaType.APPLICATION_JSON));
+						}
+
 					}
 
 				} else {
@@ -271,11 +277,22 @@ public class VentanaPago extends JFrame {
 									pedidoL.add(p.getNombre());
 								}
 								
-								
 								WebTarget compraTarget = productosTarget.path("comprar");
 								compraTarget.request().post(Entity.entity(usuario, MediaType.APPLICATION_JSON));
 								pedidoL.add(textDireccion.getText());
 								pedidoAñadirTarget.request().post(Entity.entity(pedidoL, MediaType.APPLICATION_JSON));
+
+								//VentaProducto
+								WebTarget insVentaProducto = ventaProductoTarget.path("ins");
+								LOGGER.info(insVentaProducto.toString());
+
+								for (Producto producto : productos) {
+									List vp = new ArrayList();
+									vp.add(producto.getNombre());
+									vp.add(usuario.getUsername());
+									vp.add(producto.getCantidad());
+									insVentaProducto.request().post(Entity.entity(vp, MediaType.APPLICATION_JSON));
+								}
 							}
 
 						}
