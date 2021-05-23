@@ -10,8 +10,10 @@ import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class Loading extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JProgressBar bar = new JProgressBar();
 	private JLabel enviado;
@@ -27,7 +29,7 @@ public class Loading extends JFrame {
 					Loading window = new Loading();
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});
@@ -120,7 +122,7 @@ public class Loading extends JFrame {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 					Thread.currentThread().interrupt();
 				}
 

@@ -19,7 +19,7 @@ import jakarta.ws.rs.core.MediaType;
 import jdo.Cesta;
 import jdo.Producto;
 import jdo.Usuario;
-import sa02.CestaResource;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -35,6 +35,7 @@ import java.awt.Color;
 public class VentanaBusqueda extends JFrame {
 	public VentanaBusqueda() {
 	}
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JTextField textField;
 	private static List<Producto> productos;
@@ -59,7 +60,7 @@ public class VentanaBusqueda extends JFrame {
 					VentanaBusqueda window = new VentanaBusqueda(u);
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

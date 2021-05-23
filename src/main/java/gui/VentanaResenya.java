@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
+import java.util.logging.Logger;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VentanaResenya extends JFrame{
-	
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget resenyaTarget = appTarget.path("resenya");
@@ -41,7 +42,7 @@ public class VentanaResenya extends JFrame{
 					VentanaResenya window = new VentanaResenya("Manzana", "unai");
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

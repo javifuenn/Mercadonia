@@ -11,7 +11,7 @@ import java.awt.Font;
 import java.util.List;
 
 import javax.swing.JTextField;
-import javax.swing.DefaultListModel;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Component;
@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaBusqueda2 extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
 	private JTextField textBuscador;
@@ -64,7 +65,7 @@ public class VentanaBusqueda2 extends JFrame {
 					VentanaBusqueda2 frame = new VentanaBusqueda2(u);
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

@@ -18,8 +18,8 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jdo.Producto;
 import jdo.Usuario;
-import sa02.CestaResource;
-import sa02.ProductosResource;
+import java.util.logging.Logger;
+
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 
 public class VentanaCesta extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static List<Producto> productos;
 	private static Usuario usuario;
@@ -53,7 +54,7 @@ public class VentanaCesta extends JFrame {
 					VentanaCesta window = new VentanaCesta(usuario);
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

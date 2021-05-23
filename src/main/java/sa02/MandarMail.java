@@ -1,5 +1,6 @@
 package sa02;
 
+import java.security.SecureRandom;
 import java.util.*;
 import javax.mail.Authenticator;
 import javax.mail.Message;

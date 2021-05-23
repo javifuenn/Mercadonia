@@ -29,15 +29,14 @@ import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Transaction;
+import java.util.logging.Logger;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
 public class VentanaLogin extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
 	private JFrame frame;
@@ -61,7 +60,7 @@ public class VentanaLogin extends JFrame {
 					VentanaLogin frame = new VentanaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

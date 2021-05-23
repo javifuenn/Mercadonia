@@ -10,14 +10,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
+import java.util.logging.Logger;
+
 
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -32,6 +26,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 
 public class VentanaCrearCuenta extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField nombretxt;
 	public static JTextField apellidotxt;
@@ -51,7 +46,7 @@ public class VentanaCrearCuenta extends JFrame {
 					VentanaCrearCuenta signup = new VentanaCrearCuenta();
 					signup.setVisible(false);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

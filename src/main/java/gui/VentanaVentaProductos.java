@@ -17,8 +17,8 @@ import java.io.FileOutputStream;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import java.util.logging.Logger;
+
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 public class VentanaVentaProductos extends JFrame{
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JTable table;
 	Client cliente = ClientBuilder.newClient();
@@ -169,9 +170,9 @@ public class VentanaVentaProductos extends JFrame{
 					writer.close();
 					JOptionPane.showMessageDialog(null, "Archivo creado");
 				} catch (DocumentException ex) {
-					ex.printStackTrace();
+					LOGGER.severe(ex.getMessage());
 				} catch (FileNotFoundException e2) {
-					e2.printStackTrace();
+					LOGGER.severe(e2.getMessage());
 				}
 
 			}

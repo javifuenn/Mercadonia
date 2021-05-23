@@ -13,7 +13,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
-import sa02.MandarMail;
+import java.util.logging.Logger;
 
 import java.awt.Font;
 import javax.swing.JButton;
@@ -31,6 +31,7 @@ public class VentanaVerificarCodigo extends JFrame {
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget userTarget = appTarget.path("usuarios");
 	public int codigoverificacion;
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	/**
 	 * Launch the application.
@@ -42,7 +43,7 @@ public class VentanaVerificarCodigo extends JFrame {
 					VentanaVerificarCodigo window = new VentanaVerificarCodigo();
 					window.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});

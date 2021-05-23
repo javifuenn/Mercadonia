@@ -195,7 +195,7 @@ public class ProductosResource {
 				producto.setNombre(cesv.getNombreproducto());
 				qq.execute();
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			} 
 			
 		}

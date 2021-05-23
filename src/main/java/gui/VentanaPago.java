@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.BorderLayout;
+import java.util.logging.Logger;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -42,6 +42,7 @@ import javax.swing.JButton;
 import java.awt.Panel;
 
 public class VentanaPago extends JFrame {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
 	public JTextField textPrecio;
@@ -84,7 +85,7 @@ public class VentanaPago extends JFrame {
 					VentanaPago frame = new VentanaPago(usuario, productos);
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.severe(e.getMessage());
 				}
 			}
 		});
