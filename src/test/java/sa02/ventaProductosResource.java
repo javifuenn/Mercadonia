@@ -6,6 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
+
 import org.databene.contiperf.junit.ContiPerfRule;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
@@ -52,18 +57,28 @@ public class ventaProductosResource {
         server.stop();
     }
     
-//    @Test
-//    public void testgetVentaProducto() {
-//    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-//    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
-//    	
-//    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
-//    	
-//    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
-//    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-//    	
-//    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
-//    }
+    @Test
+    public void testgetVentaProducto() {
+    	
+    	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+        PersistenceManager pm = pmf.getPersistenceManager();
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
+    	
+    	
+    	
+    	List<VentaProducto> ventaProducto = null;
+        try {
+            Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
+
+            ventaProducto = q.executeList();
+        } catch (Exception e) {
+           
+        } finally {
+            pm.close();
+        }
+    	assertEquals("Lechuga", ventaProducto.get(0).getProducto());
+    }
     
 //    @Test
 //    public void testGetProductosNom() {
