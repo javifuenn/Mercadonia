@@ -50,6 +50,8 @@ public class PreparaDatos {
 			pm.makePersistent(usuario2);
 			Usuario usuario3 = new Usuario("javi", "4321","null");
 			pm.makePersistent(usuario3);
+			Usuario usuario4 = new Usuario("jon", "1234","jonander.medina@opendeusto.es");
+			pm.makePersistent(usuario4);
 			
 			Paypal paypal = new Paypal("correo", "1234");
 			pm.makePersistent(paypal);
