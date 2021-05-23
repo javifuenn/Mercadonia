@@ -6,11 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-
 import org.databene.contiperf.junit.ContiPerfRule;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
@@ -59,25 +54,15 @@ public class ventaProductosResource {
     
     @Test
     public void testgetVentaProducto() {
-    	
-    	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
     	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
     	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
+    
     	
     	
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
-    	List<VentaProducto> ventaProducto = null;
-        try {
-            Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
-
-            ventaProducto = q.executeList();
-        } catch (Exception e) {
-           
-        } finally {
-            pm.close();
-        }
-    	assertEquals("Lechuga", ventaProducto.get(0).getProducto());
+    	assertEquals("Manzana", venta.get(0).getProducto());
     }
     
 //    @Test
@@ -132,4 +117,18 @@ public class ventaProductosResource {
 //		
 //		assertEquals(listVentaProd.get(0), producto.get(0).getProducto());
 //    }
+    
+    @Test
+    public void testsetCantidad() {
+    	VentaProducto vp1 = new VentaProducto("Manzana", "jon", 5);
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosElimTarget = ventaProductosTarget.path("updatequantity");
+    	ventaProductosElimTarget.request().post(Entity.entity(vp1, MediaType.APPLICATION_JSON));
+    	
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "jon");
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		assertEquals(5, producto.get(0).getCantidad());
+    }
 }

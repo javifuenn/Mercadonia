@@ -33,7 +33,7 @@ public class PreparaDatos {
 			tx.begin();
 			Producto prod1 = new Producto("Lechuga", "Muy sana", 2.4, "unai", 6,false);
 			pm.makePersistent(prod1);
-			Producto prod2 = new Producto("Manzana", "Deliciosa", 3, "sergio", 100, false);
+			Producto prod2 = new Producto("Manzana", "Deliciosa", 3, "jon", 100, false);
 			pm.makePersistent(prod2);
 			Producto prod3 = new Producto("Pan", "Recien horneado", 0.6, "javi", 75, false);
 			pm.makePersistent(prod3);
