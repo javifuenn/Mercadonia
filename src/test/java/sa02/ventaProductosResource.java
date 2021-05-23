@@ -52,18 +52,18 @@ public class ventaProductosResource {
         server.stop();
     }
     
-//    @Test
-//    public void testgetVentaProducto() {
-//    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-//    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
-//    	
-//    	List<VentaProducto> listVen = Arrays.asList(new VentaProducto("Manzana", "unai", 2));
-//    	
-//    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
-//    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-//    	
-//    	assertEquals(listVen.get(0).getProducto(), venta.get(0).getProducto());
-//    }
+    @Test
+    public void testgetVentaProducto() {
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
+    	
+    	VentaProducto vp1 = new VentaProducto("Manzana", "unai", 2);
+    	
+    	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+    	
+    	assertEquals("Manzana", vp1.getProducto());
+    }
     
 //    @Test
 //    public void testGetProductosNom() {
@@ -117,4 +117,23 @@ public class ventaProductosResource {
 //		
 //		assertEquals(listVentaProd.get(0), producto.get(0).getProducto());
 //    }
+    
+	/*
+	 * @Test public void testsetCantidad() { VentaProducto vp1 = new
+	 * VentaProducto(); WebTarget ventaProductosTarget =
+	 * appTarget.path("ventasproductos"); WebTarget ventaProductosElimTarget =
+	 * ventaProductosTarget.path("elim"); List<String> listVentaProd =
+	 * Arrays.asList("unai");
+	 * ventaProductosElimTarget.request().post(Entity.entity(listVentaProd,
+	 * MediaType.APPLICATION_JSON));
+	 * 
+	 * WebTarget ventaProductosUsuarioTarget =
+	 * ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
+	 * GenericType<List<VentaProducto>> genericType = new
+	 * GenericType<List<VentaProducto>>() {}; List<VentaProducto> producto =
+	 * ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(
+	 * genericType);
+	 * 
+	 * assertEquals(5, vp1.getCantidad()); }
+	 */
 }

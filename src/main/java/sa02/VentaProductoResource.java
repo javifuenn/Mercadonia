@@ -1,3 +1,4 @@
+
 package sa02;
 
 import java.util.List;
@@ -18,130 +19,147 @@ import jdo.Producto;
 import jdo.VentaProducto;
 import java.util.logging.Logger;
 
-
-
 @Path("ventasproductos")
 public class VentaProductoResource {
-    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static List<VentaProducto> getVentaProducto() {
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
+	@GET
 
-        List<VentaProducto> ventaProducto = null;
-        try {
-            Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
+	@Path("all")
 
-            ventaProducto = q.executeList();
-        } catch (Exception e) {
-            LOGGER.severe(e.getMessage());
-        } finally {
-            pm.close();
-        }
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<VentaProducto> getVentaProducto() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
 
-        return ventaProducto;
-    }
+		List<VentaProducto> ventaProducto = null;
+		try {
+			Query<VentaProducto> q = pm.newQuery(VentaProducto.class);
 
-    @GET
-    @Path("cod")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static List<VentaProducto> getProductosNom(@QueryParam("codigo") String codigo) {
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
-        List<VentaProducto> productos = null;
+			ventaProducto = q.executeList();
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} finally {
+			pm.close();
+		}
 
-        try {
-            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
+		return ventaProducto;
+	}
 
-            productos = q.executeList();
-        } catch (Exception e) {
-            LOGGER.severe(e.getMessage());
-        } finally {
-            pm.close();
-        }
+	@GET
 
-        return productos;
-    }
+	@Path("cod")
 
-    @GET
-    @Path("usuario")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static List<VentaProducto> getProductosUser(@QueryParam("usuario") String usuario) {
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
-        List<VentaProducto> productos = null;
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<VentaProducto> getProductosNom(@QueryParam("codigo") String codigo) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		List<VentaProducto> productos = null;
 
-        try {
-            Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
+		try {
+			Query<VentaProducto> q = pm
+					.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE codigo== '" + codigo + "'");
 
-            productos = q.executeList();
-        } catch (Exception e) {
-            LOGGER.severe(e.getMessage());
-        } finally {
-            pm.close();
-        }
-        return productos;
-    }
+			productos = q.executeList();
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} finally {
+			pm.close();
+		}
 
-    @POST
-    @Path("elim")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static void eliminarProducto(List<String> VentaProductoL) {
-        String usuario = VentaProductoL.get(0);
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
+		return productos;
+	}
 
-        try (Query<VentaProducto> q = pm.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");) {
-            List<VentaProducto> product = q.executeList();
-            pm.deletePersistentAll(product);
-        } catch (Exception e) {
-            LOGGER.severe(e.getMessage());
-        } finally {
-            pm.close();
-        }
-    }
+	@GET
 
-    @POST
-    @Path("ins")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static void insertarProducto(List<String> productoL) {
-        LOGGER.severe("aaaa");
-        String producto = productoL.get(0);
-        String usuario = productoL.get(1);
-        String cantidad = productoL.get(2);
+	@Path("usuario")
 
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx = pm.currentTransaction();
-        try {
-            tx.begin();
-            VentaProducto p = new VentaProducto(producto, usuario, Integer.parseInt(cantidad));
-            pm.makePersistent(p);
-            tx.commit();
-            LOGGER.info("VentaProducto de " + cantidad + " de " + producto + " registrada en la base de datos"); } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            pm.close();
-        }
-    }
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<VentaProducto> getProductosUser(@QueryParam("usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		List<VentaProducto> productos = null;
 
-    @POST
-    @Path("updatequantity")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static void setCantidad(VentaProducto vp) {
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-        PersistenceManager pm = pmf.getPersistenceManager();
-        try (Query<VentaProducto> q = pm.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= "+ vp.getCantidad() +",  WHERE producto= '"+ vp.getProducto() +"' AND usuario= '"+ vp.getUsuario() +"'")) {
-            q.execute();
-        } catch (Exception e) {
-            LOGGER.severe(e.getMessage());
-        } finally {
-            pm.close();
-        }
-    }
+		try {
+			Query<VentaProducto> q = pm
+					.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");
+
+			productos = q.executeList();
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} finally {
+			pm.close();
+		}
+		return productos;
+	}
+
+	@POST
+
+	@Path("elim")
+
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void eliminarProducto(List<String> VentaProductoL) {
+		String usuario = VentaProductoL.get(0);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		try (Query<VentaProducto> q = pm
+				.newQuery("SELECT FROM " + VentaProducto.class.getName() + " WHERE usuario== '" + usuario + "'");) {
+			List<VentaProducto> product = q.executeList();
+			pm.deletePersistentAll(product);
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} finally {
+			pm.close();
+		}
+	}
+
+	@POST
+
+	@Path("ins")
+
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void insertarProducto(List<String> productoL) {
+		LOGGER.severe("aaaa");
+		String producto = productoL.get(0);
+		String usuario = productoL.get(1);
+		String cantidad = productoL.get(2);
+
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			VentaProducto p = new VentaProducto(producto, usuario, Integer.parseInt(cantidad));
+			pm.makePersistent(p);
+			tx.commit();
+			LOGGER.info("VentaProducto de " + cantidad + " de " + producto + " registrada en la base de datos");
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	@POST
+
+	@Path("updatequantity")
+
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void setCantidad(VentaProducto vp) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		try (Query<VentaProducto> q = pm
+				.newQuery("UPDATE " + VentaProducto.class.getName() + "SET cantidad= " + vp.getCantidad()
+						+ ",  WHERE producto= '" + vp.getProducto() + "' AND usuario= '" + vp.getUsuario() + "'")) {
+			q.execute();
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} finally {
+			pm.close();
+		}
+	}
 
 }
+ 
