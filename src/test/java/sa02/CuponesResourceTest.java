@@ -71,31 +71,21 @@ public class CuponesResourceTest {
 
 	}
 
-//    @Test
-//    public void testBorrarCupon() {
-//    	WebTarget cupontarget = appTarget.path("cupones");
-//    	Cupon cupon = new Cupon("borrar", 5, "borrador");
-//    
-//    	
-//    	WebTarget anadir = cupontarget.path("anadir");
-//		anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
-//
-//		System.out.println("hhhnjjjh" );
-//
-//		WebTarget productElimTarget = cupontarget.path("borrar");
-//    	productElimTarget.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
-//    	
-//		System.out.println("hhddshh");
-//
-//		WebTarget vertarget = cupontarget.path("buscar").queryParam("Usuario", "borrador");
-//
-//		GenericType<ArrayList<Cupon>> genericType = new GenericType<ArrayList<Cupon>>() {
-//		};
-//		ArrayList<Cupon> cupones = vertarget.request(MediaType.APPLICATION_JSON).get(genericType);
-//
-//
-//		System.out.println("hhhh" + cupones.get(0).getTextoCupon());
-//		assertEquals(null, cupones.get(0).getTextoCupon());
-//
-//    }
+    @Test
+    public void testBorrarCupon() {
+    	WebTarget cupontarget = appTarget.path("cupones");
+    	Cupon cupon = new Cupon("borrar", 5, "borrador");
+    	WebTarget anadir = cupontarget.path("anadir");
+		anadir.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+
+		WebTarget productElimTarget = cupontarget.path("borrar");
+    	productElimTarget.request().post(Entity.entity(cupon, MediaType.APPLICATION_JSON));
+
+		WebTarget vertarget = cupontarget.path("buscar").queryParam("Usuario", "borrador");
+		GenericType<ArrayList<Cupon>> genericType = new GenericType<ArrayList<Cupon>>() {
+		};
+		ArrayList<Cupon> cupones = vertarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		assertEquals("borrar", cupones.get(0).getTextoCupon());
+
+    }
 }
