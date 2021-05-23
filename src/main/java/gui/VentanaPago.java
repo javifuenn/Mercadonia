@@ -104,7 +104,7 @@ public class VentanaPago extends JFrame {
 		contentPane.add(lblSeleccion);
 
 		comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "PayPal", "Visa" }));
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "Elige uno...", "PayPal", "Visa" }));
 		comboBox.setToolTipText("");
 		comboBox.setMaximumRowCount(2);
 		comboBox.setBounds(275, 43, 96, 21);
@@ -113,35 +113,37 @@ public class VentanaPago extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int selectionPago = comboBox.getSelectedIndex();
 				switch (selectionPago) {
-				case 0:
-					panelVisa.setVisible(true);
-					lblNumerotarjeta.setText("Email: ");
-					lblTitular.setText("contraseña: ");
-					lblFechaCaducidad.setVisible(false);
-					lblCV.setVisible(false);
-					textCV.setVisible(false);
-					textFechaCaducidad.setVisible(false);
-					textCV.setText("");
-					textFechaCaducidad.setText("");
-					textNumeroTarjeta.setText("");
-					textTitular.setText("");
-					textDireccion.setText("");
+					case 0:
+						break;
+					case 1:
+						panelVisa.setVisible(true);
+						lblNumerotarjeta.setText("Email: ");
+						lblTitular.setText("contraseña: ");
+						lblFechaCaducidad.setVisible(false);
+						lblCV.setVisible(false);
+						textCV.setVisible(false);
+						textFechaCaducidad.setVisible(false);
+						textCV.setText("");
+						textFechaCaducidad.setText("");
+						textNumeroTarjeta.setText("");
+						textTitular.setText("");
+						textDireccion.setText("");
 
-					break;
-				case 1:
-					panelVisa.setVisible(true);
-					lblNumerotarjeta.setText("Numero de tarjeta: ");
-					lblTitular.setText("Titular: ");
-					lblFechaCaducidad.setVisible(true);
-					lblCV.setVisible(true);
-					textCV.setVisible(true);
-					textFechaCaducidad.setVisible(true);
-					textCV.setText("");
-					textFechaCaducidad.setText("");
-					textNumeroTarjeta.setText("");
-					textTitular.setText("");
-					textDireccion.setText("");
-					break;
+						break;
+					case 2:
+						panelVisa.setVisible(true);
+						lblNumerotarjeta.setText("Numero de tarjeta: ");
+						lblTitular.setText("Titular: ");
+						lblFechaCaducidad.setVisible(true);
+						lblCV.setVisible(true);
+						textCV.setVisible(true);
+						textFechaCaducidad.setVisible(true);
+						textCV.setText("");
+						textFechaCaducidad.setText("");
+						textNumeroTarjeta.setText("");
+						textTitular.setText("");
+						textDireccion.setText("");
+						break;
 				}
 			}
 		});
