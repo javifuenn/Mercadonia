@@ -80,3 +80,9 @@ Si el servidor ha sido iniciado correctamente se pueden obtener los datos de pru
 Para lanzar la parte cliente de la aplicación
 
     mvn exec:java -P cliente
+
+**Inicio del administrador**
+
+Para lanzar la parte admin de la aplicación
+
+    mvn exec:java -P admin
