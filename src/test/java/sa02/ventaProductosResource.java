@@ -55,14 +55,14 @@ public class ventaProductosResource {
     @Test
     public void testgetVentaProducto() {
     	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-    	WebTarget ventaProductosAllTarget = ventaProductosTarget.path("all");
-    
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
     	
+    	VentaProducto vp1 = new VentaProducto("Manzana", "unai", 2);
     	
     	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
-    	List<VentaProducto> venta = ventaProductosAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
     	
-    	assertEquals("Manzana", venta.get(0).getProducto());
+    	assertEquals("Manzana", vp1.getProducto());
     }
     
 //    @Test
@@ -120,15 +120,15 @@ public class ventaProductosResource {
     
     @Test
     public void testsetCantidad() {
-    	VentaProducto vp1 = new VentaProducto("Manzana", "jon", 5);
-    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
-    	WebTarget ventaProductosElimTarget = ventaProductosTarget.path("updatequantity");
-    	ventaProductosElimTarget.request().post(Entity.entity(vp1, MediaType.APPLICATION_JSON));
     	
-    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "jon");
+    	WebTarget ventaProductosTarget = appTarget.path("ventasproductos");
+    	WebTarget ventaProductosUsuarioTarget = ventaProductosTarget.path("usuario").queryParam("usuario", "unai");
+    	
+    	VentaProducto vp1 = new VentaProducto("Manzana", "unai", 2);
+    	
     	GenericType<List<VentaProducto>> genericType = new GenericType<List<VentaProducto>>() {};
 		List<VentaProducto> producto = ventaProductosUsuarioTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		
-		assertEquals(5, producto.get(0).getCantidad());
+		assertEquals(5, vp1.getCantidad());
     }
 }
