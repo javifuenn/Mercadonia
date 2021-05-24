@@ -29,7 +29,7 @@ import jdo.Producto;
 import jdo.Visa;
 
 @Category(IntegrationTest.class)
-public class PagosResorceTest {
+public class PagosResourceTest {
 	
 	private HttpServer server;
     private WebTarget appTarget;
