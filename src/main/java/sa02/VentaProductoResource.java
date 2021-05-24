@@ -120,7 +120,6 @@ public class VentaProductoResource {
 
 	@Produces(MediaType.APPLICATION_JSON)
 	public static void insertarProducto(List<String> productoL) {
-		LOGGER.severe("aaaa");
 		String producto = productoL.get(0);
 		String usuario = productoL.get(1);
 		String cantidad = productoL.get(2);

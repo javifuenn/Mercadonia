@@ -107,13 +107,13 @@ public class PagosResource {
 		  @GET
 		  @Path("visai")
 		  @Produces(MediaType.APPLICATION_JSON)
-		  public static Visa getUsuarioVisa(@QueryParam("titular") String titular) {
+		  public static Visa getUsuarioVisa(@QueryParam("numTarjeta") int numTarjeta) {
 		   	PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 
 			Visa visa = new Visa();
 			try {
-				Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE titular== '" + titular + "'");
+				Query<Visa> q = pm.newQuery("SELECT FROM " + Visa.class.getName() + " WHERE nTarjeta== " + numTarjeta);
 
 				List<Visa> visa1 = q.executeList();
 				visa = visa1.get(0);

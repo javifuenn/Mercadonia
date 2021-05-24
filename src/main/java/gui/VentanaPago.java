@@ -191,7 +191,6 @@ public class VentanaPago extends JFrame {
 							productosCesta.add(producto.getNombre());
 							System.out.println("Llamamos a paypal" + producto.getNombre());
 
-							
 						}
 						
 						WebTarget compraTarget = productosTarget.path("comprar");
@@ -224,7 +223,6 @@ public class VentanaPago extends JFrame {
 
 						//VentaProducto
 						WebTarget insVentaProducto = ventaProductoTarget.path("ins");
-						LOGGER.info(insVentaProducto.toString());
 
 						for (Producto producto : productos) {
 							List vp = new ArrayList();
