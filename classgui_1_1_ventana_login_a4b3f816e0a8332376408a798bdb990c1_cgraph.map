@@ -1,0 +1,6 @@
+<map id="gui.VentanaLogin.main" name="gui.VentanaLogin.main">
+<area shape="rect" id="node1" title=" " alt="" coords="5,13,176,39"/>
+<area shape="rect" id="node2" href="$classgui_1_1_ventana_login.html#aed6be2049446e2bc3b790bd106b7d0ae" title=" " alt="" coords="224,5,415,47"/>
+<area shape="rect" id="node3" href="$classgui_1_1_ventana_login.html#a8c950074c507b4ad614a8ed7fddef786" title=" " alt="" coords="463,13,633,39"/>
+<area shape="rect" id="node4" href="$classjdo_1_1_usuario.html#ab4de7d5ed831104440e2494b2268190e" title=" " alt="" coords="681,13,864,39"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="gui.VentanaPago.VentanaPago" name="gui.VentanaPago.VentanaPago">
+<area shape="rect" id="node1" title=" " alt="" coords="5,107,224,133"/>
+<area shape="rect" id="node2" href="$classjdo_1_1_paypal.html#ab45899faf153e76cc76eeb3367de6d8a" title=" " alt="" coords="272,5,460,32"/>
+<area shape="rect" id="node3" href="$classjdo_1_1_paypal.html#a8ce2c44c25055b8435e99ac572ee84d0" title=" " alt="" coords="287,56,445,83"/>
+<area shape="rect" id="node4" href="$classjdo_1_1_visa.html#a27750a967327c605004f8058ffa8240f" title=" " alt="" coords="308,107,424,133"/>
+<area shape="rect" id="node5" href="$classjdo_1_1_visa.html#ad1b7a99536e3b765976c67220c798596" title=" " alt="" coords="291,157,441,184"/>
+<area shape="rect" id="node6" href="$classjdo_1_1_usuario.html#a32fc8081d87ded222b5f636ec2e8c0e4" title=" " alt="" coords="272,208,460,235"/>
+</map>
